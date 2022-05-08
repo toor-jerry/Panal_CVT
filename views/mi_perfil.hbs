@@ -1,0 +1,76 @@
+{{> head }}
+{{> navbar_perfil }}
+
+
+<div class="container p-5">
+    <div class="row mt-5">
+        <div class="col-lg-5 animated bounceIn">
+            <div class="row">
+            <img class="z-depth-2 foto-perfil" src="https://cdn.computerhoy.com/sites/navi.axelspringer.es/public/styles/1200/public/media/image/2018/08/fotos-perfil-whatsapp_16.jpg?itok=fl2H3Opv"
+                    data-holder-rendered="true">
+                   <h5 class="texto-verde">{{ nickname }}</h5>
+                   <h5 class="text-dark font-weight-bold">{{ nombre }}</h5>
+                   <h6 class="text-dark font-weight-bold">{{ descripcion }}</h6>
+            </div>
+
+            <div class="row text-dark text-dark font-weight-bold">
+                {{#if edad }}
+                <div class="col">
+                    {{ edad }} años
+                </div>
+                {{/if}}
+
+                {{#if sexo }}
+                <div class="col">
+                    {{ sexo }}
+                </div>
+                {{/if}}
+
+                {{#if progreso }}
+                <div class="col">
+                    {{ progreso }}
+                </div>
+                {{/if}}
+            </div>
+
+
+            <div class="row mb-3 mt-3">
+                <div class="col col-lg-8 mx-auto">
+                    <a href="#" class="btn btn-warning btn-block">Editar mi Curriculum Vitae</a>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col col-lg-8 mx-auto">
+                    <a href="#" class="btn btn-warning btn-block">Descargar CV</a>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col">
+            <div class="row">
+                <div class="col">
+                    <form class="form-inline">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <button class="btn btn-bg bg-white" type="submit"><i class="fa-solid fa-magnifying-glass text-warning fa-lg"></i></button>
+                            </div>
+                            <input class="form-control" type="search" placeholder="Buscar vacantes" aria-label="Search" aria-describedby="basic-addon1"></div>
+                            
+                                
+                            </form>
+                        </div>
+                        <div class="col">
+                            <select class="custom-select mr-sm-2 border border-warning" id="inlineFormCustomSelect">
+                                <option selected>Lista de convenios vigentes</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!-- Fin de la fila -->
+            </div>
+            {{> footer }}

@@ -1,0 +1,92 @@
+ {{> head }}
+
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    {{> sidebar_dashboard }}
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Topbar -->
+            {{> top_bar_dashboard }}
+            <!-- End of Topbar -->
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+                        <div class="text-center">
+                            <h1 class="h4 text-gray-900 mb-4">Crear cuenta</h1>
+                        </div>
+                        <form class="user" id="form-register">
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <input type="text" name="name" class="form-control form-control-user" id="inputFirstName" placeholder="Nombre(s)" required>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="text" name="last_name" class="form-control form-control-user" id="inputLastName" placeholder="Apellidos" required >
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col">
+                                    <input type="email" class="form-control form-control-user" id="inputEmail" placeholder="Correo electrónico" required>
+                                </div>
+                                <div class="col">
+                                    <select class="form-control" id="inputRole" required>
+                                    <option value="USER_ROLE">USUARIO</option>
+                                    <option value="ADMIN_ROLE">ADMINISTRADOR</option>
+                                </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control" id="inputArea" required>
+                                    <option value="0">-- Seleccione un área --</option>
+                                    {{#each areas}}
+                                        <option value="{{ this._id }}" id="{{ this._id }}-option-area">{{ this.name }} - {{ this.description }}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <input type="password" name="password" class="form-control form-control-user security-password" id="inputPassword" placeholder="Contraseña" minlength="8" required>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="password" class="form-control form-control-user" id="inputRepeatPassword" placeholder="Repita su contraseña" minlength="8" required >
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-user btn-block" id="btn-create">
+                                Crear cuenta
+                            </button>
+                            </a>
+                        </form>
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        {{> footer_dashboard }}
+        <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+{{> end_file }}
+
+<!-- Page level custom scripts -->
+<script src="/js/function_register.js"></script>
