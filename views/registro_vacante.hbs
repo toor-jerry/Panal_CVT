@@ -1,0 +1,89 @@
+{{> head }}
+{{> navbar }}
+
+
+<div class="container p-5">
+    <div class="row mt-5 text-center">
+        <div class="col">
+            <h3>Se registro la vacante con éxito..</h3>
+        </div>
+                <!-- Fin de la fila -->
+            </div>
+
+
+<div class="row mt-3">
+    <!-- Foto de la empresa -->
+                    {{#if empresa.foto_empresa}}
+                  <div class="col">
+                    <img src="{{ empresa.foto_empresa }}" class="card-img foto-empresa" alt="Foto empresa">
+                  </div>
+                {{/if}}            
+                <!-- Información de la vacante -->
+                <div class="col text-dark font-weight-bold text-right">
+                    <h3 class="texto-verde">{{ empresa.nombre }}</h3>
+                    <h4>{{ empresa.razon_social }}</h4>
+                    <h5>{{ empresa.correo }}</h5>
+                    <h5>{{ empresa.telefono }}</h5>
+                    <h5>{{ empresa.descripcion_empresa }}</h5>
+                </div>
+</div>
+<hr>
+<div class="row text-center text-dark font-weight-bold">
+    <div class="col">
+        <h4>Puesto</h4>
+        <div class="alert alert-light" role="alert">
+  {{ vacante.puesto }}
+</div>
+    </div>
+    <div class="col">
+        <h4>Horarios</h4>
+<div class="alert alert-light" role="alert">
+  {{ vacante.horarios }}
+</div>
+    </div>
+</div>
+
+
+
+<div class="row text-center text-dark font-weight-bold">
+    <div class="col">
+        <h4>Funciones</h4>
+        <div class="alert alert-light" role="alert">
+  {{ vacante.funciones }}
+</div>
+    </div>
+    <div class="col">
+        <h4>Notas</h4>
+<div class="alert alert-light" role="alert">
+  {{ vacante.notas }}
+</div>
+    </div>
+</div>
+
+
+
+<div class="row text-center text-dark font-weight-bold">
+    <div class="col">
+        <h4>Salario</h4>
+        <div class="alert alert-light" role="alert">
+  $ {{ vacante.salario }}
+</div>
+    </div>
+    <div class="col">
+        <h4>Notas</h4>
+                        <a href="/dashboard/create/account" class="btn btn-light btn-lg border border-success"> Adjuntar CV <i class="fa fa-plus text-success" aria-hidden="true"></i></a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-5 mx-auto">
+        <button type="submit" class="btn btn-success btn-user btn-block">
+                            Continuar
+                        </button>
+    </div>
+</div>
+
+
+            <!-- Fin container -->
+            </div>
+            {{> footer }}

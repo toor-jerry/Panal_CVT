@@ -1,0 +1,198 @@
+{{> head }}
+{{> navbar_perfil }}
+
+
+<div class="container p-5">
+    <div class="row mt-5">
+        <div class="col-lg-5 animated bounceIn">
+            <div class="row">
+            <img class="z-depth-2 foto-perfil" src="https://cdn.computerhoy.com/sites/navi.axelspringer.es/public/styles/1200/public/media/image/2018/08/fotos-perfil-whatsapp_16.jpg?itok=fl2H3Opv"
+                    data-holder-rendered="true">
+                   <h5 class="texto-verde">{{ nickname }}</h5>
+                   <h5 class="text-dark font-weight-bold">{{ nombre }}</h5>
+                   <h6 class="text-dark font-weight-bold">{{ descripcion }}</h6>
+            </div>
+
+            <div class="row text-dark text-dark font-weight-bold">
+                {{#if edad }}
+                <div class="col">
+                    {{ edad }} años
+                </div>
+                {{/if}}
+
+                {{#if sexo }}
+                <div class="col">
+                    {{ sexo }}
+                </div>
+                {{/if}}
+
+                {{#if progreso }}
+                <div class="col">
+                    {{ progreso }}
+                </div>
+                {{/if}}
+            </div>
+
+
+            <div class="row mb-3 mt-3">
+                <div class="col col-lg-8 mx-auto">
+                    <a href="#" class="btn btn-warning btn-block">Editar mi Curriculum Vitae</a>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col col-lg-8 mx-auto">
+                    <a href="#" class="btn btn-warning btn-block">Descargar CV</a>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col">
+            <div class="row">
+                <div class="col">
+                    <form class="form-inline">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <button class="btn btn-bg bg-white" type="submit"><i class="fa-solid fa-magnifying-glass text-warning fa-lg"></i></button>
+                            </div>
+                            <input class="form-control" type="search" placeholder="Buscar vacantes" aria-label="Search" aria-describedby="basic-addon1"></div>
+                            
+                                
+                            </form>
+                        </div>
+                        <div class="col">
+                            <select class="custom-select mr-sm-2 border border-warning" id="inlineFormCustomSelect">
+                                <option selected>Lista de convenios vigentes</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Vacantes -->
+                    <div class="row">
+                        <div class="col">
+              <form>
+                  <div class="alert alert-light text-center" role="alert">
+  Formulario entrevista - {{ vacante.nombre_empresa }}</div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-5 text-center">
+                                            <label for="nombre" class="text-dark font-weight-bold">Ingresa tu nombre:</label>
+                                        <input type="text" class="form-control text-center text-secondary" id="nombre" placeholder="Nombre(s)" value="{{ usuario.nombre }}">
+                                        </div>
+                                        <div class="form-group col text-center">
+                                            <label for="nombre" class="text-dark font-weight-bold">Matricula:</label>
+                                            <input type="text" class="form-control text-center text-secondary" placeholder="Matricula" value="{{ usuario.matricula }}">
+                                            </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-md-5 text-center">
+                                            <label for="apellidos" class="text-dark font-weight-bold">Apellidos:</label>
+                                        <input type="text" class="form-control text-center text-secondary" id="apellidos" placeholder="Apellidos" name="apellidos" value="{{ usuario.apellidos }}">
+                                        </div>
+                                        <div class="form-group col text-center">
+                                            <label for="nombre" class="text-dark font-weight-bold">Licenciatura:</label>
+                                            <input type="text" class="form-control text-center text-secondary" placeholder="Licenciatura" value="{{ usuario.licenciatura }}">
+                                            </div>
+                                    </div>
+
+
+<div class="form-row">  
+
+                                        <div class="form-group col-md-5">
+                                            <label for="apellidos" class="text-dark font-weight-bold">Género:</label>
+                                        <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="genero" id="hombre" value="Hombre" {{#if (ifeq sexo "Hombre")}} checked {{/if}}>
+                                        <label class="form-check-label" for="hombre">
+                                            Hombre
+                                        </label>
+                                        </div>
+                                        <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="genero" id="mujer" value="Mujer" {{#if (ifeq sexo "Mujer")}} checked {{/if}}>
+                                        <label class="form-check-label" for="mujer">
+                                            Mujer
+                                        </label>
+                                        </div>
+                                    </div>
+                                        <!-- Progreso -->
+                                        <div class="form-group col text-center">
+                                            <label for="progreso" class="text-dark font-weight-bold">Selecciona tu progreso:</label>
+                                            <select id="progreso" class="form-control" name="progreso" required>
+                                            <option {{#unless progreso}}selected{{/unless}}>Semestre / Egresado</option>
+                                            <option value="1" {{#if (ifeq progreso "1")}} selected{{/if}}>Primer Semestre</option>
+                                            <option value="2" {{#if (ifeq progreso "2")}} selected {{/if}}>Segundo Semestre</option>
+                                            <option value="3" {{#if (ifeq progreso "3")}} selected {{/if}}>Tercer Semestre</option>
+                                            <option value="4" {{#if (ifeq progreso "4")}} selected {{/if}}>Cuarto Semestre</option>
+                                            <option value="5" {{#if (ifeq progreso "5")}} selected {{/if}}>Quinto Semestre</option>
+                                            <option value="6" {{#if (ifeq progreso "6")}} selected {{/if}}>Sexto Semestre</option>
+                                            <option value="7" {{#if (ifeq progreso "7")}} selected {{/if}}>Séptimo Semestre</option>
+                                            <option value="8" {{#if (ifeq progreso "8")}} selected {{/if}}>Octavo Semestre</option>
+                                            <option value="9" {{#if (ifeq progreso "9")}} selected {{/if}}>Noveno Semestre</option>
+                                            <option value="Egresado"{{#if (ifeq progreso "Egresado")}} selected {{/if}}>Egresado</option>
+                                        </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-row">
+                                        <div class="form-group col-md-5 text-center">
+                                            <label for="contacto" class="text-dark font-weight-bold">Número de contacto:</label>
+                                        <input type="text" class="form-control text-center text-secondary" id="contacto" placeholder="Celular" name="contacto" value="{{ usuario.contacto }}">
+                                        </div>
+                                        <div class="form-group col text-center">
+                                            <label for="correo" class="text-dark font-weight-bold">Correo electrónico:</label>
+                                            <input type="text" class="form-control text-center text-secondary" placeholder="Correo institucional UAEMEX" value="{{ usuario.correo }}">
+                                            </div>
+                                    </div>
+
+
+                                    <div class="form-row">
+                                        <div class="form-group col-md-5 text-center">
+                                            <label for="domicilio" class="text-dark font-weight-bold">Domicilio:</label>
+                                        <input type="text" class="form-control text-center text-secondary" id="domicilio" placeholder="domicilio" name="domicilio" value="{{ usuario.domicilio }}">
+                                        </div>
+                                        <div class="form-group col text-center">
+                                            <label for="anio_egreso" class="text-dark font-weight-bold">Año de egreso:</label>
+                                            <input type="text" class="form-control text-center text-secondary" placeholder="Año de egreso" value="{{ usuario.anio_egreso }}">
+                                            </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-md-5 text-center">
+                                            <label for="titulo" class="text-dark font-weight-bold">Titulo profesional:</label>
+                                        <select id="titulo" class="form-control" name="titulo" required>
+                                            <option value="SI" {{#if (ifeq usuario.titulo "SI")}} selected{{/if}}>SI</option>
+                                            <option value="NO" {{#if (ifeq usuario.titulo "NO")}} selected {{/if}}>NO</option>
+                                        </select>
+                                        </div>
+                                        <div class="form-group col text-center">
+                                            <label for="cedula" class="text-dark font-weight-bold">Cédula profesional:</label>
+                                            <select id="cedula" class="form-control" name="cedula" required>
+                                            <option value="TRAMITE" {{#if (ifeq usuario.cedula "TRAMITE")}} selected{{/if}}>En trámite</option>
+                                            <option value="N/A" {{#if (ifeq usuario.cedula "N/A")}} selected {{/if}}>N/A</option>
+                                        </select>
+                                            </div>
+                                    </div>
+
+
+                                    <div class="form-row">
+                                        <div class="form-group col text-center">
+                                            <label for="descripcion" class="text-dark font-weight-bold">Descripción:</label>
+                                            <textarea class="form-control" id="descripcion" name="descripcion" placeholder="100 palabras máximo (opcional)." rows="3" maxlength="100"></textarea>
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-success btn-user btn-block">
+                                            Continuar
+                                        </button>
+              </form>
+                    </div>
+
+                </div>
+                <!-- Fin de la fila -->
+            </div>
+            <!-- Fin container -->
+            </div>
+            {{> footer }}

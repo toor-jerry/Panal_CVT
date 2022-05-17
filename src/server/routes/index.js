@@ -13,6 +13,8 @@ const areaRoutes = require('./area');
 const registroRoutes = require('./registro');
 const perfilRoutes = require('./perfil');
 const cvRoutes = require('./cv');
+const postulacionRoutes = require('./postulacion');
+const registroVacanteRoutes = require('./registro_vacante');
 
 // Routes
 app.use('/', appRoutes);
@@ -23,6 +25,8 @@ app.use('/area', areaRoutes);
 app.use('/registro', registroRoutes);
 app.use('/perfil', perfilRoutes);
 app.use('/cv', cvRoutes);
+app.use('/postulacion', postulacionRoutes);
+app.use('/vacante/registro', registroVacanteRoutes);
 
 // 404
 app.use((req, res, next) => {

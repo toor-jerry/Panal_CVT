@@ -70,7 +70,28 @@
                             </select>
                         </div>
                     </div>
+
+                    <!-- Vacantes -->
+                    <div class="row">
+                        <div class="col">
+                            {{#each vacantes}}
+<div class="card text-center border-info mb-3">
+        <div class="card-body">
+          <h4 class="card-title">{{ this.nombre_empresa }}</h4>
+          {{#if this.foto_empresa}}
+          <img src="{{ this.foto_empresa }}" class="card-img foto-empresa" alt="Foto empresa">
+          {{/if}}
+          
+          <p class="card-text text-truncate" style="max-width: 500px;">{{ this.descripcion_vacante }}</p>
+          <a href="#" class="btn btn-primary">Postularme</a>
+        </div>
+                        </div>
+                        {{/each}}
+                    </div>
+
                 </div>
                 <!-- Fin de la fila -->
+            </div>
+            <!-- Fin container -->
             </div>
             {{> footer }}
