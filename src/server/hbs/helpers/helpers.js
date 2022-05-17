@@ -17,3 +17,18 @@ hbs.registerHelper('admin', (role) => (role === 'ADMIN_ROLE') ? true : false);
 
 // equals
 hbs.registerHelper('ifeq', (a, b) => (a == b) ? true : false );
+
+// mayor
+hbs.registerHelper('esMayor', (a, b) => (a > b) ? true : false );
+
+// menor o igual
+hbs.registerHelper('esMenorIgual', (a, b) => (a <= b) ? true : false );
+
+// negacion
+hbs.registerHelper('negacion', a => !a);
+
+// Suma
+hbs.registerHelper('suma', (a,b) => (Number(a) + Number(b)));
+
+// Resta
+hbs.registerHelper('resta', (a,b) => (Number(a) - Number(b)));
