@@ -1,0 +1,87 @@
+{{> head }}
+{{> navbar}}
+
+
+<div class="container p-5">
+    <div class="row mt-5">
+        <h5 class="mx-auto">El registro es un procedimiento rápido y fácil. Registra tu empresa, genera difusión y acercamiento con los futuros profesionistas.</h5>
+        <div class="col-lg-8 animated bounceIn">
+            <form
+                class="user animated bounceIn">
+                <!-- Fila -->
+                 <div class="form-row align-items-center">
+
+                     <div class="col">
+                         <!-- Nombre -->
+                        <div class="form-group text-center">
+                            <label for="nombre" class="text-dark font-weight-bold">Ingrese el nombre de la empresa</label>
+                            <input type="text" id="nombre" class="form-control form-control-user" placeholder="Nombre(s)" name="nombre" required>
+                        </div>
+
+                         <!-- RFC -->
+                        <div class="form-group text-center">
+                            <label for="rfc" class="text-dark font-weight-bold">Ingresa el RFC</label>
+                            <input type="text" id="rfc" class="form-control form-control-user" placeholder="RFC" name="rfc" maxlength="12" required>
+                        </div>
+
+                         <!-- Correo -->
+                        <div class="form-group text-center">
+                            <label for="correo" class="text-dark font-weight-bold">Correo electrónico</label>
+                            <input type="text" id="correo" class="form-control form-control-user" placeholder="Correo de contacto" name="correo" required>
+                        </div>
+
+                        <!-- Contraseña -->
+                        <div class="form-group text-center">
+                            <label for="password" class="text-dark font-weight-bold">Contraseña</label>
+                            <input type="password" id="password" class="form-control form-control-user" placeholder="Mínimo 8 carácteres" name="password" minlength="8" required>
+                        </div>
+
+                     </div>
+
+                    <div class="col">
+                         <!-- Logo -->
+                         <div class="form-group text-center">
+                        <label class="text-dark font-weight-bold">Elija el logo</label>
+                        <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="logo" lang="es">
+                        <label class="custom-file-label" for="logo"><i class="fa fa-building text-primary" aria-hidden="true" style="font-size: 40px;"></i>  Seleccionar logo</label>
+                        </div>
+                        </div>
+
+                        <!-- Número -->
+                        <div class="form-group text-center">
+                            <label for="telefono" class="text-dark font-weight-bold">Teléfono</label>
+                            <input type="number" id="telefono" class="form-control form-control-user" placeholder="Teléfono de contacto" name="telefono" required>
+                        </div>
+
+                        <!-- Descripcion del puesto-->
+                        <div class="form-group text-center">
+                            <label for="descripcion" class="text-dark font-weight-bold">Descripción del puesto</label>
+                            <textarea class="form-control" id="descripcion" name="descripcion" placeholder="Escriba una descripción del puesto (100 palabras máximo." rows="3" maxlength="100"></textarea>
+                        </div>
+
+                        <!-- Dirección -->
+                        <div class="form-group text-center">
+                            <label for="direccion" class="text-dark font-weight-bold">Dirección:</label>
+                            <input type="text" id="direccion" class="form-control form-control-user" placeholder="Dirección de la organización" name="direccion" required>
+                        </div>
+                    </div>
+
+                 </div>
+
+                <div class="form-group w-50 mx-auto">
+                    <button type="submit" class="btn btn-success btn-user btn-block">
+                        Crear cuenta
+                    </button>
+                </div>
+
+            </form>
+        </div>
+        
+        <div class="col-lg d-none d-lg-block">
+            <img src="/img/logo.png" class="mx-auto d-block w-75 filtro">
+        </div>
+    </div>
+    <!-- Fin de la fila -->
+</div>
+{{> footer }}
