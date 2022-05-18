@@ -76,4 +76,14 @@ app.get('/verificacion_cuenta', (req, res) => {
     })
 });
 
+// Verificación de perfil en proceso route
+app.get('/verificacion_cuenta_en_proceso', (req, res) => {
+    res.render('verificacion_cuenta_en_proceso', {
+        page: 'Verificar cuenta',
+        nombre_boton_navbar: 'Verificación de Cuenta',
+        mostrar_boton_regreso: true,
+        direccion_link_boton_navbar: '/perfil'
+    })
+});
+
 module.exports = app;
