@@ -54,4 +54,26 @@ app.get('/empresarial/:indice', (req, res) => {
 });
 
 
+// Verificación de perfil route
+app.get('/verificacion_cuenta', (req, res) => {
+    res.render('verificacion_cuenta', {
+        page: 'Verificar cuenta',
+        nombre_boton_navbar: 'Verificación de Cuenta',
+        mostrar_boton_regreso: true,
+        direccion_link_boton_navbar: '/perfil',
+
+        empresa: {
+            rfc: '123456789123',
+            nombre_contacto: 'Juan Perez',
+            telefono: '55213445455',
+            razon_social: 'Fragua SA de CV',
+            cargo_contacto: 'Lider de proyecto',
+            nombre: 'Cedis Centro de Farmacias guadalajara',
+            sector: 'privado',
+            ubicacion: '12345678,21345678',
+            correo: 'contacto@gmail.com'
+        }
+    })
+});
+
 module.exports = app;
