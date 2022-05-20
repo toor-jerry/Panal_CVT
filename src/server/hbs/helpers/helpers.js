@@ -24,6 +24,9 @@ hbs.registerHelper('esMayor', (a, b) => (a > b) ? true : false );
 // menor o igual
 hbs.registerHelper('esMenorIgual', (a, b) => (a <= b) ? true : false );
 
+// longitud
+hbs.registerHelper('longitudArreglo', a => a.length );
+
 // negacion
 hbs.registerHelper('negacion', a => !a);
 
