@@ -46,13 +46,17 @@
           {{/if}}
           
           <h5>{{ this.titulo }}</h5>
-          <p class="card-text text-truncate mb-0" style="max-width: 500px;">{{ this.carrera }}</p>
+          <p class="card-text font-weight-bold">{{ this.carrera }}</p>
+          <p class="card-text text-justify">{{ this.descripcion }}</p>
           <div class="row">
               <div class="col">
                   Edad: {{ this.edad }} años
               </div>
               <div class="col">
                   Sexo: {{ this.sexo }}
+              </div>
+              <div class="col">
+                  {{ this.progreso }}
               </div>
           </div>
           
@@ -62,6 +66,10 @@
               </div>
               <div class="col">
                   <a href="#" class="btn btn-info">Ver perfil</a>
+              </div>
+
+              <div class="col">
+                  <a href="#" class="btn btn-warning">Descargar CV</a>
               </div>
           </div>
         </div>
