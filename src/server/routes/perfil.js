@@ -51,6 +51,42 @@ app.get('/empresarial/:indice', (req, res) => {
     })
 });
 
+// Tipo de perfil administrativo route
+app.get('/administrativo/:indice_formularios/:indice_empresas', (req, res) => {
+    let no_pagina_formularios = req.params.indice_formularios;
+    let no_pagina_empresas = req.params.indice_empresas;
+    res.render('mi_perfil_administrativo', {
+
+        page: 'Universidad Administrativo',
+        nombre_boton_navbar: 'Universidad Administrativo',
+        paginas_formularios: 4,
+        registros_solicitantes: 20,
+        
+        paginas_empresas: 4,
+        registros_empresas: 20,
+        
+        no_pagina_formularios,
+        no_pagina_empresas,
+
+        solicitantes: [
+            {nombre: 'Gerardo Bautista Castañeda', foto: 'https://concepto.de/wp-content/uploads/2018/08/persona-e1533759204552.jpg', titulo: 'Desarrollador IOS',carrera: 'Licenciatura en Informática Administrativa', sexo: 'Hombre', edad: '23', progreso: 'Egresado', descripcion: 'Egresado de la licenciatura en derecho, bilingue, me gusta el deporte, leer, salir a lugares nueos.'},
+            {nombre: 'Gerardo Bautista Castañeda', foto: 'https://concepto.de/wp-content/uploads/2018/08/persona-e1533759204552.jpg', titulo: 'Desarrollador IOS',carrera: 'Licenciatura en Informática Administrativa', sexo: 'Hombre', edad: '23', progreso: 'Egresado', descripcion: 'Egresado de la licenciatura en derecho, bilingue, me gusta el deporte, leer, salir a lugares nueos.'},
+            {nombre: 'Gerardo Bautista Castañeda', foto: 'https://concepto.de/wp-content/uploads/2018/08/persona-e1533759204552.jpg', titulo: 'Desarrollador IOS',carrera: 'Licenciatura en Informática Administrativa', sexo: 'Hombre', edad: '23', progreso: 'Egresado', descripcion: 'Egresado de la licenciatura en derecho, bilingue, me gusta el deporte, leer, salir a lugares nueos.'},
+            {nombre: 'Gerardo Bautista Castañeda', foto: 'https://concepto.de/wp-content/uploads/2018/08/persona-e1533759204552.jpg', titulo: 'Desarrollador IOS',carrera: 'Licenciatura en Informática Administrativa', sexo: 'Hombre', edad: '23', progreso: 'Egresado', descripcion: 'Egresado de la licenciatura en derecho, bilingue, me gusta el deporte, leer, salir a lugares nueos.'},
+            {nombre: 'Gerardo Bautista Castañeda', foto: 'https://concepto.de/wp-content/uploads/2018/08/persona-e1533759204552.jpg', titulo: 'Desarrollador IOS',carrera: 'Licenciatura en Informática Administrativa', sexo: 'Hombre', edad: '23', progreso: 'Egresado', descripcion: 'Egresado de la licenciatura en derecho, bilingue, me gusta el deporte, leer, salir a lugares nueos.'},
+            {nombre: 'Gerardo Bautista Castañeda', foto: 'https://concepto.de/wp-content/uploads/2018/08/persona-e1533759204552.jpg', titulo: 'Desarrollador IOS',carrera: 'Licenciatura en Informática Administrativa', sexo: 'Hombre', edad: '23', progreso: 'Egresado', descripcion: 'Egresado de la licenciatura en derecho, bilingue, me gusta el deporte, leer, salir a lugares nueos.'},
+            ],
+        empresas: [
+            { nombre: 'Farmacias Guadalajara', foto: 'https://www.yo-local.com/sites/default/files/imagen_negocio/1_150.jpg', razon_social: 'Cedis Centro Sa de CV', correo: 'fragua@gmail.com', telefono: '2354423543534' },
+            { nombre: 'Farmacias Guadalajara', foto: 'https://www.yo-local.com/sites/default/files/imagen_negocio/1_150.jpg', razon_social: 'Cedis Centro Sa de CV', correo: 'fragua@gmail.com', telefono: '2354423543534' },
+            { nombre: 'Farmacias Guadalajara', foto: 'https://www.yo-local.com/sites/default/files/imagen_negocio/1_150.jpg', razon_social: 'Cedis Centro Sa de CV', correo: 'fragua@gmail.com', telefono: '2354423543534' },
+            { nombre: 'Farmacias Guadalajara', foto: 'https://www.yo-local.com/sites/default/files/imagen_negocio/1_150.jpg', razon_social: 'Cedis Centro Sa de CV', correo: 'fragua@gmail.com', telefono: '2354423543534' },
+            { nombre: 'Farmacias Guadalajara', foto: 'https://www.yo-local.com/sites/default/files/imagen_negocio/1_150.jpg', razon_social: 'Cedis Centro Sa de CV', correo: 'fragua@gmail.com', telefono: '2354423543534' },
+            { nombre: 'Farmacias Guadalajara', foto: 'https://www.yo-local.com/sites/default/files/imagen_negocio/1_150.jpg', razon_social: 'Cedis Centro Sa de CV', correo: 'fragua@gmail.com', telefono: '2354423543534' },
+        ]
+    })
+});
+
 
 // Verificación de perfil route
 app.get('/verificacion_cuenta', (req, res) => {
