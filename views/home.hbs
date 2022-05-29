@@ -4,56 +4,39 @@
     <a class="navbar-brand text-decoration-none text-white" href="/">
         <img src="/img/icono-panal.png" height="45" class="d-inline-block align-top" alt="">
     </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="nav">
-            <li class="nav-item">
-                <a class="nav-link btn btn-bg bg-gradient-warning text-white font-weight-bold text-white m-1" href="/">
-                    Iniciar sesión
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link btn btn-bg bg-gradient-warning text-white font-weight-bold text-white m-1" href="/registro/tipo_registro">
-                    &nbsp;&nbsp;&nbsp;&nbsp;Registrar&nbsp;&nbsp;&nbsp;&nbsp;
-                </a>
-            </li>
-        </ul>
-    </div>
 </nav>
 
 <div class="container text-center p-5">
     <div class="row mt-5 ">
         <div class="col-lg-5 mt-5">
-            <form class="user animated bounceIn back-Yellow-Black bordes-form p-5" id="form-cite">
+            <form class="user animated bounceIn back-Yellow-Black bordes-form p-5" id="form-usuario">
 
                 <div class="form-group row">
                     <div
                         class="col">
                         <!-- Email -->
                         <div class="input-group mb-3">
-                            <input type="email" class="form-control form-control-user ml-2 text-center font-weight-bold" placeholder="Correo Electrónico" name="email" required>
+                            <input type="email" class="form-control form-control-user ml-2 text-center font-weight-bold" placeholder="Correo Electrónico" id="inputEmail" name="email" required>
                         </div>
 
                         <!-- Password -->
                         <div class="input-group mb-3">
-                            <input type="password" class="form-control form-control-user ml-2 text-center font-weight-bold" placeholder="Contraseña" name="password" required>
+                            <input type="password" class="form-control form-control-user ml-2 text-center font-weight-bold" placeholder="Contraseña" id="inputPassword" name="password" required>
                         </div>
                     </div>
                 </div>
 
 
                 <div class="form-group row">
-                    <div class="col-3"></div>
                     <div class="col">
-                        <button type="submit" class="btn btn-success btn-user btn-block">
+                        <button type="submit" class="btn btn-primary btn-user btn-block">
                             Entrar
                         </button>
                     </div>
-                    <div class="col-3"></div>
                 </div>
+
+                <hr>
+
                 <div class="form-group row">
                     <div class="col">
                         <a class="font-weight-bold" href="/">
@@ -61,12 +44,14 @@
                 </a>
                     </div>
                 </div>
-            </form>
-            <div class="row d-flex justify-content-center">
-                <div class="col-7 mt-4">
-                    <button class="btn btn-block btn-md btn-warning">Registrar nuevo perfil</button>
+            <div class="form-group row">
+                <div class="col">
+                    <a href="/registro/tipo_registro" class="btn btn-block btn-info btn-user" type="button">
+                    Registrar nuevo perfil
+                    </a>
                 </div>
             </div>
+            </form>
         </div>
         <!-- Fin columna formulario-->
         <div class="col-lg-5 d-none d-lg-block p-5">
@@ -76,7 +61,7 @@
 
     <div class="row">
         <div class="col text-right">
-            <a class="font-weight-bold" href="/">
+            <a class="font-weight-bold" target="_blank" href="/files/Aviso_de_privacidad.pdf">
                     Aviso de privacidad
                 </a>
         </div>

@@ -1,5 +1,6 @@
 // Requires
 require('./config/config'); // Settings
+require('dotenv').config();
 const express = require('express'); // Framework backend
 const bodyParser = require('body-parser'); // Tranform data
 const path = require('path'); // Filesystem routes

@@ -7,6 +7,7 @@ const app = express();
 // routes definitions
 const appRoutes = require('./app');
 const userRoutes = require('./user');
+const usuarioRoutes = require('./usuario');
 const dashboardRoutes = require('./dashboard');
 const citedRoutes = require('./cite');
 const areaRoutes = require('./area');
@@ -19,6 +20,7 @@ const registroVacanteRoutes = require('./vacantes');
 // Routes
 app.use('/', appRoutes);
 app.use('/user', userRoutes);
+app.use('/usuario', usuarioRoutes);
 app.use('/dashboard', dashboardRoutes);
 app.use('/cite', citedRoutes);
 app.use('/area', areaRoutes);

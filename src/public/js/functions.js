@@ -63,6 +63,25 @@ function showError(errResp, reload) {
     });
 }
 
+// get alert
+function showAlert(errResp, reload) {
+    let err = errResp.responseJSON;
+
+    var error = err;
+    if (err.err && err.err.msg) {
+        error = err.err.msg;
+    }
+    // if error reload window
+    swal.fire({
+        title: err.msg,
+        icon: 'warning',
+    }).then(result => {
+        if (reload === true) {
+            location.reload();
+        }
+    });
+}
+
 // return date form
 function getDate() {
     return $('#inputAnio').val() + '-' + $('#inputMonth').val() + '-' + $('#inputDay').val();

@@ -4,7 +4,7 @@
 const checkSession = (req, res, next) => {
 
     if (!req.session.user) { // if user session is not exists, redirect to login page
-        return res.redirect('/login');
+        return res.redirect('/');
     }
 
     // send user to view

@@ -1,49 +1,16 @@
 $(document).ready(function() {
 
-    var remember = false; // remember default (check)
-
-    /***************************
-     * load localstorage
-     ***************************/
-
-    // if remember exist
-    if (localStorage.getItem('remember')) {
-        $('#rememberCheck').attr('checked', true);
-        remember = true;
-    }
-
-    // if email exist
-    if (localStorage.getItem('email')) {
-        $('#inputEmail').val(localStorage.getItem('email'));
-    }
-
-    // rememberCheck (event)
-    $('#rememberCheck').click(function() {
-
-        remember = !remember; // change remember variable
-
-        if (remember) {
-            saveStorage();
-        } else {
-            deleteStorage();
-        }
-    });
-
     // onsubmit login form
-    $("#login-form").submit(function(event) {
+    $("#form-usuario").submit(function(event) {
 
         event.preventDefault();
 
         // show alert loading
-        getLoading("Verificando su identidad...", "Loading..", );
+        getLoading("Verificando su identidad...", "Loading.." );
 
         // submit data
-        $.post("/user/login", getDataUserLogin(), function() {})
+        $.post("/usuario/login", getDataUserLogin(), function() {})
             .done(function(res) {
-
-                if (remember) {
-                    saveStorage();
-                }
 
                 var toastLogin = Swal.mixin({ // create toast
                     toast: true,
@@ -58,12 +25,12 @@ $(document).ready(function() {
 
                 toastLogin.fire({
                         animation: true,
-                        title: `Bienvenid@ ${res.data.name}!!`
+                        title: `Bienvenid@ ${res.data.nombre}!!`
                     })
-                    .then(() => location.href = "/dashboard")
+                    .then(() => location.href = "/perfil")
             })
             .fail(function(errResp) {
-                showError(errResp); // show error alert
+                showAlert(errResp); // show error alert
             });
     });
 

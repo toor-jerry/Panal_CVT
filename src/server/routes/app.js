@@ -7,7 +7,8 @@ const { Cite } = require('../classes/cite'); // Cite class
 // home route
 app.get('/', (req, res) => {
     res.render('home', {
-        page: 'Inicio'
+        page: 'Inicio',
+        archivoJS: 'function_login.js'
     })
 });
 
