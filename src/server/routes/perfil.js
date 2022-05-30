@@ -17,7 +17,8 @@ app.get('/', (req, res) => {
         vacantes: [
             {nombre_empresa: 'Farmacias Guadalajara', foto_empresa: 'https://www.yo-local.com/sites/default/files/imagen_negocio/1_150.jpg', descripcion_vacante: 'Se solicita desarrollador de IOS para la creación de aplicaciones IOS.'},
             {nombre_empresa: 'Grupo Salinas', foto_empresa: 'https://indicepolitico.com/wp-content/uploads/2019/10/gruposalinas-foto_cortesia_internet.jpg', descripcion_vacante: 'Se solicita desarrollador de Android para la creación de aplicaciones Android.'}
-        ]
+        ],
+        archivoJS: 'function_perfil.js'
     })
 });
 
@@ -47,7 +48,8 @@ app.get('/empresarial/:indice', (req, res) => {
             {nombre: 'Gerardo Bautista Castañeda', foto: 'https://concepto.de/wp-content/uploads/2018/08/persona-e1533759204552.jpg', titulo: 'Desarrollador IOS',carrera: 'Licenciatura en Informática Administrativa', sexo: 'Hombre', edad: '23', progreso: 'Egresado', descripcion: 'Egresado de la licenciatura en derecho, bilingue, me gusta el deporte, leer, salir a lugares nueos.'},
             {nombre: 'Gerardo Bautista Castañeda', foto: 'https://concepto.de/wp-content/uploads/2018/08/persona-e1533759204552.jpg', titulo: 'Desarrollador IOS',carrera: 'Licenciatura en Informática Administrativa', sexo: 'Hombre', edad: '23', progreso: 'Egresado', descripcion: 'Egresado de la licenciatura en derecho, bilingue, me gusta el deporte, leer, salir a lugares nueos.'},
             {nombre: 'Gerardo Bautista Castañeda', foto: 'https://concepto.de/wp-content/uploads/2018/08/persona-e1533759204552.jpg', titulo: 'Desarrollador IOS',carrera: 'Licenciatura en Informática Administrativa', sexo: 'Hombre', edad: '23', progreso: 'Egresado', descripcion: 'Egresado de la licenciatura en derecho, bilingue, me gusta el deporte, leer, salir a lugares nueos.'},
-        ]
+        ],
+        archivoJS: 'function_perfil.js'
     })
 });
 
@@ -83,7 +85,8 @@ app.get('/administrativo/:indice_formularios/:indice_empresas', (req, res) => {
             { nombre: 'Farmacias Guadalajara', foto: 'https://www.yo-local.com/sites/default/files/imagen_negocio/1_150.jpg', razon_social: 'Cedis Centro Sa de CV', correo: 'fragua@gmail.com', telefono: '2354423543534' },
             { nombre: 'Farmacias Guadalajara', foto: 'https://www.yo-local.com/sites/default/files/imagen_negocio/1_150.jpg', razon_social: 'Cedis Centro Sa de CV', correo: 'fragua@gmail.com', telefono: '2354423543534' },
             { nombre: 'Farmacias Guadalajara', foto: 'https://www.yo-local.com/sites/default/files/imagen_negocio/1_150.jpg', razon_social: 'Cedis Centro Sa de CV', correo: 'fragua@gmail.com', telefono: '2354423543534' },
-        ]
+        ],
+        archivoJS: 'function_perfil.js'
     })
 });
 

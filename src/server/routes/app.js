@@ -4,8 +4,14 @@ const app = express(); // aplication
 const { Area } = require('../classes/area'); // Area class
 const { Cite } = require('../classes/cite'); // Cite class
 
-// home route
+// home route (Cierra sesión)
 app.get('/', (req, res) => {
+    // delete session
+    if (req.session.user) {
+        req.session = null;
+        res.locals = { user: null };
+    }
+
     res.render('home', {
         page: 'Inicio',
         archivoJS: 'function_login.js'
@@ -33,20 +39,6 @@ app.get('/cite', async(req, res) => {
         cites: await Cite.findAllFisrtArea()
             .then(resp => resp.data)
             .catch(() => [])
-    })
-});
-
-// login route
-app.get('/login', (req, res) => {
-
-    // delete session
-    if (req.session.user) {
-        req.session = null;
-        res.locals = { user: null };
-    }
-
-    res.render('login', {
-        page: 'Iniciar sesión'
     })
 });
 

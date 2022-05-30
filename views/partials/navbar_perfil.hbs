@@ -72,11 +72,33 @@
 
                 <!-- Salida -->
                 <li class="nav-item">
-                    <a class="nav-link active" href="/perfil">
+                        <a class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal">
                         <i class="fa-solid fa-right-from-bracket fa-2x text-warning"></i>
-                    </a>
+                        </a>
+                </li>
+                <li class="nav-item">
+                    <i class="fa fa-rss fa-2x text-success" aria-hidden="true" id="statusCon"></i>
                 </li>
             </ul>
 
         </div>
     </nav>
+
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">¿Realmente desea salir?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+            </div>
+            <div class="modal-body">Seleccione "Salir" para cerrar su sesión.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                <a class="btn btn-info" href="/">Salir</a>
+            </div>
+        </div>
+    </div>
+</div>
