@@ -16,6 +16,7 @@ const perfilRoutes = require('./perfil');
 const cvRoutes = require('./cv');
 const postulacionRoutes = require('./postulacion');
 const registroVacanteRoutes = require('./vacantes');
+const correoRoutes = require('./mailer');
 
 // Routes
 app.use('/', appRoutes);
@@ -29,6 +30,7 @@ app.use('/perfil', perfilRoutes);
 app.use('/cv', cvRoutes);
 app.use('/postulacion', postulacionRoutes);
 app.use('/vacante', registroVacanteRoutes);
+app.use('/correo', correoRoutes);
 
 // 404
 app.use((req, res, next) => {

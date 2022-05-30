@@ -42,6 +42,10 @@ function getDataUser() {
 function getDataUserLogin() {
     return { email: $('#inputEmail').val(), password: $('#inputPassword').val() };
 }
+// Data form email
+function getDataEmail() {
+    return { email: $('#inputEmail').val() };
+}
 
 // get error
 function showError(errResp, reload) {

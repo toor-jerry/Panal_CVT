@@ -13,6 +13,16 @@ const app = express();
 const { today } = require('../utils/utils');
 
 // ==========================
+// Recuperar contraseña (form)
+// ==========================
+app.get('/recuperar_contrasenia', (req, res) => {
+        res.render('recuperar_contrasenia', {
+        page: 'Recuperar Contraseña',
+        archivoJS: 'function_recuperar_contrasenia.js'
+    })
+});
+
+// ==========================
 // Get all users
 // ==========================
 app.get('/all', [checkSession, checkAdminRole], async(req, res) => {
