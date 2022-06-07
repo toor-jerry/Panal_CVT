@@ -1,8 +1,10 @@
 // Encrypt library
 const bcrypt = require('bcryptjs');
+const _ = require('underscore');
 
 // Usuario model
 const UsuarioModel = require('../models/usuario');
+const { response500, response400, response200, response201 } = require('../utils/utils');
 
 class Usuario {
 
@@ -29,15 +31,43 @@ class Usuario {
 
             UsuarioModel.findById(id)
                 .lean()
-                .populate('area')
                 .exec((err, user) => {
 
-                    if (err) reject({ msg: `Could not found user.`, err, code: 500 });
-                    if (!user) reject({ msg: `User not found.`, code: 400 });
+                    if (err) reject({ msg: `No se pudo encontrar el usuario.`, err, code: 500 });
+                    if (!user) reject({ msg: `Usuario no encontrado.`, code: 400 });
 
                     resolve({ data: user });
 
                 });
+        });
+    }
+
+    // Busca empresas
+    static buscaEmpresas(res, from, limit) {
+
+        return new Promise((resolve, reject) => {
+                UsuarioModel.find({ role: 'USER_ENTERPRISE' })
+                .skip(from)
+                .limit(limit)
+                .lean()
+                .exec((err, empresas) => {
+
+                    if (err) reject({ msg: `No se pudo buscar las empresas.`, err, code: 500 });
+
+                    UsuarioModel.countDocuments({ role: 'USER_ENTERPRISE' }, (err, count) => {
+
+                        if (err) reject({ msg: `No se pudo contar las empresas.`, err, code: 500 })
+
+                        resolve({
+                            ok: true,
+                            data: empresas,
+                            total: count,
+                            paginas: Math.ceil(count / limit)
+                        });
+
+
+                    });
+            });
         });
     }
 

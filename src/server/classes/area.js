@@ -2,7 +2,6 @@
 const { io } = require('../app');
 
 // Area model
-const AreaModel = require('../models/area');
 
 class Area {
 
@@ -80,5 +79,3 @@ class Area {
     }
 
 }
-
-module.exports = { Area }

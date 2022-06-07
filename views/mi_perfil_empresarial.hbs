@@ -14,19 +14,19 @@
         <div class="col-lg-5 animated bounceIn">
             <div class="row">
             <div class="col text-center">
-                <img class="z-depth-2 foto-empresa mx-auto" src="{{ foto }}"
+                <img class="z-depth-2 foto-empresa mx-auto" src="{{ usuario.foto }}"
                     data-holder-rendered="true">
-                   <h5 class="texto-verde">{{ nombre }}</h5>
-                   <h5 class="text-dark font-weight-bold">{{ razon_social }}</h5>
-                   <h6 class="text-dark font-weight-bold">{{ descripcion }}</h6>
-                   <h6 class="text-dark font-weight-bold">{{ direccion }}</h6>
+                   <h2 class="texto-verde">{{ usuario.nombre }}</h2>
+                   <h3 class="text-dark font-weight-bold">{{ usuario.razonSocial }}</h3>
+                   <h4 class="text-dark font-weight-bold">{{ usuario.descripcion }}</h4>
+                   <h6 class="text-dark font-weight-bold">{{ usuario.direccion }}</h6>
             </div>
             </div>
 
 
             <div class="row mb-3 mt-3">
                 <div class="col col-lg-8 mx-auto">
-                    <a href="#" class="btn btn-warning btn-block">Crear vacante</a>
+                    <a href="/vacante/form/creacion" class="btn btn-warning btn-block">Crear vacante</a>
                 </div>
             </div>
         </div>

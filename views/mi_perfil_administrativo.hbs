@@ -167,15 +167,14 @@
                 <div class="row">
                     <div class="col">
                         <div class="card-columns">
-                        {{#each empresas}}
+                        {{#each empresas.data}}
                             <div class="card text-center border-info mb-3">
                                 <div class="card-body">
-                                    <h4 class="card-title texto-verde">{{ this.nombre }}</h4>
+                                    <h4 class="card-title texto-verde">{{ this.razonSocial }}</h4>
                                     {{#if this.foto}}
                                         <img src="{{ this.foto }}" class="card-img foto-empresa" alt="Fotografía">
                                         {{/if}}
 
-                                        <h5 class="font-weight-bold">{{ this.razon_social }}</h5>
                                         <h5><i class="fa-solid fa-envelope align-middle text-warning"></i>&nbsp; {{ this.correo }}</h5>
                                         <h5><i class="fa-solid fa-phone align-middle text-success"></i>&nbsp; {{ this.telefono }}</h5>
 

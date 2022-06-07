@@ -4,8 +4,7 @@ const express = require('express');
 const app = express();
 
 const nodemailer = require('nodemailer');
-
-const { getHash } = require('../utils/utils');
+const uuid = require('uuid');
 
 
 // ==========================
@@ -22,7 +21,7 @@ app.post('/', (req, res) => {
             }
         });
     // Definimos el email
-    let hash = getHash(10);
+    let hash = uuid.v1()
     let email = req.body.email
     var mailOptions = {
         from: 'Remitente',

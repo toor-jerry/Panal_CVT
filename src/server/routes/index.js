@@ -6,30 +6,22 @@ const app = express();
 
 // routes definitions
 const appRoutes = require('./app');
-const userRoutes = require('./user');
 const usuarioRoutes = require('./usuario');
-const dashboardRoutes = require('./dashboard');
-const citedRoutes = require('./cite');
-const areaRoutes = require('./area');
 const registroRoutes = require('./registro');
 const perfilRoutes = require('./perfil');
 const cvRoutes = require('./cv');
 const postulacionRoutes = require('./postulacion');
-const registroVacanteRoutes = require('./vacantes');
+const vacanteRoutes = require('./vacante');
 const correoRoutes = require('./mailer');
 
 // Routes
 app.use('/', appRoutes);
-app.use('/user', userRoutes);
 app.use('/usuario', usuarioRoutes);
-app.use('/dashboard', dashboardRoutes);
-app.use('/cite', citedRoutes);
-app.use('/area', areaRoutes);
 app.use('/registro', registroRoutes);
 app.use('/perfil', perfilRoutes);
 app.use('/cv', cvRoutes);
 app.use('/postulacion', postulacionRoutes);
-app.use('/vacante', registroVacanteRoutes);
+app.use('/vacante', vacanteRoutes);
 app.use('/correo', correoRoutes);
 
 // 404

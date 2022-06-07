@@ -11,31 +11,36 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-5 animated bounceIn">
+        <div class="col-lg-5 animated bounceIn text-center">
             <div class="row">
-            <img class="z-depth-2 foto-perfil" src="https://cdn.computerhoy.com/sites/navi.axelspringer.es/public/styles/1200/public/media/image/2018/08/fotos-perfil-whatsapp_16.jpg?itok=fl2H3Opv"
-                    data-holder-rendered="true">
-                   <h5 class="texto-verde">{{ nickname }}</h5>
-                   <h5 class="text-dark font-weight-bold">{{ nombre }}</h5>
-                   <h6 class="text-dark font-weight-bold">{{ descripcion }}</h6>
+                <div class="col">
+                    {{#if usuario.foto}}
+                    <img class="z-depth-2 foto-perfil" src="{{usuario.foto}}" data-holder-rendered="true">
+                {{/if}}
+                </div>
             </div>
-
+            <div class="row">
+                <div class="col">
+                   <h5 class="text-dark font-weight-bold">{{ usuario.nombre }} {{usuario.apellidos}}</h5>
+                   <h6 class="text-dark font-weight-bold">{{ usuario.descripcion }}</h6>
+                </div>
+            </div>
             <div class="row text-dark text-dark font-weight-bold">
-                {{#if edad }}
+                {{#if usuario.edad }}
                 <div class="col">
-                    {{ edad }} años
+                    {{ usuario.edad }} años
                 </div>
                 {{/if}}
 
-                {{#if sexo }}
+                {{#if usuario.sexo }}
                 <div class="col">
-                    {{ sexo }}
+                    {{ usuario.sexo }}
                 </div>
                 {{/if}}
 
-                {{#if progreso }}
+                {{#if usuario.progreso }}
                 <div class="col">
-                    {{ progreso }}
+                    {{ usuario.progreso }}
                 </div>
                 {{/if}}
             </div>
@@ -43,7 +48,7 @@
 
             <div class="row mb-3 mt-3">
                 <div class="col col-lg-8 mx-auto">
-                    <a href="#" class="btn btn-warning btn-block">Editar mi Curriculum Vitae</a>
+                    <a href="/cv" class="btn btn-warning btn-block">Editar mi Curriculum Vitae</a>
                 </div>
             </div>
 
@@ -81,16 +86,33 @@
                     <!-- Vacantes -->
                     <div class="row">
                         <div class="col">
-                            {{#each vacantes}}
+                            {{#each vacantes.data}}
 <div class="card text-center border-info mb-3">
         <div class="card-body">
-          <h4 class="card-title">{{ this.nombre_empresa }}</h4>
-          {{#if this.foto_empresa}}
-          <img src="{{ this.foto_empresa }}" class="card-img foto-empresa" alt="Foto empresa">
+          <h3 class="texto-oscuro">{{this.puesto}}</h3>
+          <h4 class="card-title">{{ this.empresa.razonSocial }}</h4>
+          {{#if this.empresa.foto}}
+          <img src="{{ this.empresa.foto }}" class="card-img foto-empresa" alt="Foto empresa">
           {{/if}}
           
-          <p class="card-text text-truncate" style="max-width: 500px;">{{ this.descripcion_vacante }}</p>
-          <a href="#" class="btn btn-primary">Postularme</a>
+          <h5 class="card-text text-justify text-truncate mt-2" style="max-width: 500px;">Funciones: <b>{{ this.funciones }}</b></h5>
+          <div class="row">
+              <div class="col">
+                  <h5>Salario: <b>{{this.salario}}</b></h5>
+              </div>
+              <div class="col">
+                  <h5>Horarios: <b>{{this.horarios}}</b></h5>
+              </div>
+          </div>
+          <p>Publicada: <b>{{fechaCreacion}}</b></p>
+          <div class="row">
+              <div class="col">
+                  <a href="#" class="btn btn-info">Ver vacante</a>
+              </div>
+              <div class="col">
+                  <a href="#" class="btn btn-primary">Postularme</a>
+              </div>
+          </div>
         </div>
                         </div>
                         {{/each}}

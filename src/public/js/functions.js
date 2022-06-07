@@ -146,11 +146,11 @@ function getHours(area, date) {
 }
 
 // show alert question
-function showQuestion(title, text) {
+function showQuestion(title, text, icon = 'warning') {
     return Swal.fire({
         title: title,
         text: text,
-        icon: 'warning',
+        icon: icon,
         showCancelButton: true,
         confirmButtonText: 'De acuerdo!',
         cancelButtonText: 'Cancelar',
@@ -278,3 +278,35 @@ jQuery(function($) {
 
     });
 });
+
+
+// Borrar vacante
+function borrarVacante(vacante, nombreVacante) {
+
+    showQuestion('¿Está seguro?', `Esta opción eliminará la vacante "${nombreVacante}"!`)
+        .then((result) => {
+            if (result.value) {
+
+                // Show loading
+                getLoading('Eliminando', 'Por favor espere....');
+
+                // Delete request
+                $.ajax({
+                    url: '/vacante/' + vacante,
+                    type: 'DELETE',
+                    success: function() {
+                        Swal.fire({
+                            title: 'Vacante eliminada!',
+                            text: `La vacante '${nombreVacante}' eliminada correctamente!`,
+                            icon: 'success',
+                        })
+                        .then(() => location.reload())
+                    },
+                    error: function(errResp) {
+                        showError(errResp, true); // show error alert
+                    }
+                });
+
+            }
+        })
+}

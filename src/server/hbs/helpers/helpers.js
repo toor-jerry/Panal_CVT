@@ -35,3 +35,15 @@ hbs.registerHelper('suma', (a,b) => (Number(a) + Number(b)));
 
 // Resta
 hbs.registerHelper('resta', (a,b) => (Number(a) - Number(b)));
+
+// Retorna resto de arreglo
+hbs.registerHelper('retornaArregloMasItemsFaltantes', (arreglo,numeroItems) => {
+    let arregloManipulado = []
+    if(arreglo) {
+        arregloManipulado = arreglo
+    }
+    for (let index = arregloManipulado.length; index < numeroItems; index++) {
+        arregloManipulado.push('')
+    }
+    return arregloManipulado
+})

@@ -27,7 +27,15 @@ $(document).ready(function() {
                         animation: true,
                         title: `Bienvenid@ ${res.data.nombre}!!`
                     })
-                    .then(() => location.href = "/perfil")
+                    .then(() => {
+                        if (res.data.userRole == 'USER_PERSONAL') {
+                            location.href = "/perfil"
+                        } else if(res.data.userRole == 'USER_ENTERPRISE'){
+                            location.href = "/perfil/empresarial/1"
+                        } else if(res.data.userRole == 'USER_ADMIN'){
+                            location.href = "/perfil/administrativo/1/1"
+                        }
+                    })
             })
             .fail(function(errResp) {
                 showAlert(errResp); // show error alert

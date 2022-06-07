@@ -2,8 +2,6 @@
 const express = require('express');
 
 const { Usuario } = require('../classes/usuario'); // user class
-const { Cite } = require('../classes/cite'); // cite class
-const { Area } = require('../classes/area'); // area class
 
 const { checkSession, checkAdminRole } = require('../middlewares/auth'); // midlewares auth
 
@@ -93,15 +91,14 @@ app.delete('/:id', [checkSession, checkAdminRole], (req, res) => {
 // ==========================
 // Login
 // ==========================
-app.post('/login', (req, res) =>{
-    console.log(req.body.email);
+app.post('/login', (req, res) =>
     Usuario.login(req.body.email, req.body.password)
-    .then(user => {
+    .then(usuario => {
         // session register
-        req.session.user = user;
-        res.status(200).json({ data: user });
+        req.session.usuario = usuario;
+        res.status(200).json({ data: usuario });
     })
     .catch(err => res.status(err.code).json({ msg: err.msg, err: err.err }))
-});
+);
 
 module.exports = app;

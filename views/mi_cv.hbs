@@ -1,12 +1,16 @@
 {{> head }}
-{{> navbar_cv }}
+{{> navbar_perfil }}
 
 
 <div class="container p-5">
     <div class="row mt-5">
         <div class="col-lg-5 animated bounceIn">
             <div class="row">
-                <img class="z-depth-2 foto-perfil mx-auto" src="https://cdn.computerhoy.com/sites/navi.axelspringer.es/public/styles/1200/public/media/image/2018/08/fotos-perfil-whatsapp_16.jpg?itok=fl2H3Opv" data-holder-rendered="true">
+                {{#if usuario.foto}}
+                    <img class="z-depth-2 foto-perfil mx-auto" src="{{usuario.foto }}" data-holder-rendered="true">
+                {{else}}
+                    <img class="z-depth-2 foto-perfil mx-auto" src="/img/no-img.jpg" data-holder-rendered="true">
+                {{/if}}
                 </div>
 
 <form>
@@ -37,16 +41,13 @@
                         <!-- Nombre -->
                         <label class="font-weight-bold text-dark" for="inputCorreo">Revisa tu correo electrónico</label>
                         <div class="input-group mb-2">
-                        <input type="text" class="form-control" placeholder="Correo institucional UAEMEX" aria-label="Correo institucional UAEMEX" aria-describedby="basic-addon2" value="{{correo_institucional}}">
-                        <div class="input-group-append">
-                            <span class="input-group-text" id="basic-addon2">@alumno.uaemex.mx</span>
-                        </div>
+                        <input type="text" class="form-control texto-oscuro" placeholder="Correo institucional UAEMEX" aria-label="Correo institucional UAEMEX" aria-describedby="basic-addon2" value="{{usuario.email}}">
                         </div>
 
                         <!-- Nombre -->
                             <div class="form-group">
                                 <label class="font-weight-bold text-dark" for="inputNumero">Revisa tu número de contacto</label>
-                                <input type="number" class="form-control text-center text-secondary " id="inputNumero" placeholder="Celular" value="{{ numero_cel }}"></div>
+                                <input type="number" class="form-control text-center texto-oscuro" id="inputNumero" placeholder="Celular" value="{{ usuario.numeroContacto }}"></div>
                     </div>
                     </div>
                     </div>
@@ -79,9 +80,9 @@
                         <div class="col text-center">
                         <!-- Habilidades -->
                         <label class="font-weight-bold text-dark">Ingresa 3 habilidades</label>
-                        <input type="text" class="form-control text-center text-secondary mb-2" placeholder="Habilidades" value="{{ habilidades._1 }}">
-                        <input type="text" class="form-control text-center text-secondary mb-2" placeholder="Habilidades" value="{{ habilidades._2 }}">
-                        <input type="text" class="form-control text-center text-secondary mb-2" placeholder="Habilidades" value="{{ habilidades._3 }}">
+                        {{#each (retornaArregloMasItemsFaltantes usuario.habilidades 3) }}
+                            <input type="text" class="form-control text-center texto-oscuro mb-2" placeholder="Agregue una habilidad" value="{{ this }}">
+                        {{/each}}
                         </div>
                     </div>
                     </div>
@@ -114,9 +115,9 @@
                         <div class="col text-center">
                         <!-- Logros -->
                         <label class="font-weight-bold text-dark">Ingresa 3 logros</label>
-                        <input type="text" class="form-control text-center text-secondary mb-2" placeholder="Logros" value="{{ logros._1 }}">
-                        <input type="text" class="form-control text-center text-secondary mb-2" placeholder="Logros" value="{{ logros._2 }}">
-                        <input type="text" class="form-control text-center text-secondary mb-2" placeholder="Logros" value="{{ logros._3 }}">
+                        {{#each (retornaArregloMasItemsFaltantes usuario.logros 3) }}
+                            <input type="text" class="form-control text-center texto-oscuro mb-2" placeholder="Agregue un logro" value="{{ this }}">
+                        {{/each}}
                         </div>
                     </div>
                     </div>
@@ -134,32 +135,45 @@
                             <!-- Nombre -->
                             <div class="form-group">
                                 <label class="font-weight-bold text-dark" for="inputNombre">Revisa tu nombre</label>
-                                <input type="text" class="form-control text-center text-secondary form-control-lg font-weight-bold" id="inputNombre" placeholder="Nombre completo" value="{{ nombre }}"></div>
+                                <div class="form-row">
+                                        <div class="form-group col col-md-4">
+                                <input type="text" class="form-control text-center texto-oscuro form-control-lg font-weight-bold" id="inputNombre" placeholder="Nombre" value="{{ usuario.nombre }}">
+                                </div>
+                                        <div class="form-group col">
+                                <input type="text" class="form-control text-center texto-oscuro form-control-lg font-weight-bold" id="inputApellidos" placeholder="Apellidos" value="{{ usuario.apellidos }}">
+                                 </div>
+                                 </div>   
+                                </div>
 
                                 <!-- Experiencia laboral -->
                                 <div class="form-group">
                                     <label class="font-weight-bold text-dark" for="inputExpLaboral">Experiencia Laboral</label>
-                                    <textarea class="form-control" id="inputExpLaboral" placeholder="Describe en 100 palabras la experiencia ganada en tus trabajos anteriores, conocimientos adquiridos, habilidades y técnicas." rows="3">{{ exp_laboral }}</textarea>
+                                    <textarea class="form-control texto-oscuro" id="inputExpLaboral" placeholder="Describe en 100 palabras la experiencia ganada en tus trabajos anteriores, conocimientos adquiridos, habilidades y técnicas." rows="3">{{ usuario.experienciaLaboral }}</textarea>
                                 </div>
 
                                 <!-- Empresas -->
                                     <label class="font-weight-bold text-dark">Empresas</label>
                                     <div class="container border border-warning rounded m-0 pt-0 pb-0 ">
-                                        {{#each empleos}}
+                                        {{#each usuario.empleos}}
                                 <div class="form-row mt-3">
                                     <div class="form-row">
                                         <div class="form-group col-md-5">
-                                        <input type="text" class="form-control text-center text-secondary" placeholder="Nombre de la empresa" value="{{ this.nombre_empresa }}">
+                                        <input type="text" class="form-control text-center texto-oscuro" placeholder="Nombre de la empresa" value="{{ this.nombreEmpresa }}">
                                         </div>
-                                        <div class="form-group col-md-4">
-                                            <input type="text" class="form-control text-center text-secondary" placeholder="Puesto" value="{{ this.puesto }}">
+                                        <div class="form-group col">
+                                            <input type="text" class="form-control text-center texto-oscuro" placeholder="Puesto" value="{{ this.puestoDesempenado }}">
+                                            </div>
+                                    </div>
+                                    <div class="form-row">
+                                            <div class="form-group col">
+                                               <input type="text" class="form-control text-center texto-oscuro" placeholder="Periodo" value="{{ this.periodo }}">
                                             </div>
                                             <div class="form-group col">
-                                               <input type="text" class="form-control text-center text-secondary" placeholder="Periodo" value="{{ this.anio }}">
+                                               <input type="number" class="form-control text-center texto-oscuro" placeholder="Salario" value="{{ this.salario }}">
                                             </div>
                                     </div>
 
-                                            <textarea class="form-control" id="inputExpLaboral" placeholder="Describe en 100 palabras la experiencia ganada en tus trabajos anteriores, conocimientos adquiridos, habilidades y técnicas." rows="2">{{ this.funciones }}</textarea>
+                                            <textarea class="form-control texto-oscuro" id="inputExpLaboral" placeholder="Describe en 100 palabras la experiencia ganada en tus trabajos anteriores, conocimientos adquiridos, habilidades y técnicas." rows="2">{{ this.funciones }}</textarea>
                                         </div>
                                         <hr>
                                     {{/each}}
@@ -172,26 +186,27 @@
                                         <!-- Formación académica -->
                                     <label class="font-weight-bold text-dark mt-3">Formación académica</label>
                                     <div class="container border border-warning rounded m-0 pt-0 pb-0 ">
-                                        {{#each estudios}}
+                                        {{#each usuario.estudios}}
                                 <div class="form-row mt-3">
                                     <div class="form-row">
                                         <div class="form-group col-md-5">
-                                        <input type="text" class="form-control text-center text-secondary" placeholder="Centro Educativo" value="{{ this.nombre_escuela }}">
+                                        <input type="text" class="form-control text-center texto-oscuro" placeholder="Centro Educativo" value="{{ this.nombreEscuela }}">
                                         </div>
                                             <div class="form-group col">
-                                               <select class="form-control">
-                                                            <option value="0">Nivel Académico</option>
-                                                            <option value="1">Doctorado</option>
-                                                            <option value="2">Maestria</option>
-                                                            <option value="3">Postgrado</option>
-                                                            <option value="4">Licenciatura \ Ingeniería</option>
-                                                            <option value="5">Preparatoria</option>
-                                                            <option value="6">Secuandaria</option>
-                                                            <option value="7">Primaria</option>
+                                               <select class="form-control texto-oscuro">
+                                                            <option {{#unless this.nivelAcademico}}selected{{/unless}}>Nivel Académico</option>
+                                                            <option value="1" {{#if (ifeq this.nivelAcademico "1")}} selected{{/if}}>Doctorado</option>
+                                                            <option value="2" {{#if (ifeq this.nivelAcademico "2")}} selected {{/if}}>Maestria</option>
+                                                            <option value="3" {{#if (ifeq this.nivelAcademico "3")}} selected {{/if}}>Postgrado</option>
+                                                            <option value="4" {{#if (ifeq this.nivelAcademico "4")}} selected {{/if}}>Licenciatura \ Ingeniería</option>
+                                                            <option value="5" {{#if (ifeq this.nivelAcademico "5")}} selected {{/if}}>Preparatoria</option>
+                                                            <option value="6" {{#if (ifeq this.nivelAcademico "6")}} selected {{/if}}>Secuandaria</option>
+                                                            <option value="7" {{#if (ifeq this.nivelAcademico "7")}} selected {{/if}}>Primaria</option>
+
                                             </select>
                                             </div>
                                         <div class="form-group col-md-3">
-                                            <input type="text" class="form-control text-center text-secondary" placeholder="Periodo (2010-2011)" value="{{ this.periodo }}">
+                                            <input type="text" class="form-control text-center texto-oscuro" placeholder="Periodo (2010-2011)" value="{{ this.periodo }}">
                                             </div>
                                     </div>
                                         </div>

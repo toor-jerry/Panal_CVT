@@ -1,97 +1,176 @@
-// express
 const express = require('express');
 
-const { User } = require('../classes/user'); // user class
-const { Cite } = require('../classes/cite'); // cite class
-const { Area } = require('../classes/area'); // area class
+const { User } = require('../classes/user');
+const { checkToken, checkPrivileges, checkAdmin_Role } = require('../middlewares/auth');
 
-const { checkSession, checkAdminRole } = require('../middlewares/auth'); // midlewares auth
-
-// express initialization
 const app = express();
-
-const { today } = require('../utils/utils');
 
 // ==========================
 // Get all users
 // ==========================
-app.get('/all', [checkSession, checkAdminRole], async(req, res) => {
-    res.status(200).render('dashboard_users', {
-        page: 'Dashboard | Usuarios',
-        users: await User.findAll()
-            .then(resp => resp.data)
-            .catch(err => res.status(err.code).json({ msg: err.msg, err: err.err })),
-        cites: await Cite.findAllByAreaAndDate(req.session.user.area._id, today)
-            .then(resp => resp.data)
-            .catch(() => [])
-    })
+app.get('/all', [checkToken, checkAdmin_Role], (req, res) => {
 
+    const from = Number(req.query.from) || 0;
+    const limit = Number(req.query.limit) || 10;
+
+    User.findAll(res, from, limit);
 });
 
 // ==========================
-// Create a user
+// Get all enterprises
 // ==========================
-app.post('/', [checkSession, checkAdminRole], (req, res) =>
+app.get('/enterprises', checkToken, (req, res) => {
 
-    User.create(req.body)
-    .then(() => res.status(201).json({}))
-    .catch(err => res.status(err.code).json({ msg: err.msg, err: err.err }))
+    const from = Number(req.query.from) || 0;
+    const limit = Number(req.query.limit) || 10;
 
-);
-
+    User.findEnterprises(res, from, limit);
+});
 
 // ==========================
-// Update view
+// Get all users
 // ==========================
-app.get('/edit/:id', [checkSession, checkAdminRole], async(req, res) => {
-    res.render('dashboard_user', {
-        page: 'Usuario | Editar',
-        cites: await Cite.findAllByAreaAndDate(req.session.user.area._id, today)
-            .then(resp => resp.data)
-            .catch(() => []),
-        user_edit: await User.findById(req.params.id)
-            .then(resp => resp.data)
-            .catch(() => []),
-        areas: await Area.findAll()
-            .then(resp => resp.data)
-            .catch(() => [])
-    })
+app.get('/', checkToken, (req, res) => {
+
+    const from = Number(req.query.from) || 0;
+    const limit = Number(req.query.limit) || 10;
+    User.findUsers(res, from, limit);
+});
+
+// ==========================
+// Get user by id
+// ==========================
+app.get('/byid', checkToken, (req, res) => {
+    const id = req.query.id || req.user._id;
+    User.findById(res, id)
+});
+
+// ==========================
+// Get user by id
+// ==========================
+app.get('/my-info', checkToken, (req, res) => User.findById(res, req.user._id));
+
+// ==========================
+// Get user by id info basic
+// ==========================
+app.get('/user/info', checkToken, (req, res) => {
+    const id = req.query.id || req.user._id;
+    User.findByIdInfoBasic(res, id)
+});
+
+// ==========================
+// Search contacts
+// ==========================
+app.get('/search/contact/:contact', checkToken, (req, res) => {
+    const from = Number(req.query.from) || 0;
+    const limit = Number(req.query.limit) || 10;
+    User.findContacts(res, req.user._id, req.params.contact, from, limit)
+});
+
+// ==========================
+// Get conversations
+// ==========================
+app.get('/conversations', checkToken, (req, res) => {
+    User.getConversationsChatSimple(req.user._id)
+        .then(resp => res.status(200).json({ data: resp.data }))
+        .catch(err => { res.status(err.code).json(err.err) });
+});
+
+// ==========================
+// Get notifications
+// ==========================
+app.get('/notifications', checkToken, (req, res) => {
+    User.getNotifications(res, req.user._id)
+});
+
+// ==========================
+// Get all contacts of user
+// ==========================
+app.get('/contacts/byid', [checkToken, checkPrivileges], (req, res) => {
+    const id = req.query.id || req.user._id;
+    User.getContacts(id)
+        .then(resp => {
+            res.status(201).json(resp);
+            // io.emit('new-employment', resp);
+        })
+        .catch(err => { res.status(err.code).json(err.err) });
+});
+
+// ==========================
+// Get all contacts of user (only id)
+// ==========================
+app.get('/contacts-id/byid', [checkToken, checkPrivileges], (req, res) => {
+    const id = req.query.id || req.user._id;
+    User.getContactsOnlyId(id)
+        .then(resp => {
+            res.status(201).json(resp);
+        })
+        .catch(err => { res.status(err.code).json(err.err) });
 });
 
 // ==========================
 // Update user
 // ==========================
-app.put('/edit/:id', [checkSession, checkAdminRole], (req, res) =>
+app.put('/', [checkToken, checkPrivileges], (req, res) => {
+    const id = req.query.id || req.user._id;
+    User.update(res, id, req.user.role, req.body);
+});
 
-    User.update(req.params.id, req.body)
-    .then(() => res.status(200).json({}))
-    .catch(err => res.status(err.code).json({ msg: err.msg, err: err.err }))
 
-);
+// ==========================
+// Create a user
+// ==========================
+app.post('/', (req, res) =>
+    User.create(req.body)
+    .then(resp => res.status(201).json(resp))
+    .catch(err => {
+        res.status(err.code).json({
+            msg: err.msg,
+            err: err.err
+        })
+    }));
+
+// ==========================
+// Update user - add contact
+// ==========================
+
+app.put('/contact', [checkToken, checkPrivileges], (req, res) => {
+    const id = req.query.id || req.user._id;
+    User.updateUserAddContact(res, id, req.body.contact);
+});
+
+// ==========================
+// Update User - Delete contact
+// ==========================
+app.delete('/contact/:contact', [checkToken, checkPrivileges], (req, res) => {
+    const id = req.query.id || req.user._id;
+    User.updateUserDeleteContact(res, id, req.params.contact);
+});
+
 
 // ==========================
 // Delete a user by Id
 // ==========================
-app.delete('/:id', [checkSession, checkAdminRole], (req, res) => {
+app.delete('/:id', [checkToken, checkPrivileges], (req, res) => {
+    const list = req.query.list || false;
+    const search = req.query.search || false;
+    const from = Number(req.query.from) || 0;
+    const limit = Number(req.query.limit) || 10;
+    const exp = req.query.regex;
+    let regex;
+    if (search) {
+        try {
+            regex = new RegExp(exp.trim(), 'i');
+        } catch (err) {
+            return res.status(400).json({
+                message: 'Bad request.',
+                err: err.toString()
+            });
+        }
+    }
 
-    User.delete(req.params.id)
-        .then(() => res.status(200).json({}))
-        .catch(err => res.status(err.code).json({ msg: err.msg, err: err.err }))
-
+    User.delete(res, req.params.id, list, from, limit, search, regex);
 });
 
-// ==========================
-// Login
-// ==========================
-app.post('/login', (req, res) =>
-
-    User.login(req.body.email, req.body.password)
-    .then(user => {
-        // session register
-        req.session.user = user;
-        res.status(200).json({ data: user });
-    })
-    .catch(err => res.status(err.code).json({ msg: err.msg, err: err.err }))
-);
 
 module.exports = app;
