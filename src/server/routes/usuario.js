@@ -89,10 +89,33 @@ app.put('/actualizar/empleo', checkSession, (req, res) => {
 });
 
 // ==========================
+// Actualizar usuario - eliminar Empleo
+// ==========================
+app.delete('/eliminar/empleo/:empleo', checkSession, (req, res) => {
+    Usuario.eliminarEmpleo(req.session.usuario._id, req.params.empleo)
+    .then((usuarioDB) => {
+        req.session.usuario = usuarioDB
+        res.status(200).json({});
+    })
+    .catch(err => res.status(err.code).json({ msg: err.msg, err: err.err }))
+});
+// ==========================
 // Actualizar usuario - nueva Formación
 // ==========================
 app.put('/actualizar/formacion', checkSession, (req, res) => {
     Usuario.agregarFormacion(req.session.usuario._id, req.body)
+    .then((usuarioDB) => {
+        req.session.usuario = usuarioDB
+        res.status(200).json({});
+    })
+    .catch(err => res.status(err.code).json({ msg: err.msg, err: err.err }))
+});
+
+// ==========================
+// Actualizar usuario - eliminar formacion
+// ==========================
+app.delete('/eliminar/formacion/:idEstudio', checkSession, (req, res) => {
+    Usuario.eliminarEstudio(req.session.usuario._id, req.params.idEstudio)
     .then((usuarioDB) => {
         req.session.usuario = usuarioDB
         res.status(200).json({});

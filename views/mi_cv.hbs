@@ -160,8 +160,13 @@
                                         <div class="form-group col-md-5">
                                         <input type="text" class="form-control text-center texto-oscuro" placeholder="Nombre de la empresa" value="{{ this.nombreEmpresa }}">
                                         </div>
-                                        <div class="form-group col">
+                                        <div class="form-group col-md-5">
                                             <input type="text" class="form-control text-center texto-oscuro" placeholder="Puesto" value="{{ this.puestoDesempenado }}">
+                                            </div>
+                                            <div class="form-group col">
+                                                <a class="btn btn-danger" onclick="borrarEmpleo('{{this._id}}')">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </a>
                                             </div>
                                     </div>
                                     <div class="form-row">
@@ -188,7 +193,7 @@
                                         {{#each usuario.estudios}}
                                 <div class="form-row mt-3">
                                     <div class="form-row">
-                                        <div class="form-group col-md-5">
+                                        <div class="form-group col-md-4">
                                         <input type="text" class="form-control text-center texto-oscuro" placeholder="Centro Educativo" value="{{ this.nombreEscuela }}">
                                         </div>
                                             <div class="form-group col">
@@ -206,6 +211,11 @@
                                             </div>
                                         <div class="form-group col-md-3">
                                             <input type="text" class="form-control text-center texto-oscuro" placeholder="Periodo (2010-2011)" value="{{ this.periodo }}">
+                                            </div>
+                                            <div class="form-group col">
+                                                <a class="btn btn-danger" onclick="borrarEstudio('{{this._id}}')">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </a>
                                             </div>
                                     </div>
                                         </div>

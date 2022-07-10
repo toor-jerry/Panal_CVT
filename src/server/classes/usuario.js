@@ -129,6 +129,38 @@ class Usuario {
         });
     }
 
+    // Actualizar usuario - eliminar empleo
+    static eliminarEmpleo(id, empleo) {
+        return new Promise((resolve, reject) => {
+            if (!id) return reject({ msg: 'Petición incorrecta!, falta id de usuario.', code: 400 });
+            if (!empleo) return reject({ msg: 'No data', code: 400 });
+
+            // find user
+        UsuarioModel.findByIdAndUpdate(id, { $pull: { empleos: {_id : empleo} } }, { new: true })
+            .exec((err, userUpdate) => {
+                if (err) return reject({ msg: 'Error server', err, code: 500 });
+                if (!userUpdate) return reject({ msg: 'Usuario no encontrado.', code: 400 });
+                resolve(userUpdate);
+            });
+        });
+    }
+
+    // Actualizar usuario - eliminar formacion
+    static eliminarEstudio(id, idEstudio) {
+        return new Promise((resolve, reject) => {
+            if (!id) return reject({ msg: 'Petición incorrecta!, falta id de usuario.', code: 400 });
+            if (!idEstudio) return reject({ msg: 'No data', code: 400 });
+
+            // find user
+        UsuarioModel.findByIdAndUpdate(id, { $pull: { estudios: {_id : idEstudio} } }, { new: true })
+            .exec((err, userUpdate) => {
+                if (err) return reject({ msg: 'Error server', err, code: 500 });
+                if (!userUpdate) return reject({ msg: 'Usuario no encontrado.', code: 400 });
+                resolve(userUpdate);
+            });
+        });
+    }
+
     // Actualizar usuario - agregar una nueva formación
     static agregarFormacion(id, estudio) {
         return new Promise((resolve, reject) => {
