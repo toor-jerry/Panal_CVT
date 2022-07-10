@@ -5,23 +5,22 @@
 <div class="container p-5">
     <div class="row mt-5">
         <h5 class="mx-auto">El personalizar tu cuenta no es un paso necesario. Pero es tu "toque personal".
-            <a href="/">Omitir este paso.</a>
+            <a href="/perfil">Omitir este paso.</a>
         </h5>
         <div class="col-lg-8 animated bounceIn">
-            <form
-                class="user animated bounceIn">
+            <form class="user animated bounceIn" id="form-personalizacion">
                 <!-- Nickname -->
                 <div class="form-row align-items-center">
-                    <div class="col-5 text-center">
+                    <!-- <div class="col-5 text-center">
                         <label for="nickname" class="text-dark font-weight-bold">Ingresa tu nickname</label>
-                        <input type="text" id="nickname" class="form-control form-control-user text-center" placeholder="Nombre de Pila" name="nickname" required>
-                    </div>
+                        <input type="text" id="nickname" class="form-control form-control-user text-center" placeholder="Nombre de Pila" name="nickname">
+                    </div> -->
                     <!-- Licenciatura -->
                     <div class="col text-center">
                         <label for="licenciatura" class="text-dark font-weight-bold">Selecciona tu licenciatura</label>
-                        <select id="licenciatura" class="form-control" name="licenciatura" required>
-                            <option value="LIA" selected>LIA - Licenciatura en Informática Administrativa</option>
-                            <option value="ICO">ICO - Licenciatura en Ingeniería eb Computación</option>
+                        <select id="licenciatura" class="form-control" name="licenciatura">
+                            <option value="LIA" {{#if (ifeq usuario.licenciatura "LIA")}} selected{{/if}}>LIA - Licenciatura en Informática Administrativa</option>
+                            <option value="ICO" {{#if (ifeq usuario.licenciatura "ICO")}} selected{{/if}}>ICO - Licenciatura en Ingeniería en Computación</option>
                         </select>
                     </div>
                 </div>
@@ -33,14 +32,14 @@
                         <div class="form-row align-items-center">
                             <div class="col text-center">
                                 <div class="custom-control custom-radio">
-                                    <input type="radio" name="genero" id="hombre" class="custom-control-input">
+                                    <input type="radio" name="genero" id="hombre" class="custom-control-input" {{#if (ifeq usuario.genero "Hombre")}} checked {{/if}}>
                                     <label for="hombre" class="custom-control-label text-dark">Hombre</label>
                                 </div>
                             </div>
                             <div class="col text-center">
                                 <div class="custom-control custom-radio">
                                     <input type="radio" name="genero" id="mujer" class="custom-control-input">
-                                    <label for="mujer" class="custom-control-label text-dark">Mujer</label>
+                                    <label for="mujer" class="custom-control-label text-dark" {{#if (ifeq usuario.genero "Mujer")}} checked {{/if}}>Mujer</label>
                                 </div>
                             </div>
                         </div>
@@ -48,18 +47,18 @@
                     <!-- Progreso -->
                     <div class="col text-center">
                         <label for="progreso" class="text-dark font-weight-bold">Selecciona tu progreso</label>
-                        <select id="progreso" class="form-control" name="progreso" required>
-                            <option selected>Semestre / Egresado</option>
-                            <option value="1">Primer Semestre</option>
-                            <option value="2">Segundo Semestre</option>
-                            <option value="3">Tercer Semestre</option>
-                            <option value="4">Cuarto Semestre</option>
-                            <option value="5">Quinto Semestre</option>
-                            <option value="6">Sexto Semestre</option>
-                            <option value="7">Séptimo Semestre</option>
-                            <option value="8">Octavo Semestre</option>
-                            <option value="9">Noveno Semestre</option>
-                            <option value="Egresado">Egresado</option>
+                        <select id="progreso" class="form-control" name="progreso">
+                            <option {{#unless usuario.progreso}}selected{{/unless}}>Semestre / Egresado</option>
+                            <option {{#if (ifeq usuario.progreso "1")}} selected {{/if}} value="1">Primer Semestre</option>
+                            <option {{#if (ifeq usuario.progreso "2")}} selected {{/if}} value="2">Segundo Semestre</option>
+                            <option {{#if (ifeq usuario.progreso "3")}} selected {{/if}} value="3">Tercer Semestre</option>
+                            <option {{#if (ifeq usuario.progreso "4")}} selected {{/if}} value="4">Cuarto Semestre</option>
+                            <option {{#if (ifeq usuario.progreso "5")}} selected {{/if}} value="5">Quinto Semestre</option>
+                            <option {{#if (ifeq usuario.progreso "6")}} selected {{/if}} value="6">Sexto Semestre</option>
+                            <option {{#if (ifeq usuario.progreso "7")}} selected {{/if}} value="7">Séptimo Semestre</option>
+                            <option {{#if (ifeq usuario.progreso "8")}} selected {{/if}} value="8">Octavo Semestre</option>
+                            <option {{#if (ifeq usuario.progreso "9")}} selected {{/if}} value="9">Noveno Semestre</option>
+                            <option {{#if (ifeq usuario.progreso "Egresado")}} selected {{/if}} value="Egresado">Egresado</option>
                         </select>
                     </div>
                 </div>
@@ -72,13 +71,13 @@
                         <label class="text-dark font-weight-bold">Fecha de nacimiento</label>
                         <div class="form-row">
                             <div class="col">
-                                <input type="number" class="form-control form-control-user text-center" placeholder="DD" name="fecha_nacimiento_dia" min="1" max="31" required>
+                                <input type="number" class="form-control form-control-user text-center" placeholder="DD" id="fecha_nacimiento_dia" name="fecha_nacimiento_dia" min="1" max="31" value="{{ usuario.fechaNacimientoDia }}">
                             </div>
                             <div class="col">
-                                <input type="number" class="form-control form-control-user text-center" placeholder="MM" name="fecha_nacimiento_mes" min="1" max="12" required>
+                                <input type="number" class="form-control form-control-user text-center" placeholder="MM" id="fecha_nacimiento_mes" name="fecha_nacimiento_mes" min="1" max="12" value="{{ usuario.fechaNacimientoMes }}">
                             </div>
                             <div class="col">
-                                <input type="number" class="form-control form-control-user text-center" placeholder="AA" name="fecha_nacimiento_anio" min="1990" max="31" required>
+                                <input type="number" class="form-control form-control-user text-center" placeholder="AA" id="fecha_nacimiento_anio" name="fecha_nacimiento_anio" min="1990" max="2022" value="{{ usuario.fechaNacimientoAnio }}">
                             </div>
                         </div>
                     </div>
@@ -92,17 +91,23 @@
                 <!-- Descripción -->
                 <div class="form-group text-center">
                     <label for="descripcion" class="text-dark font-weight-bold">Descripción</label>
-                    <textarea class="form-control form-control-user text-center" id="descripcion" placeholder="300 carácteres máximo" maxlength="300"></textarea>
+                    <textarea class="form-control form-control-user text-center" id="descripcion" placeholder="300 carácteres máximo" maxlength="300">{{ usuario.descripcion }}</textarea>
                 </div>
 
 
         </div>
 
-        <div class="col-lg text-center">
+        <div class="col col-lg text-center">
             <label class="text-dark font-weight-bold">Cambiar foto de perfil</label>
             <br>
-            <i class="fa fa-user-plus fa-10x" aria-hidden="true"></i>
+            <img id="img-previo" class="img img-fluid" src="{{#if usuario.foto}} /archivos/fotografias/{{ usuario.foto }} {{else}} /img/no-img.jpg {{/if}}" alt="Tu fotografía">
             <hr>
+            <div class="custom-file">
+                <input type="file" class="custom-file-input cursor-puntero" id="inputFoto" lang="es">
+                <label class="custom-file-label cursor-puntero" for="logo"><i class="fa fa-plus text-primary" aria-hidden="true" style="font-size: 40px;"></i>  Seleccionar fotografía</label>
+            </div>
+            <br>
+            <br>
             <div class="form-group w-75 mx-auto">
                 <button type="submit" class="btn btn-success btn-user btn-block btn-lg">
                     Guardar cambios

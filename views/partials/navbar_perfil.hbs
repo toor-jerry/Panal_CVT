@@ -64,11 +64,13 @@
                 </li>
 
                 <!-- Configuraciones -->
+                {{#if (ifeq usuario.userRole "USER_PERSONAL")}}
                 <li class="nav-item">
-                    <a class="nav-link active" href="/perfil">
+                    <a class="nav-link active" href="/registro/personalizacion_de_perfil">
                         <i class="fa-solid fa-gear fa-2x text-warning"></i>
                     </a>
                 </li>
+                {{/if}}
 
                 <!-- Salida -->
                 <li class="nav-item">

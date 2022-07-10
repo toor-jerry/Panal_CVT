@@ -6,45 +6,42 @@
     <div class="row mt-5">
         <h5 class="mx-auto">El registro es un procedimiento rápido y fácil. Aumenta tus oportunidades de empleo.</h5>
         <div class="col-lg-4 animated bounceIn">
-            <form
-                class="user animated bounceIn">
+            <form class="user animated bounceIn" id="form-cuenta-personal">
                 <!-- Nombre -->
                 <div class="form-group text-center">
                     <label for="nombre" class="text-dark font-weight-bold">Ingresa tu nombre</label>
-                    <input type="text" id="nombre" class="form-control form-control-user" placeholder="Nombre(s)" name="nombre" required>
+                    <input type="text" id="inputNombre" class="form-control form-control-user" placeholder="Nombre(s)" name="nombre" required>
                 </div>
 
                 <!-- Apellidos -->
                 <div class="form-group text-center">
                     <label for="apellidos" class="text-dark font-weight-bold">Ingresa tus apellidos</label>
-                    <input type="text" id="apellidos" class="form-control form-control-user" placeholder="Apellidos" name="apellidos" required>
+                    <input type="text" id="inputApellidos" class="form-control form-control-user" placeholder="Apellidos" name="apellidos" required>
                 </div>
 
 
                 <!-- Email -->
                 <div class="form-group text-center">
                     <label for="email" class="text-dark font-weight-bold">Correo electrónico</label>
-                    <input type="email" id="email" class="form-control form-control-user" placeholder="Correo institucional UAEMEX" name="email" required>
+                    <input type="email" id="inputEmail" class="form-control form-control-user" placeholder="Correo institucional UAEMEX" name="email" required>
                 </div>
 
                 <!-- Contraseña -->
                 <div class="form-group text-center">
                     <label for="password" class="text-dark font-weight-bold">Contraseña</label>
-                    <input type="password" id="password" class="form-control form-control-user" placeholder="Mínimo 8 carácteres" name="password" minlength="8" required>
+                    <input type="password" id="inputPassword" class="form-control form-control-user security-password" placeholder="Mínimo 8 carácteres" name="password" minlength="8" required>
                 </div>
 
                 <!-- Contacto -->
                 <div class="form-group text-center">
                     <label for="contacto" class="text-dark font-weight-bold">Número de contacto</label>
-                    <input type="tel" id="contacto" class="form-control form-control-user" placeholder="Mínimo 8 carácteres" name="contacto" required>
+                    <input type="tel" id="inputContacto" class="form-control form-control-user" placeholder="Mínimo 10 carácteres" name="contacto" minlength="10" required>
                 </div>
-                <!-- Role user -->
-                <input name="userRole" type="hidden" value="USER_PERSONAL">
 
                 <div class="form-group w-50 mx-auto">
-                    <a class="btn btn-success btn-user btn-block" href="/registro/personalizacion_de_perfil">
+                    <button type="submit" class="btn btn-success btn-user btn-block">
                         Crear cuenta
-                    </a>
+                    </button>
                 </div>
 
             </form>

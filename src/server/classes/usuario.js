@@ -1,3 +1,4 @@
+
 // Encrypt library
 const bcrypt = require('bcryptjs');
 const _ = require('underscore');
@@ -71,8 +72,8 @@ class Usuario {
         });
     }
 
-    // create user
-    static create(data) {
+    // Crear un usuario
+    static crear(data) {
         return new Promise((resolve, reject) => {
             if (!data) return reject({ msg: 'No data', code: 400 });
 
@@ -81,29 +82,30 @@ class Usuario {
                 .exec((err, userDB) => {
 
                     if (err) return reject({ msg: 'Error db', err, code: 500 });
-                    if (userDB) return reject({ msg: 'Email wold be unique', code: 400 });
-
+                    if (data.password == undefined) return reject({ msg: 'La contraseña es obligatoria.', err: 'No data.', code: 500 });
+                    if (userDB) return reject({ msg: 'El email ya se encuentra registrado en nuestra base de datos.', code: 400 });
                     // data definiticion
                     let body = {
-                        name: data.name,
-                        last_name: data.last_name,
+                        nombre: data.nombre,
+                        apellidos: data.apellidos,
                         email: data.email,
                         password: bcrypt.hashSync(data.password, 10), // encrypt password
-                        role: data.role,
-                        area: data.area
+                        userRole: data.role,
+                        contacto: data.contacto
                     };
 
                     // new model of user
-                    let user = new UsuarioModel(body);
+                    let usuario = new UsuarioModel(body);
 
                     // data persist
-                    user.save((err, userCreated) => {
+                    usuario.save((err, usuarioNuevo) => {
 
                         if (err) return reject({ msg: 'Error db', err, code: 500 });
-                        if (!userCreated) return reject({ msg: 'Could not create the user.', code: 400 });
+                        if (!usuarioNuevo) return reject({ msg: 'No se pudo crear el usuario.', code: 400 });
 
-                        io.emit('new-user-registered-admin', { data: userCreated });
-                        resolve(userCreated);
+                        resolve({
+                            data: usuarioNuevo
+                        });
                     });
 
                 });
@@ -111,30 +113,34 @@ class Usuario {
         });
     }
 
-    // update user
-    static update(id, data) {
+    // Actualizar usuario
+    static actualizar(id, data) {
         return new Promise((resolve, reject) => {
-            if (!id) return reject({ msg: 'No user', code: 400 });
+            if (!id) return reject({ msg: 'Petición incorrecta!, falta id de usuario.', code: 400 });
             if (!data) return reject({ msg: 'No data', code: 400 });
 
             // find user
             UsuarioModel.findById(id, (err, userDB) => {
 
                 if (err) return reject({ msg: 'Error server', err, code: 500 });
-                if (!userDB) return reject({ msg: 'User not found', code: 400 });
+                if (!userDB) return reject({ msg: 'Usuario no encontrado.', code: 400 });
 
-                userDB.name = data.name;
-                userDB.last_name = data.last_name;
+                let fotoDBOld = userDB.foto;
+                
+                userDB = _.extend(userDB, _.pick(data, ['nombre', 'apellidos', 'email', 'password', 'numeroContacto', 'rfc', 'direccion', 'descripcion', 'foto', 'razonSocial', 'edad', 'genero', 'progreso', 'experienciaLaboral', 'licenciatura', 'fechaNacimientoDia', 'fechaNacimientoMes', 'fechaNacimientoAnio', 'logros', 'habilidades', 'userRole', 'empleos', 'estudios', 'perfilVerificado']));
+                
+                if (userDB.foto == "undefined") {
+                    userDB.foto = fotoDBOld
+                }
+
                 if (data.password) {
                     userDB.password = bcrypt.hashSync(data.password, 10); // encrypt password
                 }
-                userDB.role = data.role;
-                userDB.area = data.area;
                 // data persist
                 userDB.save((err, userUpdate) => {
                     console.log(err);
                     if (err) return reject({ msg: 'Error db', err, code: 500 });
-                    if (!userUpdate) return reject({ msg: 'Could not update the user.', code: 400 });
+                    if (!userUpdate) return reject({ msg: 'No se pudo actualizar los datos.', code: 400 });
 
                     resolve(userUpdate);
                 });

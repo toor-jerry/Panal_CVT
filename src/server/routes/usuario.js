@@ -1,14 +1,19 @@
 // express
 const express = require('express');
+const fileUpload = require('express-fileupload');
 
 const { Usuario } = require('../classes/usuario'); // user class
+const { Subir } = require('../classes/subirFotografia'); // user class
 
 const { checkSession, checkAdminRole } = require('../middlewares/auth'); // midlewares auth
 
 // express initialization
 const app = express();
+// default options (req.files <- todo lo que viene)
+app.use(fileUpload());
+const { io } = require('../app');
 
-const { today } = require('../utils/utils');
+const { today, generarNombreAleatorio,obtenerRutaDeCargaArchivos } = require('../utils/utils');
 
 // ==========================
 // Recuperar contraseña (form)
@@ -37,12 +42,17 @@ app.get('/all', [checkSession, checkAdminRole], async(req, res) => {
 });
 
 // ==========================
-// Create a user
+// Crear usuario
 // ==========================
-app.post('/', [checkSession, checkAdminRole], (req, res) =>
+app.post('/', (req, res) =>
 
-    User.create(req.body)
-    .then(() => res.status(201).json({}))
+    Usuario.crear(req.body)
+    .then(resp => {
+        // session register
+        req.session.usuario = resp.data;
+        res.status(201).json(resp);
+        io.emit('nuevo-usuario', resp);
+    })
     .catch(err => res.status(err.code).json({ msg: err.msg, err: err.err }))
 
 );
@@ -67,15 +77,62 @@ app.get('/edit/:id', [checkSession, checkAdminRole], async(req, res) => {
 });
 
 // ==========================
-// Update user
+// Actualizar usuario
 // ==========================
-app.put('/edit/:id', [checkSession, checkAdminRole], (req, res) =>
+app.put('/actualizar', checkSession, async(req, res) => {
 
-    User.update(req.params.id, req.body)
-    .then(() => res.status(200).json({}))
-    .catch(err => res.status(err.code).json({ msg: err.msg, err: err.err }))
+    if (req.files?.foto){
+        // console.log(req.files);
 
-);
+    // Extenciones válidas
+    const extensionesValidas = ['png', 'jpg', 'gif', 'jpeg'];
+
+    // Name file
+    const file = req.files.foto;
+    const splitName = file.name.split('.');
+    const extensionImagen = splitName[splitName.length - 1];
+
+    if (extensionesValidas.indexOf(extensionImagen) < 0)
+        return errorExtensiones(res, extensionesValidas, extensionImagen);
+
+    const idUsuario = req.session.usuario._id;
+    const nameFile =  generarNombreAleatorio(idUsuario, extensionImagen);
+
+    // Move file
+    const path = obtenerRutaDeCargaArchivos("fotografias", nameFile);
+    // Size file
+    if (file.size > 900000) {
+
+        await Subir.subirFotografia(idUsuario, file.data, nameFile, true);
+        await Usuario.actualizar(req.session.usuario._id, req.body)
+        .then((usuarioDB) => {
+            req.session.usuario = usuarioDB
+            res.status(201).json({});
+        })
+        .catch(err => res.status(err.code).json({ msg: err.msg, err: err.err }))
+
+    } else {
+        await Subir.subirFotografia(idUsuario, file.data, nameFile, false);
+        await Usuario.actualizar(req.session.usuario._id, req.body)
+        .then((usuarioDB) => {
+            req.session.usuario = usuarioDB
+            res.status(201).json({});
+        })
+        .catch(err => res.status(err.code).json({ msg: err.msg, err: err.err }))
+
+    }
+} else {
+    console.log(` \x1b[36m***************** Sin files\x1b[0m`);
+
+    Usuario.actualizar(req.session.usuario._id, req.body)
+        .then((usuarioDB) => {
+            req.session.usuario = usuarioDB
+            res.status(200).json({});
+        })
+        .catch(err => res.status(err.code).json({ msg: err.msg, err: err.err }))
+}
+
+});
 
 // ==========================
 // Delete a user by Id
@@ -100,5 +157,16 @@ app.post('/login', (req, res) =>
     })
     .catch(err => res.status(err.code).json({ msg: err.msg, err: err.err }))
 );
+
+
+const errorExtensiones = (res, extensionesAdmitidas, fileExtention) =>
+    res.status(400).json({
+        ok: false,
+        message: 'Extention inválida!',
+        errors: {
+            message: 'Extensiones válidas: ' + extensionesAdmitidas.join(', '),
+            ext: fileExtention
+        }
+    });
 
 module.exports = app;

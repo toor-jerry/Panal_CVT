@@ -11,10 +11,16 @@ const rolesValidos = {
     message: '{VALUE} rol no válido!!'
 };
 
-// 
-const sexoValido = {
+// Géneros válidos
+const generoValido = {
     values: ['Hombre', 'Mujer'],
-    message: '{VALUE} sexo no válido!!'
+    message: '{VALUE} género no válido!!'
+};
+
+// Estatus de perfil
+const estatusPerfil = {
+    values: ['Verificado', 'No verificado', 'Rechazado'],
+    message: '{VALUE} estatus no válido!!'
 };
 
 const empleoSchema = new mongoose.Schema({
@@ -72,15 +78,27 @@ const usuarioSchema = new Schema({
     edad: {
         type: Number
     },
-    sexo: {
+    genero: {
         type: String,
-        enum: sexoValido
+        enum: generoValido
     },
     progreso: {
         type: String
     },
     experienciaLaboral: {
         type: String
+    },
+    licenciatura: {
+        type: String
+    },
+    fechaNacimientoDia: {
+        type: Number
+    },
+    fechaNacimientoMes: {
+        type: Number
+    },
+    fechaNacimientoAnio: {
+        type: Number
     },
     logros: [{
         type: String
@@ -99,7 +117,13 @@ const usuarioSchema = new Schema({
     }],
     estudios: [{
         type: estudioSchema
-    }]
+    }],
+    perfilVerificado: {
+        type: String,
+        required: true,
+        default: "No verificado",
+        enum: estatusPerfil
+    }
 });
 
 usuarioSchema.plugin(sanitizer);

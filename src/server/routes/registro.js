@@ -1,6 +1,8 @@
 const express = require('express'); // express module
 const app = express(); // aplication
 
+const { checkSession, checkAdminRole } = require('../middlewares/auth'); // midlewares auth
+
 // Tipo de registro route
 app.get('/tipo_registro', (req, res) => {
     res.render('tipo_registro', {
@@ -17,7 +19,8 @@ app.get('/registro_cuenta_personal', (req, res) => {
         page: 'Registro de Cuenta',
         nombre_boton_navbar: 'Registro de Cuenta (Perfil Personal)',
         mostrar_boton_regreso: true,
-        direccion_link_boton_navbar: 'tipo_registro'
+        direccion_link_boton_navbar: 'tipo_registro',
+        archivoJS: 'function_form_creacion_cuenta_personal.js'
     })
 });
 
@@ -32,12 +35,13 @@ app.get('/registro_cuenta_empresarial', (req, res) => {
 });
 
 // Personalización de perfil route
-app.get('/personalizacion_de_perfil', (req, res) => {
+app.get('/personalizacion_de_perfil', checkSession, (req, res) => {
+    console.log(req.session.usuario);
     res.render('personalizacion_de_perfil', {
         page: 'Personalización de perfil',
         nombre_boton_navbar: 'Personalización de Perfil',
-        mostrar_boton_regreso: true,
-        direccion_link_boton_navbar: 'registro_cuenta_personal'
+        usuario: req.session.usuario,
+        archivoJS: 'function_personalizacion_perfil.js',
     })
 });
 
