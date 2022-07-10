@@ -7,7 +7,7 @@
         <div class="col-lg-5 animated bounceIn">
             <div class="row">
                 {{#if usuario.foto}}
-                    <img class="z-depth-2 foto-perfil mx-auto" src="{{usuario.foto }}" data-holder-rendered="true">
+                    <img class="z-depth-2 foto-perfil mx-auto" src="/archivos/fotografias/{{usuario.foto }}" data-holder-rendered="true">
                 {{else}}
                     <img class="z-depth-2 foto-perfil mx-auto" src="/img/no-img.jpg" data-holder-rendered="true">
                 {{/if}}
@@ -177,8 +177,7 @@
                                         </div>
                                         <hr>
                                     {{/each}}
-                                    <button type="submit" class="btn btn-success mb-2">
-                                                            <i class="fa-solid fa-circle-plus fa-2x text-warning"></i>
+                                    <button role="button" type="button" class="btn btn-success mb-2" data-toggle="modal" data-target="#empleoModal"><i class="fa-solid fa-circle-plus fa-2x text-warning" aria-hidden="true"></i>
                                                             Nuevo empleo</button>
                                     </div>
                                         
@@ -212,8 +211,7 @@
                                         </div>
                                         <hr>
                                     {{/each}}
-                                    <button type="submit" class="btn btn-success mb-2">
-                                                            <i class="fa-solid fa-circle-plus fa-2x text-warning"></i>
+                                    <button role="button" type="button" class="btn btn-success mb-2" data-toggle="modal" data-target="#formacionModal"><i class="fa-solid fa-circle-plus fa-2x text-warning" aria-hidden="true"></i>
                                                             Nueva formación</button>
                                     </div>
                                     </form>
@@ -222,5 +220,8 @@
                                                 </div>
                                             </div>
                                             <!-- Fin de la fila -->
+                                        <!-- New area Modal-->
+                                        {{> modal_nuevo_empleo}}
+                                        {{> modal_nueva_formacion}}
                                         </div>
                                         {{> footer }}

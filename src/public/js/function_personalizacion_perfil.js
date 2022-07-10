@@ -40,20 +40,19 @@ $(document).ready(function() {
             return;
         }
 
-        var data = { 
-            licenciatura: $('#licenciatura').val(),
-            genero: genero,
-            fechaNacimientoDia: dia,
-            fechaNacimientoMes: mes,
-            fechaNacimientoAnio: anio,
-            progreso: $('#progreso').val(),
-            descripcion: $('#descripcion').val(),
-            imagen
-        };
         // put data (create user)
         const formData = new FormData();
       const xhr = new XMLHttpRequest();
 
+      formData.append('licenciatura',$('#licenciatura').val() );
+      if (genero) {
+      formData.append('genero',genero );
+      }
+      formData.append('fechaNacimientoDia',dia );
+      formData.append('fechaNacimientoMes',mes );
+      formData.append('fechaNacimientoAnio',anio );
+      formData.append('progreso',$('#progreso').val() );
+      formData.append('descripcion',$('#descripcion').val() );
       formData.append('foto',imagen );
 
       xhr.onreadystatechange = () => {

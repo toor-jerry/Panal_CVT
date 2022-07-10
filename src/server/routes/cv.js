@@ -11,13 +11,14 @@ app.get('/', checkSession, async(req, res) => {
         page: 'Mi Curriculum',
         nombre_boton_navbar: 'Mi Curriculum',
         direccion_link_boton_navbar: '/perfil',
+        mostrar_boton_guardar: true,
 
         usuario: await Usuario.findById(req.session.usuario._id)
             .then(resp => resp.data)
             .catch(() => {}),
 
 
-        archivoJS: 'function_perfil.js'
+        archivoJS: 'function_actualizar_cv.js',
     })
 });
 

@@ -123,7 +123,7 @@ app.put('/actualizar', checkSession, async(req, res) => {
     }
 } else {
     console.log(` \x1b[36m***************** Sin files\x1b[0m`);
-
+    console.log(req.body);
     Usuario.actualizar(req.session.usuario._id, req.body)
         .then((usuarioDB) => {
             req.session.usuario = usuarioDB
