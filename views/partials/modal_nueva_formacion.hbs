@@ -1,22 +1,39 @@
-<div class="modal fade" id="formacionModal" tabindex="-1" role="dialog" aria-labelledby="areaModalLabel" aria-hidden="true">
+<div class="modal fade" id="formacionModal" tabindex="-1" role="dialog" aria-labelledby="formacionModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="areaModalLabel">Agregar una nueva área:</h5>
+                <h5 class="modal-title" id="formacionModalLabel">Agregar una nueva formación académica:</h5>
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
             </div>
             <div class="modal-body">
-                <form class="user" id="area-form">
-                    <div class="form-group">
-                        <input type="text" class="form-control form-control-user" id="inputAreaName" aria-describedby="areaHelp" placeholder="Nombre del área" name="name" required>
+                <form class="user" id="formacion-form">
+                    
+                    <div class="form-row">
+                                        <div class="form-group col-md-5">
+                                        <input type="text" id="inputEscuela" class="form-control text-center texto-oscuro" placeholder="Centro Educativo" required>
+                                        </div>
+                                            <div class="form-group col">
+                                               <select id="inputNivelAcademico" class="form-control texto-oscuro" required>
+                                                            <option>Nivel Académico</option>
+                                                            <option value="1">Doctorado</option>
+                                                            <option value="2">Maestria</option>
+                                                            <option value="3">Postgrado</option>
+                                                            <option selected value="4">Licenciatura \ Ingeniería</option>
+                                                            <option value="5">Preparatoria</option>
+                                                            <option value="6">Secuandaria</option>
+                                                            <option value="7">Primaria</option>
+
+                                            </select>
+                                            </div>
+                                        <div class="form-group col-md-3">
+                                            <input type="text" id="inputPeriodoForm" class="form-control text-center texto-oscuro" placeholder="Periodo (2010-2011)" required>
+                                            </div>
                     </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control form-control-user" id="inputAreaDescription" placeholder="Descripción" name="description" required>
-                    </div>
+                    
                     <button type="submit" class="btn btn-info btn-user btn-block">
-                                            Guardar área
+                                            Agregar formación
                                         </button>
                 </form>
             </div>

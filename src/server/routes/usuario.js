@@ -80,7 +80,19 @@ app.get('/edit/:id', [checkSession, checkAdminRole], async(req, res) => {
 // Actualizar usuario - nuevo Empleo
 // ==========================
 app.put('/actualizar/empleo', checkSession, (req, res) => {
-    Usuario.agregarUsuario(req.session.usuario._id, req.body)
+    Usuario.agregarEmpleo(req.session.usuario._id, req.body)
+    .then((usuarioDB) => {
+        req.session.usuario = usuarioDB
+        res.status(200).json({});
+    })
+    .catch(err => res.status(err.code).json({ msg: err.msg, err: err.err }))
+});
+
+// ==========================
+// Actualizar usuario - nueva Formación
+// ==========================
+app.put('/actualizar/formacion', checkSession, (req, res) => {
+    Usuario.agregarFormacion(req.session.usuario._id, req.body)
     .then((usuarioDB) => {
         req.session.usuario = usuarioDB
         res.status(200).json({});

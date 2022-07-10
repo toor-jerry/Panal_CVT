@@ -56,5 +56,42 @@ $(document).ready(function() {
     });
 
 
+    // onsubmit modal
+    $("#formacion-form").submit(function(event) {
+
+      event.preventDefault();
+
+      // show alert loading
+      getLoading("Loading..", "Por favor espere.");
+      // submit data
+      const formData = new FormData();
+      const xhr = new XMLHttpRequest();
+
+      formData.append('nombreEscuela',$('#inputEscuela').val()  );
+      formData.append('nivelAcademico',$('#inputNivelAcademico').val()  );
+      formData.append('periodo',$('#inputPeriodoForm').val()  );
+
+    xhr.onreadystatechange = () => {
+
+      if (xhr.readyState === 4) {
+        if (xhr.status === 201 || xhr.status === 200) {
+              swal.fire({
+                  title: 'Actualización exitosa!',
+                  text: 'Se agregó una nueva formación.',
+                  icon: 'success',
+                  confirmButtonText: 'Aceptar',
+                  showLoaderOnConfirm: true
+              }).then(() => window.location.href = '/cv')
+        } else {
+          showError(xhr.response, true);
+        }
+      }
+
+    };
+    xhr.open('PUT', '/usuario/actualizar/formacion', true);
+    
+    xhr.send(formData);
+  });
+
 });
 
