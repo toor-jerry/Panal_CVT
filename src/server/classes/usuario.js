@@ -113,6 +113,22 @@ class Usuario {
         });
     }
 
+    // Actualizar usuario - agregar un nuevo empleo
+    static agregarUsuario(id, empleo) {
+        return new Promise((resolve, reject) => {
+            if (!id) return reject({ msg: 'Petición incorrecta!, falta id de usuario.', code: 400 });
+            if (!empleo) return reject({ msg: 'No data', code: 400 });
+
+            // find user
+        UsuarioModel.findByIdAndUpdate(id, { $addToSet: { empleos: empleo } }, { new: true })
+            .exec((err, userUpdate) => {
+                if (err) return reject({ msg: 'Error server', err, code: 500 });
+                if (!userUpdate) return reject({ msg: 'Usuario no encontrado.', code: 400 });
+                resolve(userUpdate);
+            });
+        });
+    }
+
     // Actualizar usuario
     static actualizar(id, data) {
         return new Promise((resolve, reject) => {

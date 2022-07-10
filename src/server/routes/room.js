@@ -255,7 +255,7 @@ app.put('/add/admin/:room', [checkToken, checkPrivilegesOnRoom], (req, res) => {
         body.admins = body.admins.replace(/\s/g, "");
         admins = _.union(admins, body.admins.split(','));
     }
-    Room.updateRoomAddAdmin(res, req.params.room, admins);
+    Room.(res, req.params.room, admins);
 });
 // ==========================
 // Get all request join

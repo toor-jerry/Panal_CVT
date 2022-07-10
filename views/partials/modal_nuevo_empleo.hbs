@@ -9,12 +9,26 @@
             </div>
             <div class="modal-body">
                 <form class="user" id="empleo-form">
-                    <div class="form-group">
-                        <input type="text" class="form-control form-control-user" id="inputEmpleoName" aria-describedby="empleoHelp" placeholder="Nombre del área" name="name" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control form-control-user" id="inputEmpleoDescription" placeholder="Descripción" name="description" required>
-                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-5">
+                                        <input type="text" id="inputEmpleoNombreEmpresa" class="form-control text-center texto-oscuro" placeholder="Nombre de la empresa" value="Farmacias" required>
+                                        </div>
+                                        <div class="form-group col">
+                                            <input type="text" id="inputPuestoDesempenado" class="form-control text-center texto-oscuro" placeholder="Puesto" value="Supervisor" required>
+                                            </div>
+                                    </div>
+                                    <div class="form-row">
+                                            <div class="form-group col">
+                                               <input type="text" id="inputPeriodo" class="form-control text-center texto-oscuro" placeholder="Periodo" value="2011 - 2012" required>
+                                            </div>
+                                            <div class="form-group col">
+                                               <input type="number" id="inputSalario" class="form-control text-center texto-oscuro" placeholder="Salario" value="12000" required>
+                                            </div>
+                                    </div>
+
+                                            <textarea class="form-control texto-oscuro" id="inputExpLaboral" placeholder="Describe en 100 palabras la experiencia ganada en tus trabajos anteriores, conocimientos adquiridos, habilidades y técnicas." rows="2">Supervisar</textarea>
+
+
                     <button type="submit" class="btn btn-info btn-user btn-block">
                                             Guardar área
                                         </button>

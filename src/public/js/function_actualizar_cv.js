@@ -3,10 +3,6 @@ $(document).ready(function() {
     // Listen Sockets
     // ==========================
 
-    /***************************
-     * Listen cites
-     ***************************/
-
     // Listen status connection
     socket.on('connect', function() {
         $('#alert_connection').hide();
@@ -31,7 +27,11 @@ $(document).ready(function() {
         const formData = new FormData();
         const xhr = new XMLHttpRequest();
 
-        // formData.append('fechaNacimientoDia',dia );
+        formData.append('nombreEmpresa',$('#inputEmpleoNombreEmpresa').val()  );
+        formData.append('puestoDesempenado',$('#inputPuestoDesempenado').val()  );
+        formData.append('periodo',$('#inputPeriodo').val()  );
+        formData.append('funciones',$('#inputExpLaboral').val());
+        formData.append('salario',$('#inputSalario').val()  );
 
       xhr.onreadystatechange = () => {
 
@@ -39,7 +39,7 @@ $(document).ready(function() {
           if (xhr.status === 201 || xhr.status === 200) {
                 swal.fire({
                     title: 'Actualización exitosa!',
-                    text: 'Se actualizó con éxito la cuenta.',
+                    text: 'Se agregó un nuevo empleo.',
                     icon: 'success',
                     confirmButtonText: 'Aceptar',
                     showLoaderOnConfirm: true
@@ -50,7 +50,7 @@ $(document).ready(function() {
         }
 
       };
-      xhr.open('PUT', '/usuario/actualizar', true);
+      xhr.open('PUT', '/usuario/actualizar/empleo', true);
       
       xhr.send(formData);
     });

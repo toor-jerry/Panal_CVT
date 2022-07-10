@@ -77,6 +77,18 @@ app.get('/edit/:id', [checkSession, checkAdminRole], async(req, res) => {
 });
 
 // ==========================
+// Actualizar usuario - nuevo Empleo
+// ==========================
+app.put('/actualizar/empleo', checkSession, (req, res) => {
+    Usuario.agregarUsuario(req.session.usuario._id, req.body)
+    .then((usuarioDB) => {
+        req.session.usuario = usuarioDB
+        res.status(200).json({});
+    })
+    .catch(err => res.status(err.code).json({ msg: err.msg, err: err.err }))
+});
+
+// ==========================
 // Actualizar usuario
 // ==========================
 app.put('/actualizar', checkSession, async(req, res) => {
@@ -122,8 +134,6 @@ app.put('/actualizar', checkSession, async(req, res) => {
 
     }
 } else {
-    console.log(` \x1b[36m***************** Sin files\x1b[0m`);
-    console.log(req.body);
     Usuario.actualizar(req.session.usuario._id, req.body)
         .then((usuarioDB) => {
             req.session.usuario = usuarioDB

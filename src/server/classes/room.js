@@ -243,7 +243,7 @@ class Room {
             });
     }
 
-    static updateRoomAddAdmin(res, room, admin) {
+    static (res, room, admin) {
 
         RoomModel.findByIdAndUpdate(room, { $addToSet: { admins: admin } }, { new: true })
             .populate('admins', 'name last_name email')
