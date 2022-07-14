@@ -100,12 +100,24 @@ const usuarioSchema = new Schema({
     fechaNacimientoAnio: {
         type: Number
     },
-    logros: [{
+    logro1: {
         type: String
-    }],
-    habilidades: [{
+    },
+    logro2: {
         type: String
-    }],
+    },
+    logro3: {
+        type: String
+    },
+    habilidad1: {
+        type: String
+    },
+    habilidad2: {
+        type: String
+    },
+    habilidad3: {
+        type: String
+    },
     userRole: {
         type: String,
         required: true,

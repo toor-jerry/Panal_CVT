@@ -190,9 +190,9 @@ class Usuario {
                 if (!userDB) return reject({ msg: 'Usuario no encontrado.', code: 400 });
 
                 let fotoDBOld = userDB.foto;
-                
-                userDB = _.extend(userDB, _.pick(data, ['nombre', 'apellidos', 'email', 'password', 'numeroContacto', 'rfc', 'direccion', 'descripcion', 'foto', 'razonSocial', 'edad', 'genero', 'progreso', 'experienciaLaboral', 'licenciatura', 'fechaNacimientoDia', 'fechaNacimientoMes', 'fechaNacimientoAnio', 'logros', 'habilidades', 'userRole', 'empleos', 'estudios', 'perfilVerificado']));
-                
+
+                userDB = _.extend(userDB, _.pick(data, ['nombre', 'apellidos', 'email', 'password', 'numeroContacto', 'rfc', 'direccion', 'descripcion', 'foto', 'razonSocial', 'edad', 'genero', 'progreso', 'experienciaLaboral', 'licenciatura', 'fechaNacimientoDia', 'fechaNacimientoMes', 'fechaNacimientoAnio', 'logros', 'habilidades', 'userRole', 'empleos', 'estudios', 'perfilVerificado', 'habilidad1', 'habilidad2', 'habilidad3', 'logro1', 'logro2', 'logro3']));
+
                 if (userDB.foto == "undefined") {
                     userDB.foto = fotoDBOld
                 }

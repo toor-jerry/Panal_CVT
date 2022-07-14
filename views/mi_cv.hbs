@@ -7,10 +7,15 @@
         <div class="col-lg-5 animated bounceIn">
             <div class="row">
                 {{#if usuario.foto}}
-                    <img class="z-depth-2 foto-perfil mx-auto" src="/archivos/fotografias/{{usuario.foto }}" data-holder-rendered="true">
+                    <img id="img-previo" class="z-depth-2 foto-perfil mx-auto" src="/archivos/fotografias/{{usuario.foto }}" data-holder-rendered="true">
                 {{else}}
                     <img class="z-depth-2 foto-perfil mx-auto" src="/img/no-img.jpg" data-holder-rendered="true">
                 {{/if}}
+
+            <div class="custom-file">
+                <input type="file" class="custom-file-input cursor-puntero" id="inputFoto" lang="es">
+                <label class="custom-file-label cursor-puntero" for="logo"><i class="fa fa-plus text-primary" aria-hidden="true" style="font-size: 40px;"></i>  Seleccionar fotografía</label>
+            </div>
                 </div>
 
 <form>
@@ -41,7 +46,7 @@
                         <!-- Nombre -->
                         <label class="font-weight-bold text-dark" for="inputCorreo">Revisa tu correo electrónico</label>
                         <div class="input-group mb-2">
-                        <input type="text" class="form-control texto-oscuro" placeholder="Correo institucional UAEMEX" aria-label="Correo institucional UAEMEX" aria-describedby="basic-addon2" value="{{usuario.email}}">
+                        <input type="text" id="inputCorreo" class="form-control texto-oscuro" placeholder="Correo institucional UAEMEX" aria-label="Correo institucional UAEMEX" aria-describedby="basic-addon2" value="{{usuario.email}}">
                         </div>
 
                         <!-- Nombre -->
@@ -80,9 +85,9 @@
                         <div class="col text-center">
                         <!-- Habilidades -->
                         <label class="font-weight-bold text-dark">Ingresa 3 habilidades</label>
-                        {{#each (retornaArregloMasItemsFaltantes usuario.habilidades 3) }}
-                            <input type="text" class="form-control text-center texto-oscuro mb-2" placeholder="Agregue una habilidad" value="{{ this }}">
-                        {{/each}}
+                            <input type="text" id="inputHabilidad1" class="form-control text-center texto-oscuro mb-2" placeholder="Agregue una habilidad" value="{{ usuario.habilidad1 }}">
+                            <input type="text" id="inputHabilidad2" class="form-control text-center texto-oscuro mb-2" placeholder="Agregue una habilidad" value="{{ usuario.habilidad2 }}">
+                            <input type="text" id="inputHabilidad3" class="form-control text-center texto-oscuro mb-2" placeholder="Agregue una habilidad" value="{{ usuario.habilidad3 }}">
                         </div>
                     </div>
                     </div>
@@ -115,9 +120,12 @@
                         <div class="col text-center">
                         <!-- Logros -->
                         <label class="font-weight-bold text-dark">Ingresa 3 logros</label>
-                        {{#each (retornaArregloMasItemsFaltantes usuario.logros 3) }}
+                            <input type="text" id="inputLogro1" class="form-control text-center texto-oscuro mb-2" placeholder="Agregue un logro" value="{{ usuario.logro1 }}">
+                            <input type="text" id="inputLogro2" class="form-control text-center texto-oscuro mb-2" placeholder="Agregue un logro" value="{{ usuario.logro2 }}">
+                            <input type="text" id="inputLogro3" class="form-control text-center texto-oscuro mb-2" placeholder="Agregue un logro" value="{{ usuario.logro3 }}">
+                        <!-- {{#each (retornaArregloMasItemsFaltantes usuario.logros 3) }}
                             <input type="text" class="form-control text-center texto-oscuro mb-2" placeholder="Agregue un logro" value="{{ this }}">
-                        {{/each}}
+                        {{/each}}-->
                         </div>
                     </div>
                     </div>
@@ -158,10 +166,10 @@
                                 <div class="form-row mt-3">
                                     <div class="form-row">
                                         <div class="form-group col-md-5">
-                                        <input type="text" class="form-control text-center texto-oscuro" placeholder="Nombre de la empresa" value="{{ this.nombreEmpresa }}">
+                                        <input type="text" class="form-control text-center texto-oscuro" disabled placeholder="Nombre de la empresa" value="{{ this.nombreEmpresa }}">
                                         </div>
                                         <div class="form-group col-md-5">
-                                            <input type="text" class="form-control text-center texto-oscuro" placeholder="Puesto" value="{{ this.puestoDesempenado }}">
+                                            <input type="text" class="form-control text-center texto-oscuro" disabled placeholder="Puesto" value="{{ this.puestoDesempenado }}">
                                             </div>
                                             <div class="form-group col">
                                                 <a class="btn btn-danger" onclick="borrarEmpleo('{{this._id}}')">
@@ -171,14 +179,14 @@
                                     </div>
                                     <div class="form-row">
                                             <div class="form-group col">
-                                               <input type="text" class="form-control text-center texto-oscuro" placeholder="Periodo" value="{{ this.periodo }}">
+                                               <input type="text" disabled class="form-control text-center texto-oscuro" placeholder="Periodo" value="{{ this.periodo }}">
                                             </div>
                                             <div class="form-group col">
-                                               <input type="number" class="form-control text-center texto-oscuro" placeholder="Salario" value="{{ this.salario }}">
+                                               <input type="number" disabled class="form-control text-center texto-oscuro" placeholder="Salario" value="{{ this.salario }}">
                                             </div>
                                     </div>
 
-                                            <textarea class="form-control texto-oscuro" id="inputExpLaboral" placeholder="Describe en 100 palabras la experiencia ganada en tus trabajos anteriores, conocimientos adquiridos, habilidades y técnicas." rows="2">{{ this.funciones }}</textarea>
+                                            <textarea class="form-control texto-oscuro" disabled id="inputExpLaboral" placeholder="Describe en 100 palabras la experiencia ganada en tus trabajos anteriores, conocimientos adquiridos, habilidades y técnicas." rows="2">{{ this.funciones }}</textarea>
                                         </div>
                                         <hr>
                                     {{/each}}
@@ -194,10 +202,10 @@
                                 <div class="form-row mt-3">
                                     <div class="form-row">
                                         <div class="form-group col-md-4">
-                                        <input type="text" class="form-control text-center texto-oscuro" placeholder="Centro Educativo" value="{{ this.nombreEscuela }}">
+                                        <input type="text" disabled class="form-control text-center texto-oscuro" placeholder="Centro Educativo" value="{{ this.nombreEscuela }}">
                                         </div>
                                             <div class="form-group col">
-                                               <select class="form-control texto-oscuro">
+                                               <select disabled class="form-control texto-oscuro">
                                                             <option {{#unless this.nivelAcademico}}selected{{/unless}}>Nivel Académico</option>
                                                             <option value="1" {{#if (ifeq this.nivelAcademico "1")}} selected{{/if}}>Doctorado</option>
                                                             <option value="2" {{#if (ifeq this.nivelAcademico "2")}} selected {{/if}}>Maestria</option>
@@ -210,7 +218,7 @@
                                             </select>
                                             </div>
                                         <div class="form-group col-md-3">
-                                            <input type="text" class="form-control text-center texto-oscuro" placeholder="Periodo (2010-2011)" value="{{ this.periodo }}">
+                                            <input type="text" disabled class="form-control text-center texto-oscuro" placeholder="Periodo (2010-2011)" value="{{ this.periodo }}">
                                             </div>
                                             <div class="form-group col">
                                                 <a class="btn btn-danger" onclick="borrarEstudio('{{this._id}}')">
