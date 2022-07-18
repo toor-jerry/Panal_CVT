@@ -1,5 +1,5 @@
 const _ = require('underscore');
-const UserModel = require('../models/user');
+const UsuarioModel = require('../models/usuario');
 
 const pdf = require("pdf-creator-node");
 const fs = require('fs');
@@ -9,49 +9,66 @@ const base64Img = require('base64-img');
 class PDF {
 
 
+    static getNivelAcademico(nivelAcademico) {
+        switch (nivelAcademico) {
+            case "1": 
+                return 'Doctorado'
+            case "2": 
+                return 'Maestria'
+            case "3": 
+                return 'Postgrado'
+            case "4": 
+                return 'Licenciatura \ Ingeniería'
+            case "5": 
+                return 'Preparatoria'
+            case "6": 
+                return 'Secuandaria'
+            case "7": 
+                return 'Primaria'
+            default:
+                return 'Nivel académico';
+        }
+    }
+
     static generatePDF(idUser) {
         return new Promise((resolve, reject) => {
-            UserModel.findById(idUser, (err, user) => {
-                if (err) return reject({ code: 500, err });
+            UsuarioModel.findById(idUser, (err, user) => {
+                if (err) 
+                    return reject({code: 500, err});
+                
 
-                if (!user) return reject({ code: 400, err: 'User not found.' });
-                let photoUser, logoWhatsapp, logoFacebook, logoMovil_phone, logoTelephone, logoTwitter, logoInstagram, logoYoutube_channel, logoBlog_personal, logoPage_web;
-                if (user.photography) {
-                    photoUser = base64Img.base64Sync(path.resolve(__dirname, '../../../uploads/photography/' + user.photography))
-                }
+                if (!user) 
+                    return reject({code: 400, err: 'User not found.'});
+                
+                let numeroContacto,
+                    foto,
+                    logoUaemex, empleos = [], estudios = [];
+                    
 
-                if (user.whatsapp) {
-                    logoWhatsapp = base64Img.base64Sync(path.resolve(__dirname, '../utils/assets/whtasapp.jpeg'))
-                }
+                    user.empleos.forEach(empleo => 
+                        empleos.push({'nombreEmpresa':
+                            empleo.nombreEmpresa, 
+                            'puestoDesempenado': empleo.puestoDesempenado, 
+                           'periodo': empleo.periodo, 
+                            'funciones': empleo.funciones,
+                            'salario': empleo.salario})
+                    );
 
-                if (user.facebook) {
-                    logoFacebook = base64Img.base64Sync(path.resolve(__dirname, '../utils/assets/facebook.jpeg'))
-                }
+                    user.estudios.forEach(estudio => 
+                        estudios.push({'nombreEscuela': estudio.nombreEscuela,
+                        'nivelAcademico':  this.getNivelAcademico(estudio.nivelAcademico),
+                        'periodo': estudio.periodo})
+            );
+                logoUaemex = base64Img.base64Sync(path.resolve(__dirname, '../utils/assets/logo_uaemex.png'))
 
-                if (user.movil_phone) {
-                    logoMovil_phone = base64Img.base64Sync(path.resolve(__dirname, '../utils/assets/movil.jpeg'))
-                }
-                if (user.telephone) {
-                    logoTelephone = base64Img.base64Sync(path.resolve(__dirname, '../utils/assets/office.jpeg'))
-                }
-                if (user.twitter) {
-                    logoTwitter = base64Img.base64Sync(path.resolve(__dirname, '../utils/assets/twitter.jpeg'))
-                }
-
-                if (user.instagram) {
-                    logoInstagram = base64Img.base64Sync(path.resolve(__dirname, '../utils/assets/instagram.jpeg'))
-                }
-
-                if (user.youtube_channel) {
-                    logoYoutube_channel = base64Img.base64Sync(path.resolve(__dirname, '../utils/assets/youtube.jpeg'))
+                if (user.foto) {
+                    foto = base64Img.base64Sync(path.resolve(__dirname, '../../../uploads/fotografias/' + user.foto))
                 }
 
-                if (user.blog_personal) {
-                    logoBlog_personal = base64Img.base64Sync(path.resolve(__dirname, '../utils/assets/blog.jpeg'))
+                if (user.numeroContacto) {
+                    numeroContacto = base64Img.base64Sync(path.resolve(__dirname, '../utils/assets/movil.jpeg'))
                 }
-                if (user.page_web) {
-                    logoPage_web = base64Img.base64Sync(path.resolve(__dirname, '../utils/assets/www.jpeg'))
-                }
+                console.log(_.pick(user.empleos, ['nombreEmpresa', 'puestoDesempenado', 'periodo', 'funciones']));
                 const options = {
                     format: "A4",
                     orientation: "portrait",
@@ -71,74 +88,83 @@ class PDF {
                             <div style="text-align: center;">
                             <span style="color: #444;">Página <b>{{page}}</span>/<span>{{pages}}</b></span>
                             </div>
-                            `, // fallback value
+                            `,
+                            // fallback value
                             // last: 'Last Page'
                         }
                     }
                 };
-                // const nameFile = `${ idUser }-${uuid.v1()}.pdf`
-                const nameFile = `${ idUser }.pdf`
+
+                const nameFile = `${idUser}.pdf`
 
                 // Read HTML Template
                 const html = fs.readFileSync(path.resolve(__dirname, '../utils/templateCVPDF.html'), 'utf8');
-                let domicile = user.domicile;
-                if (domicile) {
-                    let dom = user.domicile;
-                    domicile = `${dom.street || ''} # ${dom.number || 'S/N'}, ${ dom.colony || ''}, ${dom.municipality || ''}, ${dom.country || ''}`;
-                } else {
-                    domicile = '';
+                let fechaNacimiento = user.fechaNacimientoDia || '';
+                let licenciatura = user.licenciatura || '';
+                if (fechaNacimiento !== '') {
+                    fechaNacimiento = `${
+                        user.fechaNacimientoDia
+                    }/${
+                        user.fechaNacimientoMes
+                    }/${
+                        user.fechaNacimientoAnio
+                    }`;
+                }
+
+                if (licenciatura !== '') {
+                    switch (licenciatura) {
+                        case 'LIA': licenciatura = 'Licenciatura en Informática';
+                            break;
+                        case 'ICO': licenciatura = 'Ingeniería en Computación';
+                            break;
+                    }
                 }
                 const document = {
                     html: html,
                     data: {
-                        photoUser,
-                        logoWhatsapp,
-                        logoFacebook,
-                        logoMovil_phone,
-                        logoTelephone,
-                        logoTwitter,
-                        logoInstagram,
-                        logoYoutube_channel,
-                        logoBlog_personal,
-                        logoPage_web,
-                        name: user.name,
-                        last_name: user.last_name || '',
+                        numeroContacto,
+                        foto,
+                        logoUaemex,
+
+                        age: user.edad,
+                        progress: user.progreso,
+                        experienciaLaboral: user.experienciaLaboral,
+                        name: user.nombre,
+                        last_name: user.apellidos || '',
                         email: user.email || '',
-                        domicile,
-                        nacionality: user.nacionality || 'Mexicana',
-                        gender: user.gender || '',
-                        date_birth: user.date_birth || '',
-                        speciality: user.speciality || '',
-                        professional_titles: user.professional_titles || '',
-                        last_job: user.last_job || '',
-                        description: user.description || '',
-                        whatsapp: user.whatsapp || '',
-                        movil_phone: user.movil_phone || '',
-                        telephone: user.telephone || '',
-                        facebook: user.facebook || '',
-                        twitter: user.twitter || '',
-                        instagram: user.instagram || '',
-                        youtube_channel: user.youtube_channel || '',
-                        blog_personal: user.blog_personal || '',
-                        page_web: user.page_web || ''
+                        domicile: user.direccion || '',
+                        gender: user.genero || '',
+                        date_birth: fechaNacimiento,
+                        movil_phone: user.numeroContacto || '',
+                        description: user.descripcion || '',
+                        carrera: licenciatura || '',
+                        logro1: user.logro1 || '',
+                        logro2: user.logro2 || '',
+                        logro3: user.logro3 || '',
+                        habilidad1: user.habilidad1 || '',
+                        habilidad2: user.habilidad2 || '',
+                        habilidad3: user.habilidad3 || '',
+                        empleos,
+                        estudios
                     },
-                    path: `${this.pathResolveCV()}/${nameFile}`
+                    path: `${
+                        this.pathResolveCV()
+                    }/${nameFile}`
                 };
 
-                let pathFile = `${this.pathResolveCV()}/${nameFile}`;
+                let pathFile = `${
+                    this.pathResolveCV()
+                }/${nameFile}`;
                 if (fs.existsSync(pathFile)) {
-                    // console.log('Existe', pathFile);
                     fs.unlinkSync(pathFile);
                 }
-                pdf.create(document, options)
-                    .then(res => {
-                        console.log(res)
-                        resolve(nameFile);
-                    })
-                    .catch(error => {
-                        console.error(error)
-                        reject({ code: 500, err });
-                    });
+                pdf.create(document, options).then(res => {
+                    console.log(res)
+                    resolve(nameFile);
+                }).catch(error => {
+                    console.error(error)
+                    reject({code: 500, err});
+                });
             });
         });
     }

@@ -14,6 +14,7 @@ const postulacionRoutes = require('./postulacion');
 const vacanteRoutes = require('./vacante');
 const correoRoutes = require('./mailer');
 const archivosRoutes = require('./archivos');
+const pdfRoutes = require('./pdf');
 
 // Routes
 app.use('/', appRoutes);
@@ -25,6 +26,7 @@ app.use('/postulacion', postulacionRoutes);
 app.use('/vacante', vacanteRoutes);
 app.use('/correo', correoRoutes);
 app.use('/archivos', archivosRoutes);
+app.use('/pdf', pdfRoutes);
 
 // 404
 app.use((req, res, next) => {
