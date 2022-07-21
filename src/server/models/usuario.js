@@ -135,11 +135,30 @@ const usuarioSchema = new Schema({
         required: true,
         default: "No verificado",
         enum: estatusPerfil
+    },
+    matricula: {
+        type: String,
+        unique: true
+    },
+    anio_egreso: {
+        type: Number
+    },
+    titulo: {
+        type: String,
+        default: "NO"
+    },
+    cedula: {
+        type: String,
+        default: "N/A"
     }
 });
 
 usuarioSchema.plugin(sanitizer);
 // values uniques
+usuarioSchema.plugin(uniqueValidator, {
+    message: '{PATH} debe ser único!!'
+});
+
 usuarioSchema.plugin(uniqueValidator, {
     message: '{PATH} debe ser único!!'
 });

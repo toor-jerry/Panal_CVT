@@ -1,0 +1,15 @@
+<label class="text-dark font-weight-bold">Selecciona tu género</label>
+                        <div class="form-row align-items-center">
+                            <div class="col text-center">
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" name="genero" id="hombre" class="custom-control-input" {{#if (ifeq usuario.genero "Hombre")}} checked {{/if}}>
+                                    <label for="hombre" class="custom-control-label text-dark">Hombre</label>
+                                </div>
+                            </div>
+                            <div class="col text-center">
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" name="genero" id="mujer" class="custom-control-input" {{#if (ifeq usuario.genero "Mujer")}} checked {{/if}}>
+                                    <label for="mujer" class="custom-control-label text-dark">Mujer</label>
+                                </div>
+                            </div>
+                        </div>

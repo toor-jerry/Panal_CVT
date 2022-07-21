@@ -3,7 +3,7 @@ const express = require('express');
 const fileUpload = require('express-fileupload');
 
 const { Usuario } = require('../classes/usuario'); // user class
-const { Subir } = require('../classes/subirFotografia'); // user class
+const { Subir } = require('../classes/subir'); // user class
 
 const { checkSession, checkAdminRole } = require('../middlewares/auth'); // midlewares auth
 

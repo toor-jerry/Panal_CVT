@@ -1,0 +1,5 @@
+<label for="licenciatura" class="text-dark font-weight-bold">Selecciona tu licenciatura</label>
+                        <select id="licenciatura" class="form-control" name="licenciatura">
+                            <option value="LIA" {{#if (ifeq usuario.licenciatura "LIA")}} selected{{/if}}>LIA - Licenciatura en Informática Administrativa</option>
+                            <option value="ICO" {{#if (ifeq usuario.licenciatura "ICO")}} selected{{/if}}>ICO - Licenciatura en Ingeniería en Computación</option>
+                        </select>

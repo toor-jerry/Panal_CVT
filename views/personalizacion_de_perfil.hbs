@@ -11,55 +11,21 @@
             <form class="user animated bounceIn" id="form-personalizacion">
                 <!-- Nickname -->
                 <div class="form-row align-items-center">
-                    <!-- <div class="col-5 text-center">
-                        <label for="nickname" class="text-dark font-weight-bold">Ingresa tu nickname</label>
-                        <input type="text" id="nickname" class="form-control form-control-user text-center" placeholder="Nombre de Pila" name="nickname">
-                    </div> -->
+                    
                     <!-- Licenciatura -->
                     <div class="col text-center">
-                        <label for="licenciatura" class="text-dark font-weight-bold">Selecciona tu licenciatura</label>
-                        <select id="licenciatura" class="form-control" name="licenciatura">
-                            <option value="LIA" {{#if (ifeq usuario.licenciatura "LIA")}} selected{{/if}}>LIA - Licenciatura en Informática Administrativa</option>
-                            <option value="ICO" {{#if (ifeq usuario.licenciatura "ICO")}} selected{{/if}}>ICO - Licenciatura en Ingeniería en Computación</option>
-                        </select>
+                        {{> licenciatura }}
                     </div>
                 </div>
 
                 <!-- Género -->
                 <div class="form-row align-items-center">
                     <div class="col-5 text-center">
-                        <label class="text-dark font-weight-bold">Selecciona tu género</label>
-                        <div class="form-row align-items-center">
-                            <div class="col text-center">
-                                <div class="custom-control custom-radio">
-                                    <input type="radio" name="genero" id="hombre" class="custom-control-input" {{#if (ifeq usuario.genero "Hombre")}} checked {{/if}}>
-                                    <label for="hombre" class="custom-control-label text-dark">Hombre</label>
-                                </div>
-                            </div>
-                            <div class="col text-center">
-                                <div class="custom-control custom-radio">
-                                    <input type="radio" name="genero" id="mujer" class="custom-control-input">
-                                    <label for="mujer" class="custom-control-label text-dark" {{#if (ifeq usuario.genero "Mujer")}} checked {{/if}}>Mujer</label>
-                                </div>
-                            </div>
-                        </div>
+                        {{> genero}}
                     </div>
                     <!-- Progreso -->
                     <div class="col text-center">
-                        <label for="progreso" class="text-dark font-weight-bold">Selecciona tu progreso</label>
-                        <select id="progreso" class="form-control" name="progreso">
-                            <option {{#unless usuario.progreso}}selected{{/unless}}>Semestre / Egresado</option>
-                            <option {{#if (ifeq usuario.progreso "1")}} selected {{/if}} value="1">Primer Semestre</option>
-                            <option {{#if (ifeq usuario.progreso "2")}} selected {{/if}} value="2">Segundo Semestre</option>
-                            <option {{#if (ifeq usuario.progreso "3")}} selected {{/if}} value="3">Tercer Semestre</option>
-                            <option {{#if (ifeq usuario.progreso "4")}} selected {{/if}} value="4">Cuarto Semestre</option>
-                            <option {{#if (ifeq usuario.progreso "5")}} selected {{/if}} value="5">Quinto Semestre</option>
-                            <option {{#if (ifeq usuario.progreso "6")}} selected {{/if}} value="6">Sexto Semestre</option>
-                            <option {{#if (ifeq usuario.progreso "7")}} selected {{/if}} value="7">Séptimo Semestre</option>
-                            <option {{#if (ifeq usuario.progreso "8")}} selected {{/if}} value="8">Octavo Semestre</option>
-                            <option {{#if (ifeq usuario.progreso "9")}} selected {{/if}} value="9">Noveno Semestre</option>
-                            <option {{#if (ifeq usuario.progreso "Egresado")}} selected {{/if}} value="Egresado">Egresado</option>
-                        </select>
+                        {{> progreso}}
                     </div>
                 </div>
 
@@ -90,8 +56,7 @@
 
                 <!-- Descripción -->
                 <div class="form-group text-center">
-                    <label for="descripcion" class="text-dark font-weight-bold">Descripción</label>
-                    <textarea class="form-control form-control-user text-center" id="descripcion" placeholder="300 carácteres máximo" maxlength="300">{{ usuario.descripcion }}</textarea>
+                    {{> descripcion}}
                 </div>
 
 

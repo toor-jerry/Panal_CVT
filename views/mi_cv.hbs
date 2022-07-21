@@ -43,16 +43,13 @@
 
                     <div class="row mt-3">
                         <div class="col text-center">
-                        <!-- Nombre -->
-                        <label class="font-weight-bold text-dark" for="inputCorreo">Revisa tu correo electrónico</label>
-                        <div class="input-group mb-2">
-                        <input type="text" id="inputCorreo" class="form-control texto-oscuro" placeholder="Correo institucional UAEMEX" aria-label="Correo institucional UAEMEX" aria-describedby="basic-addon2" value="{{usuario.email}}">
-                        </div>
+                        <!-- Email -->
+                        {{> email}}
 
                         <!-- Nombre -->
-                            <div class="form-group">
-                                <label class="font-weight-bold text-dark" for="inputNumero">Revisa tu número de contacto</label>
-                                <input type="number" class="form-control text-center texto-oscuro" id="inputNumero" placeholder="Celular" value="{{ usuario.numeroContacto }}"></div>
+                            <div class="form-group mt-2">
+                                {{> celular}}
+                                </div>
                     </div>
                     </div>
                     </div>
@@ -145,10 +142,10 @@
                                 <label class="font-weight-bold text-dark" for="inputNombre">Revisa tu nombre</label>
                                 <div class="form-row">
                                         <div class="form-group col col-md-4">
-                                <input type="text" class="form-control text-center texto-oscuro form-control-lg font-weight-bold" id="inputNombre" placeholder="Nombre" value="{{ usuario.nombre }}">
+                                            {{> nombre}}
                                 </div>
                                         <div class="form-group col">
-                                <input type="text" class="form-control text-center texto-oscuro form-control-lg font-weight-bold" id="inputApellidos" placeholder="Apellidos" value="{{ usuario.apellidos }}">
+                                            {{> apellidos}}
                                  </div>
                                  </div>   
                                 </div>
