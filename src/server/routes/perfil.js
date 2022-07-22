@@ -20,6 +20,34 @@ app.get('/', checkSession, async(req, res) => {
             .then(resp =>{return { data: resp.data, total: resp.total }})
             .catch(() => {}),
 
+        convenios: await Usuario.buscaTodasLasEmpresas()
+        .then(resp =>{return { data: resp.data, total: resp.total }})
+        .catch(() => {}),
+
+        archivoJS: 'function_perfil.js'
+    })
+});
+
+// Tipo de registro route
+app.get('/informacion/:idUsuario', checkSession, async(req, res) => {
+    let idUsuario = req.params.idUsuario;
+    res.render('informacion_empresa', {
+        page: 'Mi Perfil',
+        nombre_boton_navbar: 'Información de empresa',
+        direccion_link_boton_navbar: '/',
+
+        usuario: await Usuario.findById(req.session.usuario._id)
+            .then(resp => resp.data)
+            .catch(err => res.status(err.code).json({ msg: err.msg, err: err.err })),
+
+            informacionUsuario: await Usuario.findById(idUsuario)
+            .then(resp => resp.data)
+            .catch(err => res.status(err.code).json({ msg: err.msg, err: err.err })),
+
+        convenios: await Usuario.buscaTodasLasEmpresas()
+        .then(resp =>{return { data: resp.data, total: resp.total}})
+        .catch(() => {}),
+
         archivoJS: 'function_perfil.js'
     })
 });

@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    $('#'+$('#informacionUsuarioID').val()).prop('selected', true);
     // ==========================
     // Listen Sockets
     // ==========================
@@ -86,6 +87,16 @@ $(document).ready(function() {
         $(`#${user._id}-field`).remove();
 
     });
+
+    $('#conveniosSelect').on('change', function() {
+        let value = $(this).val();
+        if(value == "0") {
+            window.location.href = "/perfil";
+        } else {
+            window.location.href = "/perfil/informacion/" + value;
+        }
+      });
+
 });
 
 

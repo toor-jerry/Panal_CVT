@@ -35,36 +35,35 @@
                     <!-- Vacantes -->
                     <div class="row">
                         <div class="col">
-                            {{#each vacantes.data}}
+                            
 <div class="card text-center border-info mb-3">
         <div class="card-body">
-          <h3 class="texto-oscuro">{{this.puesto}}</h3>
-          <h4 class="card-title">{{ this.empresa.razonSocial }}</h4>
-          {{#if this.empresa.foto}}
-          <img src="{{ this.empresa.foto }}" class="card-img foto-empresa" alt="Foto empresa">
+          <input class="d-none" type="text" id="informacionUsuarioID" value="{{ informacionUsuario._id }}" class="texto-oscuro"></input>
+          <h3 class="texto-oscuro">{{ informacionUsuario.nombre }}</h3>
+          <h4 class="card-title">{{ informacionUsuario.razonSocial }}</h4>
+          {{#if informacionUsuario.foto}}
+          <img src="{{ informacionUsuario.foto }}" class="card-img foto-empresa" alt="Foto empresa">
           {{/if}}
-          
-          <h5 class="card-text text-justify text-truncate mt-2" style="max-width: 500px;">Funciones: <b>{{ this.funciones }}</b></h5>
+          {{#if informacionUsuario.descripcion}}
+          <h5 class="card-text text-justify mt-2">Descripción: <b>{{ informacionUsuario.descripcion }}</b></h5>
+          {{/if}}
           <div class="row">
+            {{#if informacionUsuario.rfc}}
               <div class="col">
-                  <h5>Salario: <b>{{this.salario}}</b></h5>
+                  <h5>RFC: <b>{{informacionUsuario.rfc}}</b></h5>
               </div>
+              {{/if}}
+              {{#if informacionUsuario.email}}
               <div class="col">
-                  <h5>Horarios: <b>{{this.horarios}}</b></h5>
+                  <h5>Email: <b>{{informacionUsuario.email}}</b></h5>
               </div>
+              {{/if}}
           </div>
-          <p>Publicada: <b>{{fechaCreacion}}</b></p>
-          <div class="row">
-              <div class="col">
-                  <a href="/vacante/{{this._id}}" class="btn btn-info">Ver vacante</a>
-              </div>
-              <div class="col">
-                  <a href="/postulacion/{{this._id}}/{{this.puesto}}" class="btn btn-primary">Postularme</a>
-              </div>
-          </div>
+          {{#if informacionUsuario.direccion}}
+          <h6>Dirección: <b>{{informacionUsuario.direccion}}</b></h6>
+          {{/if}}
         </div>
                         </div>
-                        {{/each}}
                     </div>
 
                 </div>

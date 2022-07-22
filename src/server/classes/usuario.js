@@ -47,7 +47,7 @@ class Usuario {
     static buscaEmpresas(res, from, limit) {
 
         return new Promise((resolve, reject) => {
-                UsuarioModel.find({ role: 'USER_ENTERPRISE' })
+                UsuarioModel.find({ userRole: 'USER_ENTERPRISE' })
                 .skip(from)
                 .limit(limit)
                 .lean()
@@ -64,6 +64,33 @@ class Usuario {
                             data: empresas,
                             total: count,
                             paginas: Math.ceil(count / limit)
+                        });
+
+
+                    });
+            });
+        });
+    }
+
+
+    // Busca empresas
+    static buscaTodasLasEmpresas(res) {
+
+        return new Promise((resolve, reject) => {
+                UsuarioModel.find({ userRole: 'USER_ENTERPRISE' })
+                .lean()
+                .exec((err, empresas) => {
+
+                    if (err) reject({ msg: `No se pudo buscar las empresas.`, err, code: 500 });
+
+                    UsuarioModel.countDocuments({ role: 'USER_ENTERPRISE' }, (err, count) => {
+
+                        if (err) reject({ msg: `No se pudo contar las empresas.`, err, code: 500 })
+
+                        resolve({
+                            ok: true,
+                            data: empresas,
+                            total: count
                         });
 
 
