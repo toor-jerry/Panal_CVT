@@ -7,7 +7,7 @@ const { checkSession, checkAdminRole, checkSuperRole, checkEnterpriseRole  } = r
 
 
 // Tipo de registro route
-app.get('/:id_empresa/:nombre_empresa', checkSession, async(req, res) => {
+app.get('/:idVacante/:nombre_empresa', checkSession, async(req, res) => {
     let nombre_empresa = req.params.nombre_empresa;
     res.render('postulacion', {
         page: 'Postulacion - ' + nombre_empresa,
@@ -20,7 +20,7 @@ app.get('/:id_empresa/:nombre_empresa', checkSession, async(req, res) => {
 
         vacante: {
             nombre_empresa,
-            id_empresa: req.params.id_empresa
+            idVacante: req.params.idVacante
         },
         archivoJS: 'function_postulacion.js'
     })

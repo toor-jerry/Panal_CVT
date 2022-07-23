@@ -1,4 +1,6 @@
 const express = require('express'); // express module
+const path = require('path');
+const fs = require('fs');
 const app = express(); // aplication
 
 const { Usuario } = require('../classes/usuario'); // Usuario class
@@ -74,30 +76,29 @@ app.delete('/:vacante', [checkSession, checkEnterpriseRole], (req, res) => Vacan
 
 // Tipo de registro route (postulacion a vacante)
 app.get('/:id', checkSession, async(req, res) => {
-    let id = req.params.id;
+    let idVacante = req.params.id;
+    let idUsuario = req.session.usuario._id;
+    let fechaModificacionCV = null;
+    const pathArchivo = path.resolve(__dirname, `../../../uploads/cv/${idUsuario}.pdf`);
+    let cvPersonal = false;
+    
+    if (fs.existsSync(pathArchivo)) {
+        cvPersonal = true;
+        fechaModificacionCV =  new Date(fs.statSync(pathArchivo).mtime).toLocaleString();
+    }
+
     res.render('registro_vacante', {
         page: 'Postulacion',
         nombre_boton_navbar: 'Información de la vacante',
         direccion_link_boton_navbar: '/perfil',
         mostrar_boton_regreso: true,
-        empresa: {
-            nombre: 'Farmacias Guadalajara',
-            razon_social: 'Cedis Centro Fragu SA de CV',
-            foto_empresa: 'https://www.yo-local.com/sites/default/files/imagen_negocio/1_150.jpg',
-            correo: 'fragia@gmail.com',
-            telefono: '55235345345',
-            descripcion_empresa: 'Empresa farmaceutica',
-        },
-        revisar_cites: await Usuario.findById(req.session.usuario._id)
-            .then(resp => {console.log("Data" + resp.data); resp.data})
+        cvPersonal: cvPersonal,
+        fechaModificacionCV: fechaModificacionCV,
+        
+        vacante: await Vacante.buscarPorId(idVacante)
+            .then(resp => { return resp.data })
             .catch(() => {}),
-            vacante: {
-            puesto: 'Diseñador',
-            horarios: 'Lunes - Viernes',
-            funciones: 'Diseñar el logo de la empresa',
-            notas: 'Se descansa fines de semana',
-            salario: '6,000 MXN'
-        },
+
         archivoJS: 'function_registro_vacante.js'
     })
 });

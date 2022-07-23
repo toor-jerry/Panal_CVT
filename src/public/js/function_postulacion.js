@@ -31,6 +31,7 @@ $(document).ready(function () {
 
 
 function guardarDatos(idVacante) {
+    let vacanteId = idVacante;
     // show alert loading
     getLoading("Guardando su información...", "Loading..");
 
@@ -66,7 +67,7 @@ function guardarDatos(idVacante) {
                     icon: 'success',
                     confirmButtonText: 'Aceptar',
                     showLoaderOnConfirm: true
-                }).then(() => window.location.href = `/vacante/${idVacante}`)
+                }).then(() => window.location.href = `/vacante/${vacanteId}`)
             } else {
                 showError(xhr.response, true);
             }

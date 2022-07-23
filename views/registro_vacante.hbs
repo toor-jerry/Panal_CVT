@@ -3,28 +3,22 @@
 
 
 <div class="container p-5">
-    <div class="row mt-5 text-center">
-        <div class="col">
-            <h3>Se registro la vacante con éxito..</h3>
-        </div>
-                <!-- Fin de la fila -->
-            </div>
 
 
-<div class="row mt-3">
+<div class="row mt-5">
     <!-- Foto de la empresa -->
-                    {{#if usuario.foto}}
+                    {{#if vacante.empresa.foto}}
                   <div class="col">
-                    <img src="{{ empresa.foto_empresa }}" class="card-img foto-empresa" alt="Foto empresa">
+                    <img src="{{ vacante.empresa.foto }}" class="card-img foto-empresa" alt="Foto empresa">
                   </div>
                 {{/if}}            
                 <!-- Información de la vacante -->
                 <div class="col text-dark font-weight-bold text-right">
-                    <h3 class="texto-verde">{{ empresa.nombre }}</h3>
-                    <h4>{{ empresa.razon_social }}</h4>
-                    <h5>{{ empresa.correo }}</h5>
-                    <h5>{{ empresa.telefono }}</h5>
-                    <h5>{{ empresa.descripcion_empresa }}</h5>
+                    <h3 class="texto-verde">{{ vacante.empresa.nombre }}</h3>
+                    <h4>{{ vacante.empresa.razonSocial }}</h4>
+                    <h5>{{ vacante.empresa.email }}</h5>
+                    <h5>{{ vacante.empresa.numeroContacto }}</h5>
+                    <h5>{{ vacante.empresa.descripcion }}</h5>
                 </div>
 </div>
 <hr>
@@ -70,10 +64,11 @@
 </div>
     </div>
     <div class="col">
-        <h4>Notas</h4>
+        <h4>Currículo Vitae</h4>
+        {{#if cvPersonal}}<h5>Última modificación: {{fechaModificacionCV}}</h5>{{/if}}
                         <div class="custom-file">
                         <input type="file" class="custom-file-input cursor-puntero" id="inputCV" lang="es" accept="application/pdf">
-                        <label class="custom-file-label cursor-puntero" for="logo" id="labelCVPDF"><b><i class="fa fa-plus text-primary" aria-hidden="true" style="font-size: 25px;"></i>  Adjuntar CV</b></label>
+                        <label class="custom-file-label cursor-puntero" for="logo" id="labelCVPDF"><b><i class="fa fa-plus text-primary" aria-hidden="true" style="font-size: 25px;"></i>  {{#if cvPersonal}} Actualizar CV {{else}} Adjuntar CV{{/if}}</b></label>
             </div>
     </div>
 </div>
@@ -81,7 +76,7 @@
 <div class="row">
     <div class="col-5 mx-auto">
         <button type="submit" class="btn btn-success btn-user btn-block">
-                            Continuar
+                            Postular
                         </button>
     </div>
 </div>

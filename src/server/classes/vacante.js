@@ -76,25 +76,20 @@ class Vacante {
             });
     }
 
-    static findById(res, id) {
+    static buscarPorId(id) {
 
-        EmploymentModel.findById(id)
-            .populate('enterprise', 'name email role domicile description photography category')
-            .exec((err, employment) => {
+        return new Promise((resolve, reject) => {
+        VacanteModel.findById(id)
+            .populate('empresa')
+            .lean()
+            .exec((err, vacante) => {
 
-                if (err) return response500(res, err);
-                if (!employment) return response400(res, 'Employment not found.');
-
-                PostulationModel.countDocuments({ employment: id }, (err, count) => {
-
-                    if (err) return response500(res, err);
-
-                    res.status(200).json({
+                if (err) reject({ code: 500, err });
+                    if (!vacante) reject({ code: 400, err: 'No se encontró la vacante.' });
+                    return resolve({
                         ok: true,
-                        data: employment,
-                        total: count
-                    });
-
+                        data: vacante
+                });
                 });
             });
 
