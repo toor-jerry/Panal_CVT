@@ -150,56 +150,6 @@ class Vacante {
         });
     }
 
-    static findSocialService(res, from, limit) {
-
-        EmploymentModel.find({ type: 'SOCIETY_SERVICE' })
-            .skip(from)
-            .limit(limit)
-            .sort('dateCreate')
-            .populate('enterprise', 'name email role domicile description photography category')
-            .exec((err, offers) => {
-
-                if (err) return response500(res, err);
-                if (!offers) return response400(res, 'Offers not found.');
-
-                EmploymentModel.countDocuments({ type: 'SOCIETY_SERVICE' }, (err, count) => {
-
-                    if (err) return response500(res, err);
-
-                    res.status(200).json({
-                        ok: true,
-                        data: offers,
-                        total: count
-                    });
-                });
-            });
-    }
-
-    static findProfesionalPractices(res, from, limit) {
-
-        EmploymentModel.find({ type: 'PROFESSIONAL_PRACTICES' })
-            .skip(from)
-            .limit(limit)
-            .sort('dateCreate')
-            .populate('enterprise', 'name email role domicile description photography category')
-            .exec((err, offers) => {
-
-                if (err) return response500(res, err);
-                if (!offers) return response400(res, 'Offers not found.');
-
-                EmploymentModel.countDocuments({ type: 'PROFESSIONAL_PRACTICES' }, (err, count) => {
-
-                    if (err) return response500(res, err);
-
-                    res.status(200).json({
-                        ok: true,
-                        data: offers,
-                        total: count
-                    });
-                });
-            });
-    }
-
     static crear(data) {
         return new Promise((resolve, reject) => {
             let body = _.pick(data, ['puesto', 'empresa', 'salario', 'horarios', 'funciones', 'notas']);
@@ -251,28 +201,28 @@ class Vacante {
 
     }
 
-    static searchEmployments = (regex, from = 0, limit = 10) => {
+    static buscarVacantes = (regex, from = 0, limit = 10) => {
 
         return new Promise((resolve, reject) => {
 
             let state = (regex.source.toLowerCase().trim() == 'true') ? true : false;
-            let vacancy_numbers = Number(regex.source) || undefined;
+            let salario = Number(regex.source) || undefined;
 
-            EmploymentModel.find({}, 'name description category salary horary workable_days vacancy_numbers requeriments domicile state type')
-                .populate('enterprise', 'name')
-                .or([{ 'name': regex }, { 'description': regex }, { 'category': regex }, { 'salary': regex }, { 'horary': regex }, { 'workable_days': regex }, { 'vacancy_numbers': vacancy_numbers }, { 'requeriments': regex }, { 'domicile': regex }, { 'state': state }, { 'type': regex }])
+            VacanteModel.find({}, 'puesto empresa salario horarios funciones notas fechaCreacion')
+                .populate('empresa', 'nombre')
+                .or([{ 'puesto': regex },  { 'horarios': regex }, { 'funciones': regex }, { 'notas': regex }, { 'salario': salario }])
                 .skip(from)
                 .limit(limit)
-                .exec((err, employments) => {
+                .exec((err, vacantes) => {
                     if (err)
-                        reject(`Could not found ${regex} in employments.`, err);
-                    EmploymentModel.countDocuments({})
-                        .or([{ 'name': regex }, { 'description': regex }, { 'category': regex }, { 'salary': regex }, { 'horary': regex }, { 'workable_days': regex }, { 'vacancy_numbers': vacancy_numbers }, { 'requeriments': regex }, { 'domicile': regex }, { 'state': state }, { 'type': regex }])
+                        return reject(`No se pudo buscar '${regex}' en vacantes, ${err}.`);
+                        VacanteModel.countDocuments({})
+                        .or([{ 'puesto': regex },  { 'horarios': regex }, { 'funciones': regex }, { 'notas': regex }, { 'salario': salario }])
                         .exec((err, total) => {
                             if (err)
-                                reject(`Could not found ${regex} in employments (total).`, err);
+                                return reject(`No se pudo buscar '${regex}' en vacantes, ${err}.`);
                             else resolve({
-                                data: employments,
+                                data: vacantes,
                                 total
                             });
                         });

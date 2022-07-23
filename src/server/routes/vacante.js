@@ -28,6 +28,26 @@ app.get('/form/creacion', [checkSession, checkEnterpriseRole], async(req, res) =
         })
     });
     
+// ==========================
+// Buscar vacantes
+// ==========================
+app.get('/buscar/:terminoBusqueda', (req, res) => {
+
+    const search = req.params.terminoBusqueda;
+    let regex;
+    try {
+        regex = new RegExp(search.trim(), 'i');
+    } catch (err) {
+        return response400(res, 'Bad request.', err.toString());
+    }
+
+    const from = Number(req.query.from) || 0;
+    const limit = Number(req.query.limit) || 10;
+
+    Vacante.buscarVacantes(regex, from, limit)
+        .then(vacantes => res.status(200).json(vacantes))
+        .catch(err => res.status(500).json(err));
+});
 
 // ==========================
 // Eliminar una vacante por ID 

@@ -56,3 +56,8 @@ body {
 .cursor-puntero {
     cursor: pointer;
 }
+
+mark{
+    background: orange;
+    color: black;
+}

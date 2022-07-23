@@ -20,9 +20,9 @@
                     <form class="form-inline">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <button class="btn btn-bg bg-white" type="submit"><i class="fa-solid fa-magnifying-glass text-warning fa-lg"></i></button>
+                                <button class="btn btn-bg bg-white" type="button"><i class="fa-solid fa-magnifying-glass text-warning fa-lg"></i></button>
                             </div>
-                            <input class="form-control" type="search" placeholder="Buscar vacantes" aria-label="Search" aria-describedby="basic-addon1"></div>
+                            <input name="keyword" class="form-control" type="search" placeholder="Buscar vacantes" aria-label="Search" aria-describedby="basic-addon1"></div>
                             
                                 
                             </form>
@@ -37,7 +37,7 @@
                         <div class="col">
                             {{#each vacantes.data}}
 <div class="card text-center border-info mb-3">
-        <div class="card-body">
+        <div class="card-body context">
           <h3 class="texto-oscuro">{{this.puesto}}</h3>
           <h4 class="card-title">{{ this.empresa.razonSocial }}</h4>
           {{#if this.empresa.foto}}
