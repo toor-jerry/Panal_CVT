@@ -1,4 +1,6 @@
+var terminoBusquedaTemp = ""
 $(document).ready(function() {
+    terminoBusquedaTemp = $("input[name='keyword']").val();
     $('#'+$('#informacionUsuarioID').val()).prop('selected', true);
 
     var mark = function() {
@@ -7,7 +9,8 @@ $(document).ready(function() {
         var keyword = $("input[name='keyword']").val();
         // Determine selected options
         var options = {
-            "separateWordSearch": false
+            "separateWordSearch": false,
+             "diacritics": false,
         };
     
         // Remove previous marked elements and mark
@@ -20,6 +23,7 @@ $(document).ready(function() {
       };
     
       $("input[name='keyword']").on("input", mark);
+      $(".context").mark(terminoBusquedaTemp);
     // ==========================
     // Listen Sockets
     // ==========================
@@ -84,6 +88,13 @@ $(document).ready(function() {
         }
 
     });
+
+    $("#form-search").submit(function(event) {
+
+        event.preventDefault();
+            buscar();
+    });
+
 
 
     /***************************
@@ -157,4 +168,20 @@ function deleteUser(user) {
 
             }
         })
+}
+
+
+
+function buscar() {
+    var terminoBusqueda = $("input[name='keyword']").val();
+    if (terminoBusqueda == terminoBusquedaTemp) {
+        return;
+    }
+    terminoBusquedaTemp = terminoBusqueda;
+        if (terminoBusqueda == '') {
+            window.location.href = "/perfil";
+        } else {
+            window.location.href = "/vacante/buscar/"+terminoBusqueda;
+        }
+    
 }

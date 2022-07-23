@@ -17,53 +17,57 @@
         <div class="col">
             <div class="row">
                 <div class="col">
-                    <form class="form-inline">
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <button class="btn btn-bg bg-white" type="button"><i class="fa-solid fa-magnifying-glass text-warning fa-lg"></i></button>
-                            </div>
-                            <input name="keyword" class="form-control" type="search" placeholder="Buscar vacantes" aria-label="Search" aria-describedby="basic-addon1"></div>
-                            
-                                
-                            </form>
-                        </div>
-                        <div class="col">
-                            {{> listadoConvenios }}
-                        </div>
-                    </div>
+                    {{> busquedaPartial }}
+                </div>
+                <div class="col">
+                    {{> listadoConvenios }}
+                </div>
+            </div>
 
-                    <!-- Vacantes -->
-                    <div class="row">
-                        <div class="col">
-                            {{#each vacantes.data}}
-<div class="card text-center border-info mb-3">
-        <div class="card-body context">
-          <h3 class="texto-oscuro">{{this.puesto}}</h3>
-          <h4 class="card-title">{{ this.empresa.razonSocial }}</h4>
-          {{#if this.empresa.foto}}
-          <img src="{{ this.empresa.foto }}" class="card-img foto-empresa" alt="Foto empresa">
-          {{/if}}
-          
-          <h5 class="card-text text-justify text-truncate mt-2" style="max-width: 500px;">Funciones: <b>{{ this.funciones }}</b></h5>
-          <div class="row">
-              <div class="col">
-                  <h5>Salario: <b>{{this.salario}}</b></h5>
-              </div>
-              <div class="col">
-                  <h5>Horarios: <b>{{this.horarios}}</b></h5>
-              </div>
-          </div>
-          <p>Publicada: <b>{{fechaCreacion}}</b></p>
-          <div class="row">
-              <div class="col">
-                  <a href="/vacante/{{this._id}}" class="btn btn-info">Ver vacante</a>
-              </div>
-              <div class="col">
-                  <a href="/postulacion/{{this._id}}/{{this.puesto}}" class="btn btn-primary">Postularme</a>
-              </div>
-          </div>
-        </div>
-                        </div>
+            <!-- Vacantes -->
+            <div class="row">
+                <div class="col">
+                    <div class="alert alert-info text-center" role="alert">
+                        Resultados:
+                        <b>{{ vacantes.total }}</b>
+                    </div>
+                    {{#each vacantes.data}}
+                        <div class="card text-center border-info mb-3">
+                            <div class="card-body context">
+                                <h3 class="texto-oscuro">{{ this.puesto }}</h3>
+                                <h4 class="card-title">{{ this.empresa.razonSocial }}</h4>
+                                {{#if this.empresa.foto}}
+                                    <img src="{{ this.empresa.foto }}" class="card-img foto-empresa" alt="Foto empresa">
+                                    {{/if}}
+
+                                    <h5 class="card-text text-justify text-truncate mt-2" style="max-width: 500px;">Funciones:
+                                        <b>{{ this.funciones }}</b>
+                                    </h5>
+                                    <div class="row">
+                                        <div class="col">
+                                            <h5>Salario:
+                                                <b>{{ this.salario }}</b>
+                                            </h5>
+                                        </div>
+                                        <div class="col">
+                                            <h5>Horarios:
+                                                <b>{{ this.horarios }}</b>
+                                            </h5>
+                                        </div>
+                                    </div>
+                                    <p>Publicada:
+                                        <b>{{ fechaCreacion }}</b>
+                                    </p>
+                                    <div class="row">
+                                        <div class="col">
+                                            <a href="/vacante/{{ this._id }}" class="btn btn-info">Ver vacante</a>
+                                        </div>
+                                        <div class="col">
+                                            <a href="/postulacion/{{ this._id }}/{{ this.puesto }}" class="btn btn-primary">Postularme</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         {{/each}}
                     </div>
 
@@ -71,5 +75,6 @@
                 <!-- Fin de la fila -->
             </div>
             <!-- Fin container -->
-            </div>
-            {{> footer }}
+        </div>
+        {{> footer }}
+

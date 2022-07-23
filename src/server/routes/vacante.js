@@ -31,7 +31,7 @@ app.get('/form/creacion', [checkSession, checkEnterpriseRole], async(req, res) =
 // ==========================
 // Buscar vacantes
 // ==========================
-app.get('/buscar/:terminoBusqueda', (req, res) => {
+app.get('/buscar/:terminoBusqueda', checkSession, async(req, res) => {
 
     const search = req.params.terminoBusqueda;
     let regex;
@@ -40,13 +40,31 @@ app.get('/buscar/:terminoBusqueda', (req, res) => {
     } catch (err) {
         return response400(res, 'Bad request.', err.toString());
     }
-
     const from = Number(req.query.from) || 0;
     const limit = Number(req.query.limit) || 10;
 
-    Vacante.buscarVacantes(regex, from, limit)
-        .then(vacantes => res.status(200).json(vacantes))
-        .catch(err => res.status(500).json(err));
+    res.render('mi_perfil', {
+        page: 'Mi Perfil',
+        nombre_boton_navbar: 'Mi Perfil',
+        direccion_link_boton_navbar: '/',
+        terminoBusqueda: search,
+
+    
+
+    usuario: await Usuario.findById(req.session.usuario._id)
+            .then(resp => resp.data)
+            .catch(err => res.status(err.code).json({ msg: err.msg, err: err.err })),
+
+        vacantes: await Vacante.buscarVacantes(regex, from, limit)
+            .then(resp =>{ return { data: resp.data, total: resp.total }})
+            .catch(() => {}),
+
+        convenios: await Usuario.buscaTodasLasEmpresas()
+        .then(resp =>{return { data: resp.data, total: resp.total }})
+        .catch(() => {}),
+
+        archivoJS: 'function_perfil.js'
+    })
 });
 
 // ==========================
