@@ -45,7 +45,7 @@ const extensionCV = splitName[splitName.length - 1];
 if (extensionesValidas.indexOf(extensionCV) < 0)
     return errorExtensiones(res, extensionesValidas, extensionCV);
 
-const nameFile =  generarNombreAleatorio(`Custom_${req.session.usuario._id}`, extensionCV);
+const nameFile =  (`Custom_${req.session.usuario._id}.pdf`);
 
 // Move file
 const path = obtenerRutaDeCargaArchivos("cv", nameFile);

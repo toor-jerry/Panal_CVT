@@ -97,7 +97,8 @@ app.get('/:id', checkSession, async(req, res) => {
             funciones: 'Diseñar el logo de la empresa',
             notas: 'Se descansa fines de semana',
             salario: '6,000 MXN'
-        }
+        },
+        archivoJS: 'function_registro_vacante.js'
     })
 });
 
