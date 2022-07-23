@@ -38,8 +38,18 @@
                 </div>
             </div>
 
-            <div class="row">
+
+{{#if usuario.curriculoPdf}}
+            <div class="row mb-3">
                 <div class="col col-lg-8 mx-auto">
-                    <a target="_blank" href="/pdf" class="btn btn-warning btn-block">Descargar CV</a>
+                    <a target="_blank" href="/archivos/cv/{{usuario.curriculoPdf}}" class="btn btn-warning btn-block">Descargar mi CV</a>
                 </div>
             </div>
+            {{/if}}
+
+            <div class="row">
+                <div class="col col-lg-8 mx-auto">
+                    <a target="_blank" href="/pdf" class="btn btn-warning btn-block">Generar mi CV</a>
+                </div>
+            </div>
+

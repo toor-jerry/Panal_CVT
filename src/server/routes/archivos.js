@@ -31,43 +31,30 @@ app.get('/:colection/:file', checkSession, (req, res) => {
 // ==========================
 // Subir un CV
 // ==========================
-app.post('/cv', checkSession, (req, res) => {
+app.post('/cv', checkSession, async(req, res) => {
 if (req.files?.cv){
 
 // Extenciones válidas
 const extensionesValidas = ['pdf'];
 
 // Name file
-const file = req.files.cv;
-const splitName = file.name.split('.');
+const cv = req.files.cv;
+const splitName = cv.name.split('.');
 const extensionCV = splitName[splitName.length - 1];
 
 if (extensionesValidas.indexOf(extensionCV) < 0)
     return errorExtensiones(res, extensionesValidas, extensionCV);
 
-const nameFile =  (`Custom_${req.session.usuario._id}.pdf`);
-
-// Move file
-const path = obtenerRutaDeCargaArchivos("cv", nameFile);
-
-// Eliminar el antiguo CV
-if (fs.existsSync(path)) {
-    fs.unlinkSync(path);
-}
-
-file.mv(path, err => {
-    if (err) return response500(res, err);
-    res.status(200).json({
-        ok: true,
-        data: nameFile
-    });
-
-});
+await Subir.subirCV(req.session.usuario._id, cv)
+.then((usuarioDB) => {
+    req.session.usuario = usuarioDB
+    res.status(201).json({});
+})
+.catch(err => res.status(err.code).json({ msg: err.msg, err: err.err }))
 
 } else {
   response400(res, "No data")
 }
-
 });
 
 module.exports = app;

@@ -150,6 +150,9 @@ const usuarioSchema = new Schema({
     cedula: {
         type: String,
         default: "N/A"
+    },
+    curriculoPdf: {
+        type: String
     }
 });
 
