@@ -75,3 +75,40 @@ function leerPDF(input) {
     reader.readAsDataURL(file);
   }
 }
+
+
+function postular(vacanteID) {
+    let idVacante = vacanteID;
+      // show alert loading
+      getLoading("Loading..", "Postulando a la vacante...");
+      // submit data
+      const formData = new FormData();
+      const xhr = new XMLHttpRequest();
+      formData.append('vacante', idVacante);
+
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 201 || xhr.status === 200) {
+            swal
+              .fire({
+                title: "Postulación exitosa!",
+                text: "Se ha postulado con éxito a la vacante.",
+                icon: "success",
+                confirmButtonText: "Aceptar",
+                showLoaderOnConfirm: true,
+              }).then(() => {
+                location.href = "/perfil"
+              })
+          } else {
+            swal.fire({
+        title: 'Error!',
+        text: `${JSON.parse(xhr.response).msg}`,
+        icon: 'warning',
+    }).then(result => location.href = "/perfil");
+          }
+        }
+      };
+      xhr.open("POST", "/postulacion", true);
+
+      xhr.send(formData);
+  }

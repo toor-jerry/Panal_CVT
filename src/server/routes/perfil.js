@@ -3,6 +3,7 @@ const app = express(); // aplication
 
 const { Usuario } = require('../classes/usuario'); // Usuario class
 const { Vacante } = require('../classes/vacante'); // Vacante class
+const { Postulacion } = require('../classes/postulacion'); // Vacante class
 const { checkSession, checkAdminRole, checkSuperRole, checkEnterpriseRole  } = require('../middlewares/auth');
 
 // Tipo de registro route
@@ -21,6 +22,10 @@ app.get('/', checkSession, async(req, res) => {
             .catch(() => {}),
 
         convenios: await Usuario.buscaTodasLasEmpresas()
+        .then(resp =>{return { data: resp.data, total: resp.total }})
+        .catch(() => {}),
+
+        postulaciones: await Postulacion.buscarTodasLasPostulacionesPorUsuario(req.session.usuario._id)
         .then(resp =>{return { data: resp.data, total: resp.total }})
         .catch(() => {}),
 

@@ -1,9 +1,13 @@
 const express = require('express'); // express module
 const app = express(); // aplication
+const fileUpload = require('express-fileupload');
 
 const { Usuario } = require('../classes/usuario'); // Usuario class
 const { Vacante } = require('../classes/vacante'); // Vacante class
+const { Postulacion } = require('../classes/postulacion'); // Vacante class
 const { checkSession, checkAdminRole, checkSuperRole, checkEnterpriseRole  } = require('../middlewares/auth');
+const JSONTransport = require('nodemailer/lib/json-transport');
+app.use(fileUpload());
 
 
 // Tipo de registro route
@@ -24,6 +28,20 @@ app.get('/:idVacante/:nombre_empresa', checkSession, async(req, res) => {
         },
         archivoJS: 'function_postulacion.js'
     })
+});
+
+// ==========================
+// Crear una postulación
+// ==========================
+app.post('/', checkSession, (req, res) =>{
+    Postulacion.crear({
+        vacante: req.body.vacante,
+        usuario: req.session.usuario._id
+    }).then(resp => res.status(200).json({
+        ok: true,
+        data: resp.data
+    }))
+    .catch(err => res.status(err.code).json({ msg: err.msg, err: err.err }))
 });
 
 
