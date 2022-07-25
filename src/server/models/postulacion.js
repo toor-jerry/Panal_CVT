@@ -2,6 +2,12 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
+// Estatus de perfil
+const estatusPerfil = {
+    values: ['En proceso', 'Rechazado'],
+    message: '{VALUE} estatus no válido!!'
+};
+
 const postulacionSchema = new Schema({
     vacante: {
         type: Schema.Types.ObjectId,
@@ -16,6 +22,13 @@ const postulacionSchema = new Schema({
     fechaPostulacion: {
         type: Date,
         default: Date.now
+    },
+    status: {
+        type: String,
+        required: true,
+        default: "En proceso",
+        enum: estatusPerfil
+
     }
 });
 
