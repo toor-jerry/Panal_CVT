@@ -12,6 +12,10 @@ const postulacionSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Usuario',
         required: [true, "Usuario es requerido!"]
+    },
+    fechaPostulacion: {
+        type: Date,
+        default: Date.now
     }
 });
 

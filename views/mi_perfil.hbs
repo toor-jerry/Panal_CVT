@@ -63,7 +63,12 @@
                                             <a href="/vacante/{{ this._id }}" class="btn btn-info">Ver vacante</a>
                                         </div>
                                         <div class="col">
-                                            <a href="/postulacion/{{ this._id }}/{{ this.puesto }}" class="btn btn-primary">Postularme</a>
+                                            {{#if (ifeq_vacante this._id ../postulaciones.data)}} 
+                                                <button type="button" class="btn btn-success" disabled> Postulado el día {{fechaPostulacion this._id ../postulaciones.data}}</button>
+                                            {{else}}
+                                                <a href="/postulacion/{{ this._id }}/{{ this.puesto }}" class="btn btn-primary"> Postularme</a>
+                                            {{/if}}
+                                            
                                         </div>
                                     </div>
                                 </div>

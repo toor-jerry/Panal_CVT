@@ -68,12 +68,13 @@ class Postulacion {
 
         return new Promise((resolve, reject) => {
         PostulacionModel.find({ usuario: idUsuario })
-            .populate('empleo')
+            .lean()
+            .populate('vacante')
             .exec((err, postulaciones) => {
 
                 if (err) reject({ code: 500, err });
                 if (!postulaciones) reject({ code: 400, err: 'No se encontraron postulaciones.' });
-
+            
                 PostulacionModel.countDocuments((err, count) => {
 
                     if (err) reject({ code: 500, err });

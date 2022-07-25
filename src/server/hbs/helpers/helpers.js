@@ -18,6 +18,30 @@ hbs.registerHelper('admin', (role) => (role === 'ADMIN_ROLE') ? true : false);
 // equals
 hbs.registerHelper('ifeq', (a, b) => (a == b) ? true : false );
 
+// es igual a la vacante 
+hbs.registerHelper('ifeq_vacante', (vacanteId, postulaciones) => {
+    let flag = false;
+    postulaciones.forEach(postulacion => {
+        if (postulacion.vacante._id.toString() == vacanteId.toString()) {
+            flag = true;
+        }
+    }   // end forEach
+    ); // end forEach
+    return flag;
+} );
+
+//  
+hbs.registerHelper('fechaPostulacion', (vacanteId, postulaciones) => {
+    let fecha;
+    postulaciones.forEach(postulacion => {
+        if (postulacion.vacante._id.toString() == vacanteId.toString()) {
+            fecha = postulacion.fechaPostulacion.toLocaleDateString();
+        }
+    }   // end forEach
+    ); // end forEach
+    return fecha;
+} );
+
 // mayor
 hbs.registerHelper('esMayor', (a, b) => (a > b) ? true : false );
 

@@ -7,30 +7,28 @@ const { Postulacion } = require('../classes/postulacion'); // Vacante class
 const { checkSession, checkAdminRole, checkSuperRole, checkEnterpriseRole  } = require('../middlewares/auth');
 
 // Tipo de registro route
-app.get('/', checkSession, async(req, res) => {
-    res.render('mi_perfil', {
-        page: 'Mi Perfil',
-        nombre_boton_navbar: 'Mi Perfil',
-        direccion_link_boton_navbar: '/',
+app.get('/', checkSession, (req, res) => {
+    const idUsuario = req.session.usuario._id;
+    Promise.all([
+        Usuario.findById(idUsuario),
+        Vacante.encontrarTodas(),
+        Usuario.buscaTodasLasEmpresas(),
+        Postulacion.buscarTodasLasPostulacionesPorUsuario(idUsuario)
+    ])
+    .then(responses =>
+        res.render('mi_perfil', {
+            page: 'Mi Perfil',
+            nombre_boton_navbar: 'Mi Perfil',
+            direccion_link_boton_navbar: '/',
 
-        usuario: await Usuario.findById(req.session.usuario._id)
-            .then(resp => resp.data)
-            .catch(err => res.status(err.code).json({ msg: err.msg, err: err.err })),
+                usuario: responses[0].data,
+            vacantes: { data: responses[1].data, total: responses[1].total },
+            convenios:{ data: responses[2].data, total: responses[2].total },
+            postulaciones: { data: responses[3].data, total: responses[3].total },
 
-        vacantes: await Vacante.encontrarTodas()
-            .then(resp =>{return { data: resp.data, total: resp.total }})
-            .catch(() => {}),
-
-        convenios: await Usuario.buscaTodasLasEmpresas()
-        .then(resp =>{return { data: resp.data, total: resp.total }})
-        .catch(() => {}),
-
-        postulaciones: await Postulacion.buscarTodasLasPostulacionesPorUsuario(req.session.usuario._id)
-        .then(resp =>{return { data: resp.data, total: resp.total }})
-        .catch(() => {}),
-
-        archivoJS: 'function_perfil.js'
-    })
+            archivoJS: 'function_perfil.js'})
+        ).catch(err => res.status(500).json(err))
+    
 });
 
 // Tipo de registro route
