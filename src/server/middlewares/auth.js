@@ -12,6 +12,18 @@ const checkSession = (req, res, next) => {
 }
 
 // ==========================
+// Verifica el estatus que se encuentre ya verificado
+// ==========================
+const checkEstatusVerificacipn = (req, res, next) => {
+    if (req.session.usuario.perfilVerificado === 'Verificado' || req.session.usuario.userRole === 'SUPER_USER') { // if user is admin
+        return next();
+    }
+
+    return res.status(401).redirect('/');
+
+}
+
+// ==========================
 // Verifica el usuario administrador
 // ==========================
 const checkAdminRole = (req, res, next) => {
@@ -49,4 +61,4 @@ const checkEnterpriseRole = (req, res, next) => {
 }
 
 
-module.exports = { checkSession, checkAdminRole, checkSuperRole, checkEnterpriseRole }
+module.exports = { checkSession, checkAdminRole, checkSuperRole, checkEnterpriseRole, checkEstatusVerificacipn }

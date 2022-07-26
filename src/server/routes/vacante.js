@@ -6,14 +6,14 @@ const app = express(); // aplication
 const { Usuario } = require('../classes/usuario'); // Usuario class
 const { Vacante } = require('../classes/vacante'); // Vacante class
 
-const { checkSession, checkEnterpriseRole } = require('../middlewares/auth');
+const { checkSession, checkEnterpriseRole, checkEstatusVerificacipn } = require('../middlewares/auth');
 
 const { io } = require('../app');
 const JSONTransport = require('nodemailer/lib/json-transport');
 
 
 // Creación vacante
-app.get('/form/creacion', [checkSession, checkEnterpriseRole], async(req, res) => {
+app.get('/form/creacion', [checkSession, checkEnterpriseRole, checkEstatusVerificacipn], async(req, res) => {
 
     res.status(200).render('form_creacion_vacante', {
         page: 'Creación',
