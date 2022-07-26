@@ -1,4 +1,6 @@
 const express = require('express'); // express module
+const path = require('path');
+const fs = require('fs');
 const app = express(); // aplication
 
 const { Usuario } = require('../classes/usuario'); // Usuario class
@@ -65,7 +67,6 @@ app.get('/empresarial/:indice', [checkSession, checkEnterpriseRole], async(req, 
 
         page: 'Mi Perfil Empresarial',
         nombre_boton_navbar: 'Mi Perfil Empresarial',
-        direccion_link_boton_navbar: '/',
         no_pagina: indice,
         paginas: 4,
         solicitudes: 20,
@@ -117,37 +118,45 @@ app.get('/administrativo/:indice_formularios/:indice_empresas', [checkSession, c
         archivoJS: 'function_perfil.js'
     })
 });
+function obtenerFechaUltimaModificacionArchivo(carpeta, idUsuario) {
+    let fechaArchivo;
+    const pathArchivo = path.resolve(__dirname, `../../../uploads/${carpeta}/${idUsuario}.pdf`);
+    
+    if (fs.existsSync(pathArchivo)) {
+        fechaArchivo =  new Date(fs.statSync(pathArchivo).mtime).toLocaleString();
+    }
 
+    return fechaArchivo;
+}
 
 // Verificación de perfil route
-app.get('/verificacion_cuenta', [checkSession, checkAdminRole],(req, res) => {
+app.get('/verificacion_cuenta', checkSession, async(req, res) => {
+    let usuarioId = req.session.usuario._id;
     res.render('verificacion_cuenta', {
         page: 'Verificar cuenta',
         nombre_boton_navbar: 'Verificación de Cuenta',
         mostrar_boton_regreso: true,
-        direccion_link_boton_navbar: '/perfil',
+        direccion_link_boton_navbar: '/perfil/empresarial/1',
 
-        empresa: {
-            rfc: '123456789123',
-            nombre_contacto: 'Juan Perez',
-            telefono: '55213445455',
-            razon_social: 'Fragua SA de CV',
-            cargo_contacto: 'Lider de proyecto',
-            nombre: 'Cedis Centro de Farmacias guadalajara',
-            sector: 'privado',
-            ubicacion: '12345678,21345678',
-            correo: 'contacto@gmail.com'
-        }
+        fechaModificacionRFC: obtenerFechaUltimaModificacionArchivo("RFC", usuarioId),
+        fechaModificacionComprobante: obtenerFechaUltimaModificacionArchivo("comprobantesDomicilio", usuarioId),
+        fechaModificacionINE: obtenerFechaUltimaModificacionArchivo("INE", usuarioId),
+
+        empresa: await Usuario.findById(usuarioId)
+        .then(resp => resp.data)
+        .catch(err => res.status(err.code).json({ msg: err.msg, err: err.err })),
+
+        archivoJS: 'function_verificacion_perfil.js'
     })
 });
 
 // Verificación de perfil en proceso route
-app.get('/verificacion_cuenta_en_proceso', [checkSession, checkAdminRole], (req, res) => {
+app.get('/verificacion_cuenta_en_proceso', checkSession, (req, res) => {
     res.render('verificacion_cuenta_en_proceso', {
         page: 'Verificar cuenta',
         nombre_boton_navbar: 'Verificación de Cuenta',
         mostrar_boton_regreso: true,
-        direccion_link_boton_navbar: '/perfil'
+        direccion_link_boton_navbar: '/perfil/empresarial/1'
     })
 });
 

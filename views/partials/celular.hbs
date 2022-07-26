@@ -1,2 +1,2 @@
-<label class="font-weight-bold text-dark" for="inputNumero">Revisa tu número de contacto</label>
-                                <input type="number" class="form-control text-center texto-oscuro" id="inputNumero" placeholder="Celular" value="{{ usuario.numeroContacto }}">
+<label class="font-weight-bold texto-oscuro" for="inputNumero">{{ mensajeLabel }}</label>
+<input type="number" class="form-control text-center texto-oscuro" id="inputNumero" placeholder="Teléfono de contacto" value="{{ numeroContacto }}" maxlength="12" minlength="10" required>

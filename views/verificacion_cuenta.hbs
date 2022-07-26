@@ -1,133 +1,113 @@
 {{> head }}
 {{> navbar }}
 
-
 <div class="container pt-5">
     <div class="row mt-5 text-center">
         <div class="col text-justify">
             <h5>El verificar esta cuenta es importante para validar que es una empresa existente, y para establecer lazos de convenios. Y así lograr una relación de armonía y responsabilidad.</h5>
             <h5 class="text-dark font-weight-bold">Para este paso el responsable de la empresa debe ingresar los datos correctos para su validación.</h5>
         </div>
-                <!-- Fin de la fila -->
-            </div>
+        <!-- Fin de la fila -->
+    </div>
+    <form class="user animated bounceIn" id="form-verificacion-cuenta">
+        <div class="form-row mt-3 text-center">
+            <div class="form-group col">
+                <label for="rfc" class="texto-oscuro">RFC</label>
+                <input type="text" class="form-control text-center texto-oscuro" placeholder="Registro Federal del Contribuyente" id="inputRFC" name="rfc" value="{{ empresa.rfc }}" maxlength="12" required></div>
+                <div class="form-group col">
+                    <label for="nombre_contacto" class="texto-oscuro">Nombre del contacto</label>
+                    <input type="text" class="form-control text-center texto-oscuro" placeholder="Nombre completo" id="inputNombreContacto" name="nombreContacto" value="{{ empresa.nombreContacto }}" required></div>
+                    <div class="form-group col">
+                        {{>inputFilePartial archivoNombre="RFC" fechaModificacion=fechaModificacionRFC carpetaFile="RFC"}}
+                        </div>
+                    </div>
 
-                                    <div class="form-row mt-3 text-center">
-                                        <div class="form-group col">
-                                            <label for="rfc" class="texto-oscuro">RFC</label>
-                                            <input type="text" class="form-control text-center" placeholder="Registro Federal del Contribuyente" id="rfc" name="rfc" value="{{ empresa.rfc }}" maxlength="12">
-                                        </div>
-                                        <div class="form-group col">
-                                            <label for="nombre_contacto" class="texto-oscuro">Nombre del contacto</label>
-                                            <input type="text" class="form-control text-center" placeholder="Nombre completo" id="nombre_completo" name="nombre_completo" value="{{ empresa.nombre_contacto }}">
-                                        </div>
-                                        <div class="form-group col">
-                                            <label for="rfc" class="texto-oscuro">Adjuntar RFC</label>
-                                            <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="file_rfc" lang="es">
-                                            <label class="custom-file-label" for="file_rfc"><i class="fa fa-plus text-success" aria-hidden="true" style="font-size: 40px;"></i>  Adjuntar RFC</label>
-                                            </div>
+
+                    <div class="form-row mt-3 text-center">
+                        <div class="form-group col">
+                            <label for="razon_social" class="texto-oscuro">Razón social</label>
+                            <input type="text" class="form-control text-center texto-oscuro" placeholder="Razón social" id="inputRazonSocial" value="{{ empresa.razonSocial }}" required></div>
+                            <div class="form-group col">
+                                <label for="cargo_contacto" class="texto-oscuro">Cargo del contacto</label>
+                                <input type="text" class="form-control text-center texto-oscuro" placeholder="Cargo del contacto" id="inputCargoContacto" value="{{ empresa.cargoContacto }}" required></div>
+                                <div class="form-group col">
+                                    <div class="custom-file">
+                                        {{>inputFilePartial archivoNombre="comprobante de domicilio (empresa)" fechaModificacion=fechaModificacionComprobante carpetaFile="comprobantesDomicilio"}}
                                         </div>
                                     </div>
-
-
-                                    <div class="form-row mt-3 text-center">
-                                        <div class="form-group col">
-                                            <label for="razon_social" class="texto-oscuro">Razón social</label>
-                                            <input type="text" class="form-control text-center" placeholder="Razón social" id="razon_social" name="razon_social" value="{{ empresa.razon_social }}">
-                                        </div>
-                                        <div class="form-group col">
-                                            <label for="cargo_contacto" class="texto-oscuro">Cargo del contacto</label>
-                                            <input type="text" class="form-control text-center" placeholder="Cargo del contacto" id="cargo_completo" name="cargo_contacto" value="{{ empresa.cargo_contacto }}">
-                                        </div>
-                                        <div class="form-group col">
-                                            <label for="rfc" class="texto-oscuro">Adjuntar comprobante de domicilio (empresa)</label>
-                                            <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="comprobante_domicilio" lang="es">
-                                            <label class="custom-file-label" for="comprobante_domicilio"><i class="fa fa-plus text-success" aria-hidden="true" style="font-size: 40px;"></i>  Adjuntar comprobante</label>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-
-                                    <div class="form-row mt-3 text-center">
-                                        <div class="form-group col">
-                                            <label for="nombre" class="texto-oscuro">Nombre comercial de la empresa</label>
-                                            <input type="text" class="form-control text-center" placeholder="Razón social" id="nombre" name="nombre" value="{{ empresa.nombre }}">
-                                        </div>
-                                        <div class="form-group col">
-                                            <label for="sector" class="texto-oscuro">Sector al que pertenece</label>
-                                            <div class="form-row align-items-center">
-                                            <div class="col text-center">
-                                                <div class="custom-control custom-radio">
-                                                    <input type="radio" name="sector" id="privado" class="custom-control-input" {{#if (ifeq empresa.sector "privado")}} checked {{/if}}>
-                                                    <label for="privado" class="custom-control-label texto-oscuro">Privado</label>
-                                                </div>
-                                            </div>
-                                            <div class="col text-center">
-                                                <div class="custom-control custom-radio">
-                                                    <input type="radio" name="sector" id="publico" class="custom-control-input" {{#if (ifeq empresa.sector "publico")}} checked {{/if}}>
-                                                    <label for="publico" class="custom-control-label texto-oscuro">Público</label>
-                                                </div>
-                                            </div>
-                                    </div>
-                                        </div>
-                                        <div class="form-group col">
-                                            <label for="rfc" class="texto-oscuro">Adjuntar INE del contacto</label>
-                                            <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="ine_contacto" lang="es">
-                                            <label class="custom-file-label" for="ine_contacto"><i class="fa fa-plus text-success" aria-hidden="true" style="font-size: 40px;"></i>  Adjuntar INE</label>
-                                            </div>
-                                        </div>
-                                    </div>
-
+                                </div>
 
 
                                 <div class="form-row mt-3 text-center">
+                                    <div class="form-group col">
+                                        <label for="nombre" class="texto-oscuro">Nombre comercial de la empresa</label>
+                                        <input type="text" class="form-control text-center texto-oscuro" placeholder="Razón social" id="inputNombre" name="nombre" value="{{ empresa.nombre }}" required></div>
                                         <div class="form-group col">
-                                            <label for="nombre" class="texto-oscuro">Ubicación</label>
-                                            <input type="text" class="form-control text-center" placeholder="Latitud, altitud" id="ubicacion" name="ubicacion" value="{{ empresa.ubicacion }}">
-                                        </div>
-                                        <div class="form-group col">
-                                            <label for="nombre" class="texto-oscuro">Correo</label>
-                                            <input type="text" class="form-control text-center" placeholder="Correo de contacto" id="correo_contacto" name="correo" value="{{ empresa.correo }}">
-                                    </div>
-                                        <div class="form-group col">
-                                            <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
-                                            <label class="form-check-label text-justify texto-terminos" for="invalidCheck">
-                                                Acepto que los datos proporcionados sean usados con fines de referencia de la empresa para el sistema "Panal de Trabajo".
-                                            </label>
-                                            <div class="invalid-feedback">
-                                                Debe aceptar los términos y condiciones.
-                                            </div>
-                                            </div>
-                                        <button type="submit" class="btn btn-success btn-user btn-block">
-                                            Continuar
-                                        </button>                                    
-                                        </div>
-                                    </div>
+                                            <label for="sector" class="texto-oscuro">Sector al que pertenece</label>
+                                            <div class="form-row align-items-center">
+                                                <div class="col text-center">
+                                                    <div class="custom-control custom-radio">
+                                                        <input type="radio" name="sector" id="privado" class="custom-control-input" checked>
+                                                            <label for="privado" class="custom-control-label texto-oscuro">Privado</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col text-center">
+                                                        <div class="custom-control custom-radio">
+                                                            <input type="radio" name="sector" id="publico" class="custom-control-input" {{#if (ifeq empresa.sectorEmpresarial "Público")}} checked {{/if}}>
+                                                                <label for="publico" class="custom-control-label texto-oscuro">Público</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col">
+                                                                            {{>inputFilePartial archivoNombre="INE" fechaModificacion=fechaModificacionINE carpetaFile="INE"}}
+                                                    </div>
+                                                </div>
 
 
+                                                <div class="form-row mt-3 text-center">
+                                                    <div class="form-group col">
+                                                        <label for="nombre" class="texto-oscuro">Ubicación</label>
+                                                        <input type="text" class="form-control text-center texto-oscuro" placeholder="Latitud, altitud" id="inputUbicacion" value="{{ empresa.ubicacion }}" required></div>
+                                                        <div class="form-group col">
+                                                            <label for="nombre" class="texto-oscuro">Correo</label>
+                                                            <input type="email" class="form-control text-center texto-oscuro" placeholder="Correo de contacto" id="inputEmail" value="{{ empresa.email }}" required></div>
+                                                            <div class="form-group col">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" id="invalidCheck" required>
+                                                                        <label class="form-check-label text-justify texto-terminos" for="invalidCheck">
+                                                                            Acepto que los datos proporcionados sean usados con fines de referencia de la empresa para el sistema "Panal de Trabajo".
+                                                                        </label>
+                                                                        <div class="invalid-feedback">
+                                                                            Debe aceptar los términos y condiciones.
+                                                                        </div>
+                                                                    </div>
+                                                                    <button type="submit" class="btn btn-success btn-user btn-block">
+                                                                        Continuar
+                                                                    </button>
+                                                                </div>
+                                                            </div>
 
 
-                                    <div class="form-row mt-3 text-center">
-                                        <div class="form-group col-md-4">
-                                            <label for="rfc" class="texto-oscuro">Tel. / Celular</label>
-                                            <input type="number" class="form-control text-center" placeholder="Teléfono de contacto" id="telefono" name="telefono" value="{{ empresa.telefono }}" maxlength="12" minlength="10">
-                                        </div>
-                                        <div class="form-group col text-justify">
-                                            <div class="alert alert-danger" role="alert">
-                                            Nota: La verificación de esta cuenta esta sujeta a validación del responsable de bolsa de trabajo, los datos proporcionados únicamente se usarán con fines de referencia de la empresa dentro del sistema "Panal del Trabajo". Para más información lea el <a href="http://" class="alert-link">Aviso de privacidad.</a><br>
-                                            Dudas y Aclaraciones: <br>
-                                            BolsaDeTrabajo.CUVT.UAEM@uaemex.com<br>
-                                            (01 592) 92 4 55 83<br>
-                                            </div>
-                                        </div>
-                                    </div>
-</div>
+                                                            <div class="form-row mt-3 text-center">
+                                                                <div class="form-group col-md-4">
+                                                                    {{> celular mensajeLabel="Tel. / Celular" numeroContacto= empresa.numeroContacto}}
+                                                                    </div>
+                                                                    <div class="form-group col text-justify">
+                                                                        <div class="alert alert-danger" role="alert">
+                                                                            Nota: La verificación de esta cuenta esta sujeta a validación del responsable de bolsa de trabajo, los datos proporcionados únicamente se usarán con fines de referencia de la empresa dentro del sistema "Panal del Trabajo". Para más información lea el
+                                                                            {{> avisoPrivacidadPartial }}
+                                                                            <br>
+                                                                                Dudas y Aclaraciones:
+                                                                                <br>
+                                                                                    BolsaDeTrabajo.CUVT.UAEM@uaemex.com<br>
+                                                                                        (01 592) 92 4 55 83<br></div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </form>
 
 
-            <!-- Fin container -->
-            </div>
-            {{> footer }}
+                                                                            <!-- Fin container -->
+                                                                        </div>
+                                                                        {{> footer }}
+

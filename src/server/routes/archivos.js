@@ -27,6 +27,38 @@ app.get('/:colection/:file', checkSession, (req, res) => {
     }
 
 });
+// Carga de archivos generica
+app.put('/archivo/:carpeta', checkSession, (req, res) => {
+
+    const carpeta = req.params.carpeta;
+
+    if (!req.files) return response400(res, 'No data.');
+    
+    // Types files
+    const carpetasValidas = ['INE', 'RFC', 'comprobantesDomicilio'];
+    if (carpetasValidas.indexOf(carpeta) < 0) return response400(res, 'Carpeta no válida! ' + carpetasValidas);
+
+    // Name file
+    const file = req.files.file;
+    const splitName = file.name.split('.');
+    const fileExtention = splitName[splitName.length - 1];
+
+    // Extentions valid
+    const extentionsValid = ['pdf'];
+
+    if (extentionsValid.indexOf(fileExtention) < 0)
+        return errorExtensiones(res, extentionsValid, fileExtention);
+
+    // Custom file name
+    // Move file
+    const path = obtenerRutaDeCargaArchivos(carpeta, `${req.session.usuario._id}.${fileExtention}`);
+
+    file.mv(path, err => {
+        if (err) return response500(res, err);
+        res.status(201).json({});
+    });
+
+});
 
 // ==========================
 // Subir un CV

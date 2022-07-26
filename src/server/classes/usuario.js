@@ -219,7 +219,7 @@ class Usuario {
                 let fotoDBOld = userDB.foto;
                 let curriculoPdfOld = userDB.curriculoPdf;
 
-                userDB = _.extend(userDB, _.pick(data, ['nombre', 'apellidos', 'email', 'password', 'numeroContacto', 'rfc', 'direccion', 'descripcion', 'foto', 'razonSocial', 'edad', 'genero', 'progreso', 'experienciaLaboral', 'licenciatura', 'fechaNacimientoDia', 'fechaNacimientoMes', 'fechaNacimientoAnio', 'logros', 'habilidades', 'userRole', 'empleos', 'estudios', 'perfilVerificado', 'habilidad1', 'habilidad2', 'habilidad3', 'logro1', 'logro2', 'logro3', 'matricula', 'anio_egreso', 'titulo', 'cedula']));
+                userDB = _.extend(userDB, _.pick(data, ['nombre', 'apellidos', 'email', 'password', 'numeroContacto', 'rfc', 'direccion', 'descripcion', 'foto', 'razonSocial', 'edad', 'genero', 'progreso', 'experienciaLaboral', 'licenciatura', 'fechaNacimientoDia', 'fechaNacimientoMes', 'fechaNacimientoAnio', 'logros', 'habilidades', 'userRole', 'empleos', 'estudios', 'perfilVerificado', 'habilidad1', 'habilidad2', 'habilidad3', 'logro1', 'logro2', 'logro3', 'matricula', 'anio_egreso', 'titulo', 'cedula', 'rfc', 'nombreContacto', 'sectorEmpresarial', 'cargoContacto', 'ubicacion']));
 
 
                 if (userDB.curriculoPdf == "undefined") {

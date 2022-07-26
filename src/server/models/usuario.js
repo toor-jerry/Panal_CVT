@@ -23,6 +23,11 @@ const estatusPerfil = {
     message: '{VALUE} estatus no válido!!'
 };
 
+const sectorEmpresarial = {
+    values: ['Privado', 'Público'],
+    message: '{VALUE} sector no válido!!'
+};
+
 const empleoSchema = new mongoose.Schema({
     nombreEmpresa: String,
     puestoDesempenado: String,
@@ -59,6 +64,20 @@ const usuarioSchema = new Schema({
     },
     numeroContacto: {
         type: String
+    },
+    nombreContacto: {
+        type: String
+    },
+    cargoContacto: {
+        type: String
+    },
+    ubicacion: {
+        type: String
+    },
+    sectorEmpresarial: {
+        type: String,
+        enum: sectorEmpresarial,
+        default: 'Privado'
     },
     rfc: {
         type: String

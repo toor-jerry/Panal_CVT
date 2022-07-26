@@ -1,0 +1,88 @@
+                        {{#each solicitantes}}
+                            <div class="card text-center border-info mb-3">
+                                <div class="card-body">
+                                    <h4 class="card-title">{{ this.nombre }}</h4>
+                                    {{#if this.foto}}
+                                        <img src="{{ this.foto }}" class="card-img foto-empresa" alt="Fotografía">
+                                        {{/if}}
+
+                                        <h5>{{ this.titulo }}</h5>
+                                        <p class="card-text font-weight-bold">{{ this.carrera }}</p>
+                                        <p class="card-text text-justify">{{ this.descripcion }}</p>
+                                        <div class="row">
+                                            <div class="col">
+                                                Edad:
+                                                {{ this.edad }}
+                                                años
+                                            </div>
+                                            <div class="col">
+                                                Sexo:
+                                                {{ this.sexo }}
+                                            </div>
+                                            <div class="col">
+                                                {{ this.progreso }}
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col">
+                                                <a href="#" class="btn btn-success">Reclutar</a>
+                                            </div>
+                                            <div class="col">
+                                                <a href="#" class="btn btn-info">Ver perfil</a>
+                                            </div>
+
+                                            <div class="col">
+                                                <a href="#" class="btn btn-warning">Descargar CV</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {{/each}}
+
+
+                            <!-- Si es más de un página -->
+                            {{#if (esMayor paginas 1) }}
+                                <nav aria-label="...">
+                                    <ul
+                                        class="pagination pagination-lg justify-content-center">
+
+                                        <!-- Si no se esta en el indice 1 -->
+                                        {{#if (esMayor no_pagina 1) }}
+                                            <li class="page-item" aria-label="Previous">
+                                                <a class="page-link" href="/perfil/empresarial/{{ resta no_pagina 1 }}" aria-label="Previous">
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                    <span class="sr-only">Anterior</span>
+                                                </a>
+                                            </li>
+
+
+                                            <li class="page-item">
+                                                <a class="page-link" href="/perfil/empresarial/{{ resta no_pagina 1 }}" aria-label="Previous">{{ resta no_pagina 1 }}</a>
+                                            </li>
+                                        {{/if}}
+
+                                        <li class="page-item active">
+                                            <span class="page-link">
+                                                {{ no_pagina }}
+                                                <span class="sr-only">(Actual)</span>
+                                            </span>
+                                        </li>
+
+                                        <!-- Si aun alcanza agregar una pagina mas -->
+                                        {{#if (esMenorIgual (suma no_pagina 1) paginas) }}
+                                            <li class="page-item">
+                                                <a class="page-link" href="/perfil/empresarial/{{ suma no_pagina 1 }}">{{ suma no_pagina 1 }}</a>
+                                            </li>
+
+
+                                            <li class="page-item">
+                                                <a class="page-link" href="/perfil/empresarial/{{ suma no_pagina 1 }}" aria-label="Next">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                    <span class="sr-only">Siguiente</span>
+                                                </a>
+                                            </li>
+                                        {{/if}}
+                                    </ul>
+                                </nav>
+                            {{/if}}
