@@ -24,7 +24,7 @@ const estatusPerfil = {
 };
 
 const sectorEmpresarial = {
-    values: ['Privado', 'Público'],
+    values: ['Privado', 'Público', 'Social'],
     message: '{VALUE} sector no válido!!'
 };
 

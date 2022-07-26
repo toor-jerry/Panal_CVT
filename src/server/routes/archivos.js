@@ -3,9 +3,11 @@ const { checkSession } = require('../middlewares/auth');
 const fileUpload = require('express-fileupload');
 const path = require('path');
 const fs = require('fs');
+const json2csv = require('json2csv').parse;
 
 const { response400, response404, response500 } = require('../utils/utils');
 const { Subir } = require('../classes/subir'); // user class
+const { Usuario } = require('../classes/usuario'); // user class
 
 const { generarNombreAleatorio,obtenerRutaDeCargaArchivos } = require('../utils/utils');
 
@@ -27,6 +29,27 @@ app.get('/:colection/:file', checkSession, (req, res) => {
     }
 
 });
+
+// Verificación de perfil en proceso route
+app.get('/registros_entrevistas', checkSession, (req, res) => {
+    Usuario.buscaTodosLosEstudiantes()
+    .then(resp => descargaCSV(res, resp.data, 'registros_entrevistas.csv'))
+    .catch(err => res.status(err.code).json({ msg: err.msg, err: err.err }))
+});
+
+// Verificación de perfil en proceso route
+app.get('/registros_verificacion', checkSession, (req, res) => {
+    Usuario.buscaTodasLasEmpresas()
+    .then(resp => descargaCSV(res, resp.data, 'registros_verificacion.csv'))
+    .catch(err => res.status(err.code).json({ msg: err.msg, err: err.err }))
+});
+
+function descargaCSV(res, data, nombreArchivo) {
+        res.setHeader('Content-disposition', 'attachment; filename='+nombreArchivo);
+        res.set('Content-Type', 'text/csv');
+        return res.status(200).send(json2csv(data));
+}
+
 // Carga de archivos generica
 app.put('/archivo/:carpeta', checkSession, (req, res) => {
 

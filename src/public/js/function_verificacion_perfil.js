@@ -9,6 +9,10 @@ $(document).ready(function() {
         sector = "Público"
     });
 
+    $("#social").change(function() {
+      sector = "Social"
+  });
+
     // Al seleccionar la foto
   $("#inputRFCFile").change(function () {
     subirArchivo(this, nombreEtiqueta = "labelRFC", carpetaAGuardar = "RFC");

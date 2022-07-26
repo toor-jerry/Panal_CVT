@@ -15,10 +15,7 @@ class Usuario {
 
             UsuarioModel.find({})
                 .lean()
-                .populate('area')
-                .sort('name')
                 .exec((err, users) => {
-
                     if (err) reject({ msg: `Could not found users.`, err, code: 500 });
                     resolve({ data: users });
 
@@ -74,7 +71,7 @@ class Usuario {
 
 
     // Busca empresas
-    static buscaTodasLasEmpresas(res) {
+    static buscaTodasLasEmpresas() {
 
         return new Promise((resolve, reject) => {
                 UsuarioModel.find({ userRole: 'USER_ENTERPRISE' })
@@ -95,6 +92,24 @@ class Usuario {
 
 
                     });
+            });
+        });
+    }
+
+    // Busca empresas
+    static buscaTodosLosEstudiantes() {
+        return new Promise((resolve, reject) => {
+                UsuarioModel.find({ userRole: 'USER_PERSONAL' })
+                .lean()
+                .exec((err, users) => {
+
+                    if (err) return reject({ msg: `No se pudo buscar los estudiantes.`, err, code: 500 });
+
+                    if (!users) return reject({ msg: `No se pudo obtener los datos.`, code: 500 })
+                        return resolve({
+                            ok: true,
+                            data: users
+                        });
             });
         });
     }
