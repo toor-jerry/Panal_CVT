@@ -127,7 +127,11 @@ app.delete('/eliminar/formacion/:idEstudio', checkSession, (req, res) => {
 // Actualizar usuario
 // ==========================
 app.put('/actualizar', checkSession, async(req, res) => {
-
+    let actualizacionDatosMismoUsuario = true;
+    const idUsuario = req.query.usuarioId || req.session.usuario._id;
+    if (req.query.usuarioId) {
+        actualizacionDatosMismoUsuario = false;
+    }
     if (req.files?.foto){
         // console.log(req.files);
 
@@ -142,7 +146,6 @@ app.put('/actualizar', checkSession, async(req, res) => {
     if (extensionesValidas.indexOf(extensionImagen) < 0)
         return errorExtensiones(res, extensionesValidas, extensionImagen);
 
-    const idUsuario = req.session.usuario._id;
     const nameFile =  generarNombreAleatorio(idUsuario, extensionImagen);
 
     // Move file
@@ -151,27 +154,33 @@ app.put('/actualizar', checkSession, async(req, res) => {
     if (file.size > 900000) {
 
         await Subir.subirFotografia(idUsuario, file.data, nameFile, true);
-        await Usuario.actualizar(req.session.usuario._id, req.body)
+        await Usuario.actualizar(idUsuario, req.body)
         .then((usuarioDB) => {
+            if (actualizacionDatosMismoUsuario) {
             req.session.usuario = usuarioDB
+            }
             res.status(201).json({});
         })
         .catch(err => res.status(err.code).json({ msg: err.msg, err: err.err }))
 
     } else {
         await Subir.subirFotografia(idUsuario, file.data, nameFile, false);
-        await Usuario.actualizar(req.session.usuario._id, req.body)
+        await Usuario.actualizar(idUsuario, req.body)
         .then((usuarioDB) => {
+            if (actualizacionDatosMismoUsuario) {
             req.session.usuario = usuarioDB
+            }
             res.status(201).json({});
         })
         .catch(err => res.status(err.code).json({ msg: err.msg, err: err.err }))
 
     }
 } else {
-    Usuario.actualizar(req.session.usuario._id, req.body)
+    Usuario.actualizar(idUsuario, req.body)
         .then((usuarioDB) => {
+            if (actualizacionDatosMismoUsuario) {
             req.session.usuario = usuarioDB
+            }
             res.status(200).json({});
         })
         .catch(err => res.status(err.code).json({ msg: err.msg, err: err.err }))

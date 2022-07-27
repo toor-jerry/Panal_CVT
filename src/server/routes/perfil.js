@@ -93,29 +93,19 @@ app.get('/administrativo/:indice_formularios/:indice_empresas', [checkSession, c
 
         page: 'Universidad Administrativo',
         nombre_boton_navbar: 'Universidad Administrativo',
-        paginas_formularios: 4,
-        registros_solicitantes: 20,
-        
-        paginas_empresas: 4,
-        registros_empresas: 20,
         
         no_pagina_formularios,
         no_pagina_empresas,
 
-        solicitantes: [
-            {nombre: 'Gerardo Bautista Castañeda', foto: 'https://concepto.de/wp-content/uploads/2018/08/persona-e1533759204552.jpg', titulo: 'Desarrollador IOS',carrera: 'Licenciatura en Informática Administrativa', sexo: 'Hombre', edad: '23', progreso: 'Egresado', descripcion: 'Egresado de la licenciatura en derecho, bilingue, me gusta el deporte, leer, salir a lugares nueos.'},
-            {nombre: 'Gerardo Bautista Castañeda', foto: 'https://concepto.de/wp-content/uploads/2018/08/persona-e1533759204552.jpg', titulo: 'Desarrollador IOS',carrera: 'Licenciatura en Informática Administrativa', sexo: 'Hombre', edad: '23', progreso: 'Egresado', descripcion: 'Egresado de la licenciatura en derecho, bilingue, me gusta el deporte, leer, salir a lugares nueos.'},
-            {nombre: 'Gerardo Bautista Castañeda', foto: 'https://concepto.de/wp-content/uploads/2018/08/persona-e1533759204552.jpg', titulo: 'Desarrollador IOS',carrera: 'Licenciatura en Informática Administrativa', sexo: 'Hombre', edad: '23', progreso: 'Egresado', descripcion: 'Egresado de la licenciatura en derecho, bilingue, me gusta el deporte, leer, salir a lugares nueos.'},
-            {nombre: 'Gerardo Bautista Castañeda', foto: 'https://concepto.de/wp-content/uploads/2018/08/persona-e1533759204552.jpg', titulo: 'Desarrollador IOS',carrera: 'Licenciatura en Informática Administrativa', sexo: 'Hombre', edad: '23', progreso: 'Egresado', descripcion: 'Egresado de la licenciatura en derecho, bilingue, me gusta el deporte, leer, salir a lugares nueos.'},
-            {nombre: 'Gerardo Bautista Castañeda', foto: 'https://concepto.de/wp-content/uploads/2018/08/persona-e1533759204552.jpg', titulo: 'Desarrollador IOS',carrera: 'Licenciatura en Informática Administrativa', sexo: 'Hombre', edad: '23', progreso: 'Egresado', descripcion: 'Egresado de la licenciatura en derecho, bilingue, me gusta el deporte, leer, salir a lugares nueos.'},
-            {nombre: 'Gerardo Bautista Castañeda', foto: 'https://concepto.de/wp-content/uploads/2018/08/persona-e1533759204552.jpg', titulo: 'Desarrollador IOS',carrera: 'Licenciatura en Informática Administrativa', sexo: 'Hombre', edad: '23', progreso: 'Egresado', descripcion: 'Egresado de la licenciatura en derecho, bilingue, me gusta el deporte, leer, salir a lugares nueos.'},
-            ],
+        solicitantes: await Usuario.buscaEstudiantes(no_pagina_formularios, 10)
+        .then(resp =>{return { data: resp.data, total: resp.total, paginas: resp.paginas}})
+            .catch(() => {}),
             
-        empresas:  await Usuario.buscaEmpresas()
-            .then(resp =>{return { data: resp.data, total: resp.total, paginas: resp.paginas }})
+        empresas:  await Usuario.buscaEmpresas(no_pagina_empresas, 10)
+            .then(resp =>{return { data: resp.data, total: resp.total, paginas: resp.paginas}})
             .catch(() => {}),
 
-        archivoJS: 'function_perfil.js'
+        archivoJS: 'function_perfil_administrativo.js'
     })
 });
 function obtenerFechaUltimaModificacionArchivo(carpeta, idUsuario) {

@@ -1,7 +1,6 @@
 {{> head }}
 {{> navbar_perfil }}
 
-
 <div class="container-fluid pt-5">
     <div class="row mt-5">
         <div class="col">
@@ -10,241 +9,53 @@
     </div>
     <div class="row">
         <div class="col col-md-4 animated bounceIn">
+            {{> informacionPerfilAdministrativoPartial }}
+        </div>
+
+        <div class="col">
+            <!-- Fomularios realizados -->
             <div class="row">
                 <div class="col text-center">
-                    <img class="z-depth-2 foto-empresa mx-auto" src="/img/UAEM_logo.png" data-holder-rendered="true">
-                        <h5 class="texto-verde">Depto. Bolsa de trabajo</h5>
-                        <h5 class="text-dark font-weight-bold">M. en D. Emilio Rodriguez</h5>
-                        <h6 class="text-dark font-weight-bold">BolsaDeTrabajo.CUVT.UAEM@uaemex.mx</h6>
-                        <h6 class="text-dark font-weight-bold">(01 592) 92 4 55 83</h6>
-                        <h6 class="text-dark font-weight-bold">Centro Universitario UAEM Valle de Teotihuacan. <br> Sto. Domingo Aztacameca Axa. Edo. México</h6>
-                    </div>
-                </div>
-
-
-                <div class="row mb-3 mt-3">
-                    <div class="col mx-auto">
-                        <a href="#" class="btn btn-warning btn-block"> <i class="fa-solid fa-eye fa-2x text-success align-middle"></i>&nbsp; Egresado</a>
-                    </div>
-                    <div class="col mx-auto">
-                        <a href="#" class="btn btn-warning btn-block"> <i class="fa-solid fa-eye fa-2x text-primary align-middle"></i>&nbsp; Empresa</a>
-                    </div>
-                </div>
-
-                <div class="row mb-3 mt-3">
-                    <div class="col mx-auto">
-                        <a target="_blank" href="/archivos/registros_entrevistas" class="btn btn-warning btn-block texto-verde"> <i class="fa-solid fa-cloud-arrow-down fa-2x align-middle"></i>&nbsp; Descargar registros Entrevistas</a>
-                    </div>
-                    <div class="col mx-auto">
-                        <a target="_blank" href="/archivos/registros_verificacion" class="btn btn-warning btn-block text-primary font-weight-bold"> <i class="fa-solid fa-cloud-arrow-down fa-2x align-middle"></i>&nbsp; Descargar registros Verificación</a>
-                    </div>
-                </div>
-
-                <div class="row mb-3 mt-3">
-                    <div class="col-md-6 mx-auto">
-                        <a href="#" class="btn btn-warning btn-block"> <i class="fa-solid fa-plus fa-2x text-success align-middle"></i>&nbsp; Crear vacante</a>
+                    <div class="alert alert-light font-weight-bold" role="alert">
+                        Formularios Realizados
+                        <b>Estudiantes:</b>
+                        <b class="texto-verde">{{ solicitantes.total }}</b>
                     </div>
                 </div>
             </div>
 
-
-            <div class="col">
-                <!-- Fomularios realizados -->
-                <div class="row">
-                    <div class="col text-center">
-                        <div class="alert alert-light font-weight-bold" role="alert">
-                            Formularios Realizados
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col">
-                        <div class="card-columns">
-                        {{#each solicitantes}}
-                            <div class="card text-center border-info mb-3">
-                                <div class="card-body">
-                                    <h4 class="card-title">{{ this.nombre }}</h4>
-                                    {{#if this.foto}}
-                                        <img src="{{ this.foto }}" class="card-img foto-empresa" alt="Fotografía">
-                                        {{/if}}
-
-                                        <h5>{{ this.titulo }}</h5>
-                                        <p class="card-text font-weight-bold">{{ this.carrera }}</p>
-                                        <p class="card-text text-justify">{{ this.descripcion }}</p>
-                                        <div class="row">
-                                            <div class="col">
-                                                Edad:
-                                                {{ this.edad }}
-                                                años
-                                            </div>
-                                            <div class="col">
-                                                Sexo:
-                                                {{ this.sexo }}
-                                            </div>
-                                            <div class="col">
-                                                {{ this.progreso }}
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col">
-                                                <a href="#" class="btn btn-success"><i class="fa-solid fa-phone align-middle"></i>&nbsp; Reclutar</a>
-                                            </div>
-                                            <div class="col">
-                                                <a href="#" class="btn btn-info"><i class="fa-solid fa-eye align-middle"></i>&nbsp; Ver perfil</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            {{/each}}
-                            <!-- Fin de Card Colums -->
-                        </div>
-
-
-                            <!-- Si es más de un página -->
-                            {{#if (esMayor paginas_formularios 1) }}
-                                <nav aria-label="...">
-                                    <ul
-                                        class="pagination pagination-lg justify-content-center">
-
-                                        <!-- Si no se esta en el indice 1 -->
-                                        {{#if (esMayor no_pagina_formularios 1) }}
-                                            <li class="page-item" aria-label="Previous">
-                                                <a class="page-link" href="/perfil/administrativo/{{ resta no_pagina_formularios 1 }}/{{ no_pagina_empresas }}" aria-label="Previous">
-                                                    <span aria-hidden="true">&laquo;</span>
-                                                    <span class="sr-only">Anterior</span>
-                                                </a>
-                                            </li>
-
-
-                                            <li class="page-item">
-                                                <a class="page-link" href="/perfil/administrativo/{{ resta no_pagina_formularios 1 }}/{{ no_pagina_empresas }}" aria-label="Previous">{{ resta no_pagina_formularios 1 }}</a>
-                                            </li>
-                                        {{/if}}
-
-                                        <li class="page-item active">
-                                            <span class="page-link">
-                                                {{ no_pagina_formularios }}
-                                                <span class="sr-only">(Actual)</span>
-                                            </span>
-                                        </li>
-
-                                        <!-- Si aun alcanza agregar una pagina mas -->
-                                        {{#if (esMenorIgual (suma no_pagina_formularios 1) paginas_formularios) }}
-                                            <li class="page-item">
-                                                <a class="page-link" href="/perfil/administrativo/{{ suma no_pagina_formularios 1 }}/{{ no_pagina_empresas }}">{{ suma no_pagina_formularios 1 }}</a>
-                                            </li>
-
-
-                                            <li class="page-item">
-                                                <a class="page-link" href="/perfil/administrativo/{{ suma no_pagina_formularios 1 }}/{{ no_pagina_empresas }}" aria-label="Next">
-                                                    <span aria-hidden="true">&raquo;</span>
-                                                    <span class="sr-only">Siguiente</span>
-                                                </a>
-                                            </li>
-                                        {{/if}}
-                                    </ul>
-                                </nav>
-                            {{/if}}
-                            <!-- Fin columna -->
-                        </div>
-
-                </div>
-
-
-                <!-- Fomularios realizados -->
-                <div class="row">
-                    <div class="col text-center">
-                        <div class="alert alert-light font-weight-bold" role="alert">
-                            Formularios Realizados
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col">
-                        <div class="card-columns">
-                        {{#each empresas.data}}
-                            <div class="card text-center border-info mb-3">
-                                <div class="card-body">
-                                    <h4 class="card-title texto-verde">{{ this.razonSocial }}</h4>
-                                    {{#if this.foto}}
-                                        <img src="{{ this.foto }}" class="card-img foto-empresa" alt="Fotografía">
-                                        {{/if}}
-
-                                        <h5><i class="fa-solid fa-envelope align-middle text-warning"></i>&nbsp; {{ this.correo }}</h5>
-                                        <h5><i class="fa-solid fa-phone align-middle text-success"></i>&nbsp; {{ this.telefono }}</h5>
-
-                                        <div class="row">
-                                            <div class="col">
-                                                <a href="#" class="btn btn-success"><i class="fa-solid fa-check align-middle"></i>&nbsp; Validar</a>
-                                            </div>
-                                            <div class="col">
-                                                <a href="#" class="btn btn-info"><i class="fa-solid fa-eye align-middle"></i>&nbsp; Revisar</a>
-                                            </div>
-
-                                            <div class="col">
-                                                <a href="#" class="btn btn-danger"><i class="fa-solid fa-xmark align-middle"></i>&nbsp; Rechazar</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            {{/each}}
-                        </div>
-
-                            <!-- Si es más de un página -->
-                            {{#if (esMayor paginas_empresas 1) }}
-                                <nav aria-label="...">
-                                    <ul
-                                        class="pagination pagination-lg justify-content-center">
-
-                                        <!-- Si no se esta en el indice 1 -->
-                                        {{#if (esMayor no_pagina_empresas 1) }}
-                                            <li class="page-item" aria-label="Previous">
-                                                <a class="page-link" href="/perfil/administrativo/{{ no_pagina_formularios }}/{{ resta no_pagina_empresas 1 }}" aria-label="Previous">
-                                                    <span aria-hidden="true">&laquo;</span>
-                                                    <span class="sr-only">Anterior</span>
-                                                </a>
-                                            </li>
-
-
-                                            <li class="page-item">
-                                                <a class="page-link" href="/perfil/administrativo/{{ no_pagina_formularios }}/{{ resta no_pagina_empresas 1 }}" aria-label="Previous">{{ resta no_pagina_empresas 1 }}</a>
-                                            </li>
-                                        {{/if}}
-
-                                        <li class="page-item active">
-                                            <span class="page-link">
-                                                {{ no_pagina_empresas }}
-                                                <span class="sr-only">(Actual)</span>
-                                            </span>
-                                        </li>
-
-                                        <!-- Si aun alcanza agregar una pagina mas -->
-                                        {{#if (esMenorIgual (suma no_pagina_empresas 1) paginas_empresas) }}
-                                            <li class="page-item">
-                                                <a class="page-link" href="/perfil/administrativo/{{ no_pagina_formularios }}/{{ suma no_pagina_empresas 1 }}">{{ suma no_pagina_empresas 1 }}</a>
-                                            </li>
-
-
-                                            <li class="page-item">
-                                                <a class="page-link" href="/perfil/administrativo/{{ no_pagina_formularios }}/{{ suma no_pagina_empresas 1 }}" aria-label="Next">
-                                                    <span aria-hidden="true">&raquo;</span>
-                                                    <span class="sr-only">Siguiente</span>
-                                                </a>
-                                            </li>
-                                        {{/if}}
-                                    </ul>
-                                </nav>
-                            {{/if}}
-                            <!-- Fin columna -->
-                        </div>
-
-                </div>
-                    <!-- Fin de la fila -->
+            <div class="row">
+                <div class="col">
+                    {{> cardInformacionEstudiantesPartial }}
+                    <!-- Si es más de un página -->
+                    {{> navegacionEstudiantesPartial paginas=solicitantes.paginas no_pagina=no_pagina_formularios }}
+                    <!-- Fin columna -->
                 </div>
             </div>
-            <!-- Fin container -->
+
+
+            <!-- Fomularios realizados -->
+            <div class="row">
+                <div class="col text-center">
+                    <div class="alert alert-light font-weight-bold" role="alert">
+                        Formularios Realizados
+                        <b>Empresas:</b>
+                        <b class="texto-verde">{{ empresas.total }}</b>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    {{> cardInformacionEmpresasPartial }}
+                    <!-- Si es más de un página -->
+                    {{> navegacionEmpresasPartial paginas=empresas.paginas no_pagina=no_pagina_empresas }}
+                    <!-- Fin columna -->
+                </div>
+            </div>
+            <!-- Fin de la fila -->
         </div>
-        {{> footer }}
+    </div>
+    <!-- Fin container -->
+</div>
+{{> footer }}

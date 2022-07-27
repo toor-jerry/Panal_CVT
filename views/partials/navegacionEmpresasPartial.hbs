@@ -1,0 +1,43 @@
+{{#if (esMayor paginas 1)}}
+  <nav aria-label="...">
+    <ul class="pagination pagination-lg justify-content-center">
+
+      <!-- Si no se esta en el indice 1 -->
+      {{#if (esMayor no_pagina 1)}}
+        <li class="page-item" aria-label="Previous">
+          <a class="page-link" href="/perfil/administrativo/{{no_pagina_formularios}}/{{resta no_pagina 1 }}" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+            <span class="sr-only">Anterior</span>
+          </a>
+        </li>
+
+        <li class="page-item">
+          <a class="page-link" href="/perfil/administrativo/{{no_pagina_formularios}}/{{resta no_pagina 1 }}" aria-label="Previous" >
+          {{resta no_pagina 1}}
+          </a>
+        </li>
+      {{/if}}
+
+      <li class="page-item active">
+        <span class="page-link">
+          {{no_pagina}}
+          <span class="sr-only">(Actual)</span>
+        </span>
+      </li>
+
+      <!-- Si aun alcanza agregar una pagina mas -->
+      {{#if (esMenorIgual (suma no_pagina 1) empresas.paginas)}}
+        <li class="page-item">
+          <a class="page-link" href="/perfil/administrativo/{{no_pagina_formularios}}/{{suma no_pagina 1 }}" >{{suma no_pagina 1}}</a>
+        </li>
+
+        <li class="page-item">
+          <a class="page-link" href="/perfil/administrativo/{{no_pagina_formularios}}/{{suma no_pagina 1 }}" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+            <span class="sr-only">Siguiente</span>
+          </a>
+        </li>
+      {{/if}}
+    </ul>
+  </nav>
+{{/if}}

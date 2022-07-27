@@ -41,34 +41,59 @@ class Usuario {
     }
 
     // Busca empresas
-    static buscaEmpresas(res, from, limit) {
+    static buscaEmpresas(from, limit) {
 
         return new Promise((resolve, reject) => {
                 UsuarioModel.find({ userRole: 'USER_ENTERPRISE' })
-                .skip(from)
+                .skip(from - 1)
                 .limit(limit)
                 .lean()
                 .exec((err, empresas) => {
 
                     if (err) reject({ msg: `No se pudo buscar las empresas.`, err, code: 500 });
 
-                    UsuarioModel.countDocuments({ role: 'USER_ENTERPRISE' }, (err, count) => {
+                    UsuarioModel.countDocuments({ userRole: 'USER_ENTERPRISE' }, (err, count) => {
 
                         if (err) reject({ msg: `No se pudo contar las empresas.`, err, code: 500 })
-
                         resolve({
                             ok: true,
                             data: empresas,
                             total: count,
                             paginas: Math.ceil(count / limit)
                         });
-
+                        
 
                     });
             });
         });
     }
+    
+    static buscaEstudiantes(from, limit) {
 
+        return new Promise((resolve, reject) => {
+                UsuarioModel.find({ userRole: 'USER_PERSONAL' })
+                .skip(from - 1)
+                .limit(limit)
+                .lean()
+                .exec((err, estudiantes) => {
+
+                    if (err) reject({ msg: `No se pudo buscar los estudiantes.`, err, code: 500 });
+
+                    UsuarioModel.countDocuments({ userRole: 'USER_PERSONAL' }, (err, count) => {
+
+                        if (err) reject({ msg: `No se pudo contar los estudiantes.`, err, code: 500 })
+                        resolve({
+                            ok: true,
+                            data: estudiantes,
+                            total: count,
+                            paginas: Math.ceil(count / limit)
+                        });
+                        
+
+                    });
+            });
+        });
+    }
 
     // Busca empresas
     static buscaTodasLasEmpresas() {
