@@ -204,11 +204,11 @@ class Vacante {
             let salario = Number(regex.source) || undefined;
 
             VacanteModel.find({}, 'puesto empresa salario horarios funciones notas fechaCreacion')
+                .lean()
                 .populate('empresa', 'razonSocial foto')
                 .or([{ 'puesto': regex },  { 'horarios': regex }, { 'funciones': regex }, { 'notas': regex }, { 'salario': salario }])
                 //.skip(from)
                 //.limit(limit)
-                .lean()
                 .exec((err, vacantes) => {
                     if (err)
                         return reject(`No se pudo buscar '${regex}' en vacantes, ${err}.`);

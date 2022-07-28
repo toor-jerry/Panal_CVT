@@ -21,14 +21,20 @@ $(document).ready(function() {
     $("#form-vacante").submit(function(event) {
 
         event.preventDefault();
+
         showQuestion('¿Está seguro?', 'Está a punto de publicar una nueva vacante.', 'info')
         .then((result) => {
             if (result.value) {
             // show alert loading
             getLoading("Registrando la vacante...", "Loading.." );
 
+            const idEmpresa = $('#empresasSelect').val();
+            let rutaAPI = '/vacante';
+            if (idEmpresa != null) {
+                rutaAPI = `/vacante?empresaId=${idEmpresa}`;
+            }
             // submit data
-            $.post("/vacante", { 
+            $.post(rutaAPI, { 
                                 puesto: $('#inputPuesto').val(),
                                 salario: $('#inputSalario').val(),
                                 horarios: $('#inputHorarios').val(),

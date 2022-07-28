@@ -4,6 +4,7 @@ const fs = require('fs');
 const app = express(); // aplication
 
 const { Usuario } = require('../classes/usuario'); // Usuario class
+const { Postulacion } = require('../classes/postulacion'); // Vacante class
 const { Vacante } = require('../classes/vacante'); // Vacante class
 
 const { checkSession, checkEnterpriseRole, checkEstatusVerificacion } = require('../middlewares/auth');
@@ -26,6 +27,12 @@ app.get('/form/creacion', [checkSession, checkEnterpriseRole, checkEstatusVerifi
         vacantes: await Vacante.encontrarPorEmpresa(req.session.usuario._id)
             .then(resp =>{return { data: resp.data, total: resp.total }})
             .catch(() => {}),
+
+            empresas: await Usuario.buscaTodasLasEmpresas()
+        .then(resp =>{return { data: resp.data, total: resp.total}})
+        .catch(() => {}),
+
+
             archivoJS: 'function_form_creacion_vacante.js'
         })
     });
@@ -64,6 +71,9 @@ app.get('/buscar/:terminoBusqueda', checkSession, async(req, res) => {
         convenios: await Usuario.buscaTodasLasEmpresas()
         .then(resp =>{return { data: resp.data, total: resp.total }})
         .catch(() => {}),
+        postulaciones: await Postulacion.buscarTodasLasPostulacionesPorUsuario(req.session.usuario._id)
+            .then(resp => { return { data: resp.data, total: resp.total } })
+            .catch(() => {}),
 
         archivoJS: 'function_perfil.js'
     })
@@ -166,7 +176,7 @@ app.put('/:id', [checkSession, checkEnterpriseRole], (req, res) => Employment.up
 // ==========================
 app.post('/', [checkSession, checkEnterpriseRole], (req, res) => {
     let body = req.body;
-    body.empresa = req.session.usuario._id;
+    body.empresa = req.query.empresaId || req.session.usuario._id;
     Vacante.crear(body)
         .then(resp => {
             res.status(201).json(resp);

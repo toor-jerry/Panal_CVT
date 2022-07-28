@@ -34,7 +34,7 @@
           <h3 class="texto-oscuro">{{ informacionUsuario.nombre }}</h3>
           <h4 class="card-title">{{ informacionUsuario.razonSocial }}</h4>
           {{#if informacionUsuario.foto}}
-          <img src="{{ informacionUsuario.foto }}" class="card-img foto-empresa" alt="Foto empresa">
+          <img src="/archivos/fotografias/{{ informacionUsuario.foto }}" class="card-img foto-empresa" alt="Foto empresa">
           {{/if}}
           {{#if informacionUsuario.descripcion}}
           <h5 class="card-text text-justify mt-2">Descripción: <b>{{ informacionUsuario.descripcion }}</b></h5>
