@@ -1,0 +1,50 @@
+<div class="card-columns">
+    {{#each empresas.data}}
+    <div class="card text-center border-info mb-3">
+        <div class="card-body">
+            <h4 class="card-title texto-verde">{{ this.razonSocial }}</h4>
+            {{#if this.foto}}
+            <img src="/archivos/fotografias/{{ this.foto }}" class="card-img foto-empresa" alt="Fotografía">
+            {{/if}}
+
+            <h5>
+                <i class="fa-solid fa-envelope align-middle text-warning"></i>&nbsp;
+                {{ this.email }}
+            </h5>
+            <h5>
+                <i class="fa-solid fa-phone align-middle text-success"></i>&nbsp;
+                {{ this.numeroContacto }}
+            </h5>
+            <h4 class="font-weight-bold">Status validación:</h4>
+            <h4>
+                <span class="badge badge-pill badge-{{#if (ifeq perfilVerificado "Verificado")}}success{{/if}}{{#if
+                    (ifeq perfilVerificado "No verificado" )}}secondary{{/if}}{{#if (ifeq perfilVerificado "Rechazado"
+                    )}}danger{{/if}}">{{ perfilVerificado }}</span>
+            </h4>
+            <hr>
+            <div class="row">
+                <div class="col">
+                    <button type="button"
+                        onclick="validarEstatus('{{this._id}}','{{this.perfilVerificado}}', 'Verificado')"
+                        class="btn btn-success">
+                        <i class="fa-solid fa-check align-middle"></i>&nbsp; Validar
+                    </button>
+                </div>
+                <div class="col">
+                    <a href="/perfil/informacion/{{this._id}}" class="btn btn-info">
+                        <i class="fa-solid fa-eye align-middle"></i>&nbsp; Revisar
+                    </a>
+                </div>
+
+                <div class="col">
+                    <button type="button"
+                        onclick="validarEstatus('{{this._id}}','{{this.perfilVerificado}}', 'Rechazado')"
+                        class="btn btn-danger">
+                        <i class="fa-solid fa-xmark align-middle"></i>&nbsp; Rechazar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+</div>

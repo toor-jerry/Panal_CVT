@@ -1,25 +1,4 @@
 $(document).ready(function () {
-  // ==========================
-  // Listen Sockets
-  // ==========================
-
-  /***************************
-   * Listen cites
-   ***************************/
-
-  // Listen status connection
-  socket.on("connect", function () {
-    $("#alert_connection").hide();
-    $("#statusCon").removeClass("text-danger");
-    $("#statusCon").addClass("text-success");
-  });
-
-  socket.on("disconnect", function () {
-    $("#alert_connection").show();
-    $("#statusCon").addClass("text-danger");
-    $("#statusCon").removeClass("text-success");
-  });
-
   // Al seleccionar la foto
   $("#inputCV").change(function () {
     leerPDF(this);
@@ -33,12 +12,7 @@ function leerPDF(input) {
     const tipo = "application/pdf";
     let file = input.files[0];
     if (!file.type.match(tipo)) {
-      swal.fire({
-        title: "Advertencia",
-        text: `Seleccione archivos PDF.`,
-        icon: "info",
-        showLoaderOnConfirm: true,
-      });
+      obtenerAlertSwal(`Seleccione archivos PDF.`, "Advertencia","info");
       return;
     }
 
@@ -55,14 +29,7 @@ function leerPDF(input) {
       xhr.onreadystatechange = () => {
         if (xhr.readyState === 4) {
           if (xhr.status === 201 || xhr.status === 200) {
-            swal
-              .fire({
-                title: "Carga exitosa!",
-                text: "Se ha subido su currículo vitae con éxito.",
-                icon: "success",
-                confirmButtonText: "Aceptar",
-                showLoaderOnConfirm: true,
-              })
+            obtenerAlertSwal("Se ha subido su currículo vitae con éxito.","Carga exitosa!")
           } else {
             showError(xhr.response, true);
           }
@@ -89,14 +56,8 @@ function postular(vacanteID) {
       xhr.onreadystatechange = () => {
         if (xhr.readyState === 4) {
           if (xhr.status === 201 || xhr.status === 200) {
-            swal
-              .fire({
-                title: "Postulación exitosa!",
-                text: "Se ha postulado con éxito a la vacante.",
-                icon: "success",
-                confirmButtonText: "Aceptar",
-                showLoaderOnConfirm: true,
-              }).then(() => {
+            obtenerAlertSwal("Se ha postulado con éxito a la vacante.","Postulación exitosa!")
+            .then(() => {
                 location.href = "/perfil"
               })
           } else {
@@ -104,7 +65,7 @@ function postular(vacanteID) {
         title: 'Error!',
         text: `${JSON.parse(xhr.response).msg}`,
         icon: 'warning',
-    }).then(result => location.href = "/perfil");
+    }).then(() => location.href = "/perfil");
           }
         }
       };

@@ -1,26 +1,5 @@
 var imagen;
 $(document).ready(function() {
-    // ==========================
-    // Listen Sockets
-    // ==========================
-
-    // Listen status connection
-    socket.on('connect', function() {
-        $('#alert_connection').hide();
-        $('#statusCon').removeClass('text-danger');
-        $('#statusCon').addClass('text-success');
-    });
-
-    socket.on('disconnect', function() {
-        $('#alert_connection').show();
-        $('#statusCon').addClass('text-danger');
-        $('#statusCon').removeClass('text-success');
-    });
-
-    // Al seleccionar la foto
-    $("#inputFoto").change(function() {
-      leerImagen(this);
-  });
 
   
     // onsubmit modal
@@ -44,13 +23,9 @@ $(document).ready(function() {
 
         if (xhr.readyState === 4) {
           if (xhr.status === 201 || xhr.status === 200) {
-                swal.fire({
-                    title: 'Actualización exitosa!',
-                    text: 'Se agregó un nuevo empleo.',
-                    icon: 'success',
-                    confirmButtonText: 'Aceptar',
-                    showLoaderOnConfirm: true
-                }).then(() => window.location.href = '/cv')
+            
+            obtenerAlertSwal('Se agregó un nuevo empleo.')
+                .then(() => window.location.href = '/cv')
           } else {
             showError(xhr.response, true);
           }
@@ -82,13 +57,8 @@ $(document).ready(function() {
 
       if (xhr.readyState === 4) {
         if (xhr.status === 201 || xhr.status === 200) {
-              swal.fire({
-                  title: 'Actualización exitosa!',
-                  text: 'Se agregó una nueva formación.',
-                  icon: 'success',
-                  confirmButtonText: 'Aceptar',
-                  showLoaderOnConfirm: true
-              }).then(() => window.location.href = '/cv')
+          obtenerAlertSwal('Se agregó una nueva formación.')
+               .then(() => window.location.href = '/cv')
         } else {
           showError(xhr.response, true);
         }
@@ -99,32 +69,6 @@ $(document).ready(function() {
     
     xhr.send(formData);
   });
-
-
-
-  
-  function leerImagen(input) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
-        
-        const tipo = /image.*/
-        if (!input.files[0].type.match(tipo)){
-            swal.fire({
-                title: 'Advertencia',
-                text: `Seleccione imágenes.`,
-                icon: 'info',
-                showLoaderOnConfirm: true
-            });
-            return
-        }
-        
-        imagen = input.files[0];
-        reader.onload = function(e) {
-            $("#img-previo").attr("src", e.target.result); // Se renderiza la imagen
-    }
-    reader.readAsDataURL(input.files[0]);
-}
-}
 
 });
 
@@ -161,13 +105,8 @@ xhr.onreadystatechange = () => {
 
   if (xhr.readyState === 4) {
     if (xhr.status === 201 || xhr.status === 200) {
-          swal.fire({
-              title: 'Actualización exitosa!',
-              text: 'Se actualizó su CV.',
-              icon: 'success',
-              confirmButtonText: 'Aceptar',
-              showLoaderOnConfirm: true
-          }).then(() => window.location.href = '/cv')
+      obtenerAlertSwal('Se actualizó su CV.')
+         .then(() => window.location.href = '/cv')
     } else {
       showError(xhr.response, true);
     }
@@ -194,11 +133,8 @@ function borrarEmpleo(empleo) {
                   url: '/usuario/eliminar/empleo/' + empleo,
                   type: 'DELETE',
                   success: function() {
-                      Swal.fire({
-                          title: 'Empleo eliminado!',
-                          text: `Empleo eliminado correctamente!`,
-                          icon: 'success',
-                      }).then(() => window.location.href = '/cv')
+                    obtenerAlertSwal(`Empleo eliminado correctamente!`,'Empleo eliminado!')
+                     .then(() => window.location.href = '/cv')
                   },
                   error: function(errResp) {
                       showError(errResp, true); // show error alert
@@ -224,11 +160,8 @@ function borrarEstudio(idEstudio) {
                   url: '/usuario/eliminar/formacion/' + idEstudio,
                   type: 'DELETE',
                   success: function() {
-                      Swal.fire({
-                          title: 'Estudio eliminado!',
-                          text: `Estudio eliminado correctamente!`,
-                          icon: 'success',
-                      }).then(() => window.location.href = '/cv')
+                    obtenerAlertSwal(`Estudio eliminado correctamente!`,'Estudio eliminado!')
+                      .then(() => window.location.href = '/cv')
                   },
                   error: function(errResp) {
                       showError(errResp, true); // show error alert

@@ -1,14 +1,10 @@
-{{> head }}
-{{> navbar }}
+{{> head_Partial }}
 
-<div class="container pt-5">
-    <div class="row mt-5 text-center">
         <div class="col text-justify">
             <h5>El verificar esta cuenta es importante para validar que es una empresa existente, y para establecer lazos de convenios. Y así lograr una relación de armonía y responsabilidad.</h5>
             <h5 class="text-dark font-weight-bold">Para este paso el responsable de la empresa debe ingresar los datos correctos para su validación.</h5>
         </div>
         <!-- Fin de la fila -->
-    </div>
     <form class="user animated bounceIn" id="form-verificacion-cuenta">
         <div class="form-row mt-3 text-center">
             <div class="form-group col">
@@ -79,15 +75,7 @@
                                                             <label for="nombre" class="texto-oscuro">Correo</label>
                                                             <input type="email" class="form-control text-center texto-oscuro" placeholder="Correo de contacto" id="inputEmail" value="{{ empresa.email }}" required></div>
                                                             <div class="form-group col">
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" id="invalidCheck" required>
-                                                                        <label class="form-check-label text-justify texto-terminos" for="invalidCheck">
-                                                                            Acepto que los datos proporcionados sean usados con fines de referencia de la empresa para el sistema "Panal de Trabajo".
-                                                                        </label>
-                                                                        <div class="invalid-feedback">
-                                                                            Debe aceptar los términos y condiciones.
-                                                                        </div>
-                                                                    </div>
+                                                                {{> terminosYCondiciones_Partial }}
                                                                     <button type="submit" class="btn btn-success btn-user btn-block">
                                                                         Continuar
                                                                     </button>
@@ -97,17 +85,15 @@
 
                                                             <div class="form-row mt-3 text-center">
                                                                 <div class="form-group col-md-4">
-                                                                    {{> celular mensajeLabel="Tel. / Celular" numeroContacto= empresa.numeroContacto}}
+                                                                    {{> celular_Partial mensajeLabel="Tel. / Celular" numeroContacto= empresa.numeroContacto}}
                                                                     </div>
                                                                     <div class="form-group col text-justify">
                                                                         <div class="alert alert-danger" role="alert">
                                                                             Nota: La verificación de esta cuenta esta sujeta a validación del responsable de bolsa de trabajo, los datos proporcionados únicamente se usarán con fines de referencia de la empresa dentro del sistema "Panal del Trabajo". Para más información lea el
-                                                                            {{> avisoPrivacidadPartial }}
+                                                                            {{> avisoPrivacidad_Partial }}
                                                                             <br>
-                                                                                Dudas y Aclaraciones:
-                                                                                <br>
-                                                                                    BolsaDeTrabajo.CUVT.UAEM@uaemex.com<br>
-                                                                                        (01 592) 92 4 55 83<br></div>
+                                                                                {{> dudasYAclaraciones_Partial }}
+                                                                                        </div>
                                                                                     </div>
                                                                                 </div>
                                                                             </form>

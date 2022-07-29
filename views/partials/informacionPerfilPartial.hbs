@@ -1,0 +1,55 @@
+<div class="row">
+    <div class="col">
+        {{#if usuario.foto}}
+        <img class="z-depth-2 foto-perfil" src="/archivos/fotografias/{{usuario.foto}}" data-holder-rendered="true">
+        {{/if}}
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <h5 class="text-dark font-weight-bold">{{ usuario.nombre }} {{usuario.apellidos}}</h5>
+        <h6 class="text-dark font-weight-bold">{{ usuario.descripcion }}</h6>
+    </div>
+</div>
+<div class="row text-dark text-dark font-weight-bold">
+    {{#if usuario.edad }}
+    <div class="col">
+        {{ usuario.edad }} años
+    </div>
+    {{/if}}
+
+    {{#if usuario.sexo }}
+    <div class="col">
+        {{ usuario.sexo }}
+    </div>
+    {{/if}}
+
+    {{#if usuario.progreso }}
+    <div class="col">
+        {{ usuario.progreso }}
+    </div>
+    {{/if}}
+</div>
+
+
+<div class="row mb-3 mt-3">
+    <div class="col col-lg-8 mx-auto">
+        <a href="/cv" class="btn btn-warning btn-block">Editar mi Curriculum Vitae</a>
+    </div>
+</div>
+
+
+{{#if usuario.curriculoPdf}}
+<div class="row mb-3">
+    <div class="col col-lg-8 mx-auto">
+        <a target="_blank" href="/archivos/cv/{{usuario.curriculoPdf}}" class="btn btn-warning btn-block">Descargar mi
+            CV</a>
+    </div>
+</div>
+{{/if}}
+
+<div class="row">
+    <div class="col col-lg-8 mx-auto">
+        <a target="_blank" href="/pdf" class="btn btn-warning btn-block">Generar mi CV</a>
+    </div>
+</div>

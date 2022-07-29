@@ -1,21 +1,5 @@
 $(document).ready(function() {
-    // ==========================
-    // Listen Sockets
-    // ==========================
-
-    // Listen status connection
-    socket.on('connect', function() {
-        $('#alert_connection').hide();
-        $('#statusCon').removeClass('text-danger');
-        $('#statusCon').addClass('text-success');
-    });
-
-    socket.on('disconnect', function() {
-        $('#alert_connection').show();
-        $('#statusCon').addClass('text-danger');
-        $('#statusCon').removeClass('text-success');
-    });
-
+    $("#buttonCrearVacante").hide();
 
     // onsubmit form
     $("#form-vacante").submit(function(event) {
@@ -26,7 +10,7 @@ $(document).ready(function() {
         .then((result) => {
             if (result.value) {
             // show alert loading
-            getLoading("Registrando la vacante...", "Loading.." );
+            getLoading("Registrando la vacante...");
 
             const idEmpresa = $('#empresasSelect').val();
             let rutaAPI = '/vacante';
@@ -43,17 +27,7 @@ $(document).ready(function() {
                             }, function() {})
                 .done(function(res) {
 
-                    var toastLogin = Swal.mixin({ // create toast
-                        toast: true,
-                        icon: 'success',
-                        title: 'General Title',
-                        animation: false,
-                        position: 'center',
-                        showConfirmButton: false,
-                        timer: 2000,
-                        timerProgressBar: true
-                    });
-                    toastLogin.fire({
+                    obtenerToast(2000).fire({
                             animation: true,
                             title: `La vacante "${res.data.puesto}" ha sido creada con éxito!!`
                         })
@@ -65,3 +39,30 @@ $(document).ready(function() {
     }});
 });
 });
+
+// Borrar vacante
+function borrarVacante(vacante, nombreVacante) {
+
+    showQuestion('¿Está seguro?', `Esta opción eliminará la vacante "${nombreVacante}"!`)
+        .then((result) => {
+            if (result.value) {
+
+                // Show loading
+                getLoading('Eliminando', 'Por favor espere....');
+
+                // Delete request
+                $.ajax({
+                    url: '/vacante/' + vacante,
+                    type: 'DELETE',
+                    success: function() {
+                        obtenerAlertSwal(`La vacante '${nombreVacante}' eliminada correctamente!`,'Vacante eliminada!')
+                        .then(() => location.reload())
+                    },
+                    error: function(errResp) {
+                        showError(errResp, true); // show error alert
+                    }
+                });
+
+            }
+        })
+}

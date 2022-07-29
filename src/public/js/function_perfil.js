@@ -24,70 +24,6 @@ $(document).ready(function() {
     
       $("input[name='keyword']").on("input", mark);
       $(".context").mark(terminoBusquedaTemp);
-    // ==========================
-    // Listen Sockets
-    // ==========================
-
-    /***************************
-     * Listen cites
-     ***************************/
-
-    // Listen status connection
-    socket.on('connect', function() {
-        $('#alert_connection').hide();
-        $('#statusCon').removeClass('text-danger');
-        $('#statusCon').addClass('text-success');
-    });
-
-    socket.on('disconnect', function() {
-        $('#alert_connection').show();
-        $('#statusCon').addClass('text-danger');
-        $('#statusCon').removeClass('text-success');
-    });
-
-    // New cite
-    socket.on('new-cite-registered-admin', function(res) {
-
-        var cite = res.data; // cite created by a user
-
-        if (cite.area == $("#areaName").attr('name')) { // if area cite is this
-            var nCites = Number($("#nCitesTopBar").text()); // ncites to number
-            if (nCites == NaN || nCites == undefined || nCites == null) { // if error
-                nCites = 0;
-            }
-
-            // Notifications
-            $("#nCitesTopBar").text(nCites + 1); // update ncites
-
-            $("#cites_container").append(createCiteNotif(cite)); // add notification
-        }
-
-    });
-
-
-    // Delete cite
-    socket.on('delete-cite-registered-admin', function(res) {
-
-        var cite = res.data; // cite created by a user
-
-        if (cite.area == $("#areaName").attr('name')) { // if area cite is this
-            var nCites = Number($("#nCitesTopBar").text()); // ncites to number
-            if (nCites == NaN || nCites == undefined || nCites == null) { // if error
-                nCites = 0;
-            }
-
-            // Notifications
-            if (nCites > 0) {
-                $("#nCitesTopBar").text(nCites - 1); // update ncites
-            } else {
-                $("#nCitesTopBar").text('0'); // update ncites
-            }
-
-            // Remove notif
-            $(`#${cite._id}-notif`).remove();
-        }
-
-    });
 
     $("#form-search").submit(function(event) {
 
@@ -95,29 +31,6 @@ $(document).ready(function() {
             buscar();
     });
 
-
-
-    /***************************
-     * Listen Users
-     ***************************/
-    // New user
-    socket.on('new-user-registered-admin', function(res) {
-        var user = res.data; // user created
-
-        // Table item
-        $("#tbody_users").append(createFieldTableUsers(user));
-    });
-
-
-    // Delete user
-    socket.on('delete-user-registered-admin', function(res) {
-
-        var user = res.data; // user created
-
-        // Remove field table 
-        $(`#${user._id}-field`).remove();
-
-    });
 
     $('#conveniosSelect').on('change', function() {
         let value = $(this).val();
@@ -155,11 +68,7 @@ function deleteUser(user) {
                     url: '/user/' + user,
                     type: 'DELETE',
                     success: function() {
-                        Swal.fire({
-                            title: 'Cuenta eliminada!',
-                            text: `Cuenta eliminada correctamente!`,
-                            icon: 'success',
-                        })
+                        obtenerAlertSwal('Cuenta eliminada!',`Cuenta eliminada correctamente!`)
                     },
                     error: function(errResp) {
                         showError(errResp, true); // show error alert

@@ -1,51 +1,91 @@
-var audio = new Audio('/audio/new-cite.mp3');
-
-
-$('#alert_connection').hide(); // hide alert "No connection"
-
 var socket = io(); // initialization sockets
 
-var toastMixin = Swal.mixin({ // create toast
+$(document).ready(function() {
+    // ==========================
+    // Listen Sockets
+    // ==========================
+
+    /***************************
+     * Listen cites
+     ***************************/
+
+    // Listen status connection
+    socket.on('connect', function() {
+        $('#alert_connection').hide();
+        $('#statusCon').removeClass('text-danger');
+        $('#statusCon').addClass('text-success');
+    });
+
+    socket.on('disconnect', function() {
+        $('#alert_connection').show();
+        $('#statusCon').addClass('text-danger');
+        $('#statusCon').removeClass('text-success');
+    });
+
+    $("#hombre").change(function() {
+        genero = "Hombre"
+    });
+
+    $("#mujer").change(function() {
+        genero = "Mujer"
+    });
+
+    // Al seleccionar la foto
+    $("#inputFoto").change(function() {
+        leerImagen(this);
+    });
+    
+    });
+
+    function obtenerAlertSwal(text = 'Se guardado su información.', title = 'Actualización exitosa!', icon='success') {
+        return swal.fire({
+            title: title,
+            text: text,
+            confirmButtonText: 'Aceptar',
+            showLoaderOnConfirm: true
+        });
+    }
+
+function obtenerToast(time = 1000) {
+return Swal.mixin({ // create toast
     toast: true,
     icon: 'success',
     title: 'General Title',
     animation: false,
-    position: 'top-right',
+    position: 'center',
     showConfirmButton: false,
-    timer: 2000,
+    timer: time,
     timerProgressBar: true
 });
-
-// Reset modal Area
-function resetModalArea() {
-    $('#inputAreaName').val('');
-    $('#inputAreaDescription').val('');
-    $('#areaModal').modal('hide');
 }
 
-// Data form area
-function getDataArea() {
-    return { name: $('#inputAreaName').val(), description: $('#inputAreaDescription').val() };
+var audio = new Audio('/audio/new-cite.mp3');
+
+$('#alert_connection').hide(); // hide alert "No connection"
+
+function leerImagen(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        
+        const tipo = /image.*/
+        if (!input.files[0].type.match(tipo)){
+            swal.fire({
+                title: 'Advertencia',
+                text: `Seleccione imágenes.`,
+                icon: 'info',
+                showLoaderOnConfirm: true
+            });
+            return
+        }
+        
+        imagen = input.files[0];
+        reader.onload = function(e) {
+            $("#img-previo").attr("src", e.target.result); // Se renderiza la imagen
+    }
+    reader.readAsDataURL(input.files[0]);
+}
 }
 
-// Data form cite
-function getDataCite() {
-    return { month: $('#inputMonth').val(), day: $('#inputDay').val(), hour: $('#inputHour').val(), description: $('#inputDescription').val(), area: $('#inputAreaCite').val(), full_name: $('#inputFullName').val(), email: $('#inputEmailCite').val(), whatsapp: $('#inputWhatsapp').val() };
-}
-
-// Data form user register
-function getDataUser() {
-    return { name: $('#inputFirstName').val(), last_name: $('#inputLastName').val(), email: $('#inputEmail').val(), password: $('#inputPassword').val(), area: $('#inputArea').val() };
-}
-
-// Data form user login
-function getDataUserLogin() {
-    return { email: $('#inputEmail').val(), password: $('#inputPassword').val() };
-}
-// Data form email
-function getDataEmail() {
-    return { email: $('#inputEmail').val() };
-}
 
 // get error
 function showError(errResp, reload) {
@@ -86,13 +126,9 @@ function showAlert(errResp, reload) {
     });
 }
 
-// return date form
-function getDate() {
-    return $('#inputAnio').val() + '-' + $('#inputMonth').val() + '-' + $('#inputDay').val();
-}
 
 // return loading
-function getLoading(title, txt) {
+function getLoading(title, txt = "Loading...") {
     return swal.fire({
         title: title,
         text: txt,
@@ -110,40 +146,6 @@ function getLoading(title, txt) {
     });
 }
 
-// get horary by date and area
-function getHours(area, date) {
-    $.get(`/cite/hours/${area}/${date}`, function() {})
-        .done(function(res) {
-
-            toastMixin.fire({
-                animation: true,
-                title: 'Horarios obtenidos correctamente!!'
-            });
-
-            $("#inputHour").remove(); // remove horary select
-
-            // add new horary
-            $("#hourContainer").append('<select class="form-control" id="inputHour"></select>');
-
-            var data = res.data;
-
-            // add option at horary select
-            $.each(data, function(key, value) {
-                var opt = '<option id="' + value + '-option" value="' + value + '">' + value + '</option>';
-                $("#inputHour").append(opt);
-            });
-
-        })
-        .fail(function(errResp) {
-            let err = errResp.responseJSON;
-            swal.fire({
-                title: 'Error!',
-                text: `A ocurrido un error.\n ${err.msg} \n ${err.err}`,
-                icon: 'error',
-            }).then(() => location.reload());
-
-        });
-}
 
 // show alert question
 function showQuestion(title, text, icon = 'warning') {
@@ -157,15 +159,6 @@ function showQuestion(title, text, icon = 'warning') {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33'
     });
-}
-
-// show alert area required
-function showDataInvalidArea() {
-    return swal.fire(
-        'Datos inválidos!!',
-        'Debe seleccionar un área.',
-        'warning'
-    );
 }
 
 // create new notification
@@ -218,42 +211,6 @@ function createFieldTableUsers(user) {
             </tr>`;
 }
 
-// add field to areas table
-function createFieldTableAreas(area) {
-    return `<tr id="${area._id}-field">
-                <td>${area.name}</td>
-                <td>${area.description}</td>
-                <td>
-                    <a class="btn btn-danger" onclick="deleteArea('${area._id}')">
-                    <i class="fas fa-trash-alt"></i>
-                    </a>
-                </td>
-            </tr>`;
-}
-
-// delete localStorage
-function deleteStorage() {
-    localStorage.removeItem('email');
-    localStorage.removeItem('remember');
-}
-
-// save email and check 'remember' in localStorage
-function saveStorage() {
-    localStorage.setItem('email', $('#inputEmail').val());
-    localStorage.setItem('remember', true);
-}
-
-// return name user auth
-function getIdUserAuth() {
-    return $('#user_info').attr('name');
-}
-
-// add area option
-function addArea(area, inputId) {
-    var opt = `<option id="${area._id}-option-area" value="${area._id}">${area.name} - ${area.description}</option>`;
-    $("#" + inputId).append(opt);
-}
-
 
 jQuery(function($) {
 
@@ -280,33 +237,3 @@ jQuery(function($) {
 });
 
 
-// Borrar vacante
-function borrarVacante(vacante, nombreVacante) {
-
-    showQuestion('¿Está seguro?', `Esta opción eliminará la vacante "${nombreVacante}"!`)
-        .then((result) => {
-            if (result.value) {
-
-                // Show loading
-                getLoading('Eliminando', 'Por favor espere....');
-
-                // Delete request
-                $.ajax({
-                    url: '/vacante/' + vacante,
-                    type: 'DELETE',
-                    success: function() {
-                        Swal.fire({
-                            title: 'Vacante eliminada!',
-                            text: `La vacante '${nombreVacante}' eliminada correctamente!`,
-                            icon: 'success',
-                        })
-                        .then(() => location.reload())
-                    },
-                    error: function(errResp) {
-                        showError(errResp, true); // show error alert
-                    }
-                });
-
-            }
-        })
-}

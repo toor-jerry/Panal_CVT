@@ -1,68 +1,48 @@
-{{> head }}
-{{> navbar_perfil }}
+{{> head_Partial }}
 
-<div class="container-fluid pt-5">
-    <div class="row mt-5">
-        <div class="col">
-            {{> sinConexion }}
-        </div>
-    </div>
+<div class="col">
+    <!-- Fomularios realizados -->
     <div class="row">
-        <div class="col col-md-4 animated bounceIn">
-            {{> informacionPerfilAdministrativoPartial }}
-
-            <div class="row mb-3 mt-3">
-            <div class="col-md-6 mx-auto">
-                <a href="/vacante/form/creacion" class="btn btn-warning btn-block">
-                    <i class="fa-solid fa-plus fa-2x text-success align-middle"></i>&nbsp; Crear vacante</a>
+        <div class="col text-center">
+            <div class="alert alert-light font-weight-bold" role="alert">
+                Formularios Realizados
+                <b>Estudiantes:</b>
+                <b class="texto-verde">{{ solicitantes.total }}</b>
             </div>
-        </div>
-        </div>
-
-        <div class="col">
-            <!-- Fomularios realizados -->
-            <div class="row">
-                <div class="col text-center">
-                    <div class="alert alert-light font-weight-bold" role="alert">
-                        Formularios Realizados
-                        <b>Estudiantes:</b>
-                        <b class="texto-verde">{{ solicitantes.total }}</b>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col">
-                    {{> cardInformacionEstudiantesPartial }}
-                    <!-- Si es más de un página -->
-                    {{> navegacionEstudiantesPartial paginas=solicitantes.paginas no_pagina=no_pagina_formularios }}
-                    <!-- Fin columna -->
-                </div>
-            </div>
-
-
-            <!-- Fomularios realizados -->
-            <div class="row">
-                <div class="col text-center">
-                    <div class="alert alert-light font-weight-bold" role="alert">
-                        Formularios Realizados
-                        <b>Empresas:</b>
-                        <b class="texto-verde">{{ empresas.total }}</b>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col">
-                    {{> cardInformacionEmpresasPartial }}
-                    <!-- Si es más de un página -->
-                    {{> navegacionEmpresasPartial paginas=empresas.paginas no_pagina=no_pagina_empresas }}
-                    <!-- Fin columna -->
-                </div>
-            </div>
-            <!-- Fin de la fila -->
         </div>
     </div>
-    <!-- Fin container -->
+
+    <div class="row">
+        <div class="col">
+            {{> cardInformacionEstudiantes_Partial }}
+            <!-- Si es más de un página -->
+            {{> navegacionEstudiantesPartial paginas=solicitantes.paginas no_pagina=no_pagina_formularios }}
+            <!-- Fin columna -->
+        </div>
+    </div>
+
+
+    <!-- Fomularios realizados -->
+    <div class="row">
+        <div class="col text-center">
+            <div class="alert alert-light font-weight-bold" role="alert">
+                Formularios Realizados
+                <b>Empresas:</b>
+                <b class="texto-verde">{{ empresas.total }}</b>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            {{> cardInformacionEmpresas_Partial }}
+            <!-- Si es más de un página -->
+            {{> navegacionEmpresasPartial paginas=empresas.paginas no_pagina=no_pagina_empresas }}
+            <!-- Fin columna -->
+        </div>
+    </div>
+    <!-- Fin de la fila -->
+</div>
+<!-- Fin container -->
 </div>
 {{> footer }}

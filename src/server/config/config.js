@@ -24,8 +24,3 @@ process.env.URL_DB = process.env.URL_DB || urlDB;
 // ==========================
 process.env.KEY_1 = 'this-my-secret-key-1-2020';
 process.env.KEY_2 = 'this-my-secret-key-2-2020';
-
-// ==========================
-// Name enterprise
-// ==========================
-process.env.NAME_ENTERPRISE = process.env.NAME_ENTERPRISE || 'Name enterprise';

@@ -1,85 +1,73 @@
-{{> head }}
-{{> navbar_perfil }}
+{{> head_Partial }}
 
-
-<div class="container p-5">
-    <div class="row mt-5">
+<div class="col">
+    <div class="row">
         <div class="col">
-            {{> sinConexion }}
+            {{> busqueda_Partial }}
+        </div>
+        <div class="col">
+            {{> listadoConvenios }}
         </div>
     </div>
+
+    <!-- Vacantes -->
     <div class="row">
-        <div class="col-lg-5 animated bounceIn text-center">
-            {{> informacion_perfil }}
-        </div>
-
-
         <div class="col">
-            <div class="row">
-                <div class="col">
-                    {{> busquedaPartial }}
-                </div>
-                <div class="col">
-                    {{> listadoConvenios }}
+            <div class="alert alert-info text-center" role="alert">
+                Resultados:
+                <b>{{ vacantes.total }}</b>
+            </div>
+            {{#each vacantes.data}}
+            <div class="card text-center border-info mb-3">
+                <div class="card-body context">
+                    <h3 class="texto-oscuro">{{ this.puesto }}</h3>
+                    <h4 class="card-title">{{ this.empresa.razonSocial }}</h4>
+                    {{#if this.empresa.foto}}
+                    <img src="/archivos/fotografias/{{ this.empresa.foto }}" class="card-img foto-empresa"
+                        alt="Foto empresa">
+                    {{/if}}
+
+                    <h5 class="card-text text-justify text-truncate mt-2" style="max-width: 500px;">Funciones:
+                        <b>{{ this.funciones }}</b>
+                    </h5>
+                    <div class="row">
+                        <div class="col">
+                            <h5>Salario:
+                                <b>{{ this.salario }}</b>
+                            </h5>
+                        </div>
+                        <div class="col">
+                            <h5>Horarios:
+                                <b>{{ this.horarios }}</b>
+                            </h5>
+                        </div>
+                    </div>
+                    <p>Publicada:
+                        <b>{{ fechaCreacion }}</b>
+                    </p>
+                    <div class="row">
+                        <div class="col">
+                            <a href="/vacante/{{ this._id }}" class="btn btn-info">Ver vacante</a>
+                        </div>
+                        <div class="col">
+                            {{#if (ifeq_vacante this._id ../postulaciones.data)}}
+                            <button type="button" class="btn btn-success" disabled> Postulado el día {{fechaPostulacion
+                                this._id ../postulaciones.data}}</button>
+                            {{else}}
+                            <a href="/postulacion/{{ this._id }}/{{ this.puesto }}" class="btn btn-primary">
+                                Postularme</a>
+                            {{/if}}
+
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <!-- Vacantes -->
-            <div class="row">
-                <div class="col">
-                    <div class="alert alert-info text-center" role="alert">
-                        Resultados:
-                        <b>{{ vacantes.total }}</b>
-                    </div>
-                    {{#each vacantes.data}}
-                        <div class="card text-center border-info mb-3">
-                            <div class="card-body context">
-                                <h3 class="texto-oscuro">{{ this.puesto }}</h3>
-                                <h4 class="card-title">{{ this.empresa.razonSocial }}</h4>
-                                {{#if this.empresa.foto}}
-                                    <img src="/archivos/fotografias/{{ this.empresa.foto }}" class="card-img foto-empresa" alt="Foto empresa">
-                                    {{/if}}
-
-                                    <h5 class="card-text text-justify text-truncate mt-2" style="max-width: 500px;">Funciones:
-                                        <b>{{ this.funciones }}</b>
-                                    </h5>
-                                    <div class="row">
-                                        <div class="col">
-                                            <h5>Salario:
-                                                <b>{{ this.salario }}</b>
-                                            </h5>
-                                        </div>
-                                        <div class="col">
-                                            <h5>Horarios:
-                                                <b>{{ this.horarios }}</b>
-                                            </h5>
-                                        </div>
-                                    </div>
-                                    <p>Publicada:
-                                        <b>{{ fechaCreacion }}</b>
-                                    </p>
-                                    <div class="row">
-                                        <div class="col">
-                                            <a href="/vacante/{{ this._id }}" class="btn btn-info">Ver vacante</a>
-                                        </div>
-                                        <div class="col">
-                                            {{#if (ifeq_vacante this._id ../postulaciones.data)}} 
-                                                <button type="button" class="btn btn-success" disabled> Postulado el día {{fechaPostulacion this._id ../postulaciones.data}}</button>
-                                            {{else}}
-                                                <a href="/postulacion/{{ this._id }}/{{ this.puesto }}" class="btn btn-primary"> Postularme</a>
-                                            {{/if}}
-                                            
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        {{/each}}
-                    </div>
-
-                </div>
-                <!-- Fin de la fila -->
-            </div>
-            <!-- Fin container -->
+            {{/each}}
         </div>
-        {{> footer }}
 
+    </div>
+    <!-- Fin de la fila -->
+</div>
+<!-- Fin container -->
+</div>
+{{> footer }}

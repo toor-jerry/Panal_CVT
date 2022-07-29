@@ -6,7 +6,7 @@ $(document).ready(function() {
 
         event.preventDefault();
             // show alert loading
-            getLoading("Creando cuenta...", "Loading.." );
+            getLoading("Creando cuenta...");
 
             // submit data
             $.post("/usuario", { 
@@ -18,17 +18,7 @@ $(document).ready(function() {
                                 role: 'USER_PERSONAL'
                             }, function() {})
                 .done(function(res) {
-                    var toastLogin = Swal.mixin({ // create toast
-                        toast: true,
-                        icon: 'success',
-                        title: 'General Title',
-                        animation: false,
-                        position: 'center',
-                        showConfirmButton: false,
-                        timer: 2000,
-                        timerProgressBar: true
-                    });
-                    toastLogin.fire({
+                    obtenerToast().fire({
                             animation: true,
                             title: `La cuenta ${res.data.email} ha sido creada con éxito!!`
                         })

@@ -1,12 +1,4 @@
-{{> head }}
-{{> navbar_perfil }}
-
-
-<div class="container p-5">
-    <div class="row mt-5">
-        <div class="col-lg-5 animated bounceIn text-center">
-            {{> informacion_perfil }}
-        </div>
+{{> head_Partial }}
 
         <div
             class="col">
@@ -25,7 +17,7 @@
                             </div>
                             <div class="form-group col text-center">
                                 <label for="apellidos" class="text-dark font-weight-bold">Apellidos:</label>
-                                {{> apellidos }}
+                                {{> apellidos_Partial }}
                             </div>
                         </div>
                         <div class="form-row">
@@ -51,10 +43,10 @@
 
                             <div class="form-row">
                                 <div class="form-group col-md-5 text-center">
-                                    {{> celular mensajeLabel="Revisa tu número de contacto" numeroContacto= usuario.numeroContacto}}
+                                    {{> celular_Partial mensajeLabel="Revisa tu número de contacto" numeroContacto= usuario.numeroContacto}}
                                 </div>
                                 <div class="form-group col text-center">
-                                    {{>email }}
+                                    {{> email_Partial }}
                                 </div>
                             </div>
 
@@ -88,7 +80,7 @@
 
                                     <div class="form-row">
                                         <div class="form-group col text-center">
-                                            {{> descripcion }}
+                                            {{> descripcion_Partial }}
                                         </div>
                                     </div>
 

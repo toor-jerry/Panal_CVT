@@ -9,20 +9,9 @@ $(document).ready(function() {
         getLoading("Enviando el correo para recuperar su contraseña...", "Sending.." );
 
         // submit data
-        $.post("/correo", getDataEmail(), function() {})
+        $.post("/correo", { email: $('#inputEmail').val() }, function() {})
             .done(function(res) {
-                var toastLogin = Swal.mixin({ // create toast
-                    toast: true,
-                    icon: 'success',
-                    title: 'General Title',
-                    animation: false,
-                    position: 'center',
-                    showConfirmButton: false,
-                    timer: 5000,
-                    timerProgressBar: true
-                });
-
-                toastLogin.fire({
+                obtenerToast(5000).fire({
                         animation: true,
                         title: `El correo de recuperación ha sido enviado con éxito al correo ${res.data}!!`
                     })

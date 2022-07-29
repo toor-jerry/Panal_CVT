@@ -19,6 +19,7 @@ app.get('/form/creacion', [checkSession, checkEnterpriseRole, checkEstatusVerifi
     res.status(200).render('form_creacion_vacante', {
         page: 'Creación',
         nombre_boton_navbar: 'Creación de Vacante',
+        mostrarInformacionUsuario: true,
 
         usuario: await Usuario.findById(req.session.usuario._id)
         .then(resp => resp.data)
@@ -57,6 +58,7 @@ app.get('/buscar/:terminoBusqueda', checkSession, async(req, res) => {
         nombre_boton_navbar: 'Mi Perfil',
         direccion_link_boton_navbar: '/',
         terminoBusqueda: search,
+        mostrarInformacionUsuario: true,
 
     
 
@@ -97,7 +99,7 @@ app.get('/:id', checkSession, async(req, res) => {
         fechaModificacionCV =  new Date(fs.statSync(pathArchivo).mtime).toLocaleString();
     }
 
-    res.render('registro_vacante', {
+    res.render('informacion_vacante', {
         page: 'Postulacion',
         nombre_boton_navbar: 'Información de la vacante',
         direccion_link_boton_navbar: '/perfil',

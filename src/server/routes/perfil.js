@@ -22,6 +22,7 @@ app.get('/', checkSession, (req, res) => {
             page: 'Mi Perfil',
             nombre_boton_navbar: 'Mi Perfil',
             direccion_link_boton_navbar: '/',
+            mostrarInformacionUsuario: true,
 
                 usuario: responses[0].data,
             vacantes: { data: responses[1].data, total: responses[1].total },
@@ -40,6 +41,7 @@ app.get('/informacion/:idUsuario', checkSession, async(req, res) => {
         page: 'Mi Perfil',
         nombre_boton_navbar: 'Información de empresa',
         direccion_link_boton_navbar: '/',
+        mostrarInformacionUsuario: true,
 
         usuario: await Usuario.findById(req.session.usuario._id)
             .then(resp => resp.data)
@@ -61,6 +63,7 @@ app.get('/informacion/:idUsuario', checkSession, async(req, res) => {
 app.get('/empresarial/:indice', [checkSession, checkEnterpriseRole], async(req, res) => {
     let indice = req.params.indice;
     res.render('mi_perfil_empresarial', {
+        mostrarInformacionUsuario: true,
         usuario: await Usuario.findById(req.session.usuario._id)
             .then(resp => resp.data)
             .catch(() => {}),
@@ -90,9 +93,11 @@ app.get('/administrativo/:indice_formularios/:indice_empresas', [checkSession, c
     let no_pagina_formularios = req.params.indice_formularios;
     let no_pagina_empresas = req.params.indice_empresas;
     res.render('mi_perfil_administrativo', {
-
+        usuario: req.session.usuario,
+        
         page: 'Universidad Administrativo',
         nombre_boton_navbar: 'Universidad Administrativo',
+        mostrarInformacionUsuario: true,
         
         no_pagina_formularios,
         no_pagina_empresas,

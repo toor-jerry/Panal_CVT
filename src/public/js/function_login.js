@@ -6,24 +6,15 @@ $(document).ready(function() {
         event.preventDefault();
 
         // show alert loading
-        getLoading("Verificando su identidad...", "Loading.." );
+        getLoading("Verificando su identidad...");
 
         // submit data
-        $.post("/usuario/login", getDataUserLogin(), function() {})
+        $.post("/usuario/login", {
+            email: $('#inputEmail').val(), password: $('#inputPassword').val()
+        }, function() {})
             .done(function(res) {
 
-                var toastLogin = Swal.mixin({ // create toast
-                    toast: true,
-                    icon: 'success',
-                    title: 'General Title',
-                    animation: false,
-                    position: 'center',
-                    showConfirmButton: false,
-                    timer: 1000,
-                    timerProgressBar: true
-                });
-
-                toastLogin.fire({
+                obtenerToast().fire({
                         animation: true,
                         title: `Bienvenid@ ${res.data.nombre}!!`
                     })

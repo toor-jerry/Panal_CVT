@@ -1,9 +1,5 @@
-{{> head }}
-{{> navbar}}
-
-
-<div class="container p-5">
-    <div class="row mt-5">
+{{> head_Partial }}
+    <div class="row">
         <h5 class="mx-auto">El personalizar tu cuenta no es un paso necesario. Pero es tu "toque personal".
             <a href="/perfil">Omitir este paso.</a>
         </h5>
@@ -49,14 +45,13 @@
                     </div>
                     <!-- Términos y condiones -->
                     <div class="col text-justify p-4">
-                        <input type="checkbox" id="terminos" class="form-check-input" value="" required>
-                        <label for="terminos" class="form-check-label text-dark">Acepto que los datos proporcionados sean usados con fines de identificación y referencia dentro del sistema "Panal de Trabajo".</label>
+                        {{> terminosYCondiciones_Partial }}
                     </div>
                 </div>
 
                 <!-- Descripción -->
                 <div class="form-group text-center">
-                    {{> descripcion}}
+                    {{> descripcion_Partial}}
                 </div>
 
 
@@ -65,12 +60,7 @@
         <div class="col col-lg text-center">
             <label class="text-dark font-weight-bold">Cambiar foto de perfil</label>
             <br>
-            <img id="img-previo" class="img img-fluid" src="{{#if usuario.foto}} /archivos/fotografias/{{ usuario.foto }} {{else}} /img/no-img.jpg {{/if}}" alt="Tu fotografía">
-            <hr>
-            <div class="custom-file">
-                <input type="file" class="custom-file-input cursor-puntero" id="inputFoto" lang="es">
-                <label class="custom-file-label cursor-puntero" for="logo"><i class="fa fa-plus text-primary" aria-hidden="true" style="font-size: 40px;"></i>  Seleccionar fotografía</label>
-            </div>
+            {{> inputImagenPrevia_Partial }}
             <br>
             <br>
             <div class="form-group w-75 mx-auto">

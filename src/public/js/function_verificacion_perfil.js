@@ -53,13 +53,7 @@ $(document).ready(function() {
 
         if (xhr.readyState === 4) {
           if (xhr.status === 201 || xhr.status === 200) {
-                swal.fire({
-                    title: 'Actualización exitosa!',
-                    text: 'Se guardado su información.',
-                    icon: 'success',
-                    confirmButtonText: 'Aceptar',
-                    showLoaderOnConfirm: true
-                }).then(() => window.location.href = '/perfil/verificacion_cuenta_en_proceso')
+            obtenerAlertSwal('Se guardado su información.').then(() => window.location.href = '/perfil/verificacion_cuenta_en_proceso')
           } else {
             showError(xhr.response, true);
           }
@@ -99,14 +93,8 @@ function subirArchivo(archivo, nombreEtiqueta, carpetaAGuardar) {
         xhr.onreadystatechange = () => {
           if (xhr.readyState === 4) {
             if (xhr.status === 201 || xhr.status === 200) {
-              swal
-                .fire({
-                  title: "Carga exitosa!",
-                  text: "Se ha subido el archivo con éxito.",
-                  icon: "success",
-                  confirmButtonText: "Aceptar",
-                  showLoaderOnConfirm: true,
-                }).then(() => {
+              obtenerAlertSwal("Carga exitosa!","Se ha subido el archivo con éxito.")
+              .then(() => {
                     $("#fechaModificacion"+carpetaAGuardar).html(new Date().toLocaleString())
                 })
             } else {

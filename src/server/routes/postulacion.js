@@ -16,6 +16,7 @@ app.get('/:idVacante/:nombre_empresa', checkSession, async(req, res) => {
     res.render('postulacion', {
         page: 'Postulacion - ' + nombre_empresa,
         nombre_boton_navbar: 'Mi Perfil',
+        mostrarInformacionUsuario: true,
 
 
         usuario: await Usuario.findById(req.session.usuario._id)

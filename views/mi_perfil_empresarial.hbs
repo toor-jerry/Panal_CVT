@@ -1,32 +1,4 @@
-{{> head }}
-{{> navbar_perfil }}
-
-
-<div class="container p-5">
-    <div class="row mt-5">
-        <div class="col">
-            {{> sinConexion }}
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-5 animated bounceIn">
-            <div class="row">
-                <div class="col text-center">
-                    {{> informacionEmpresarialPartial }}
-                    </div>
-                </div>
-
-
-                <div class="row mb-3 mt-3">
-                    <div class="col col-lg-8 mx-auto">
-                        {{#if (ifeq usuario.perfilVerificado "Verificado")}}
-                        <a href="/vacante/form/creacion" class="btn btn-warning btn-block">Crear vacante</a>
-                        {{else}}
-                        <a href="/perfil/verificacion_cuenta" class="btn btn-primary btn-block">Verificar cuenta</a>
-                        {{/if}}
-                    </div>
-                </div>
-            </div>
+{{> head_Partial }}
 
 
             <div class="col">
