@@ -258,10 +258,14 @@ class Usuario {
 
                 let fotoDBOld = userDB.foto;
                 let curriculoPdfOld = userDB.curriculoPdf;
+                let notificacionesLeidasOld = userDB.notificacionesLeidas;
 
-                userDB = _.extend(userDB, _.pick(data, ['nombre', 'apellidos', 'email', 'password', 'numeroContacto', 'rfc', 'direccion', 'descripcion', 'foto', 'razonSocial', 'edad', 'genero', 'progreso', 'experienciaLaboral', 'licenciatura', 'fechaNacimientoDia', 'fechaNacimientoMes', 'fechaNacimientoAnio', 'logros', 'habilidades', 'userRole', 'empleos', 'estudios', 'perfilVerificado', 'habilidad1', 'habilidad2', 'habilidad3', 'logro1', 'logro2', 'logro3', 'matricula', 'anio_egreso', 'titulo', 'cedula', 'rfc', 'nombreContacto', 'sectorEmpresarial', 'cargoContacto', 'ubicacion']));
+                userDB = _.extend(userDB, _.pick(data, ['nombre', 'apellidos', 'email', 'password', 'numeroContacto', 'rfc', 'direccion', 'descripcion', 'foto', 'razonSocial', 'edad', 'genero', 'progreso', 'experienciaLaboral', 'licenciatura', 'fechaNacimientoDia', 'fechaNacimientoMes', 'fechaNacimientoAnio', 'logros', 'habilidades', 'userRole', 'empleos', 'estudios', 'perfilVerificado', 'habilidad1', 'habilidad2', 'habilidad3', 'logro1', 'logro2', 'logro3', 'matricula', 'anio_egreso', 'titulo', 'cedula', 'rfc', 'nombreContacto', 'sectorEmpresarial', 'cargoContacto', 'ubicacion', 'recuperacionPassword', 'notificacionesLeidas']));
 
 
+                if (userDB.notificacionesLeidas == "undefined") {
+                    userDB.notificacionesLeidas = notificacionesLeidasOld;
+                }
                 if (userDB.curriculoPdf == "undefined") {
                     userDB.curriculoPdf = curriculoPdfOld;
                 }
@@ -284,7 +288,35 @@ class Usuario {
             });
         });
     }
+    
+    static actualizarContrasenia(email, password, recuperacion=false) {
+        return new Promise((resolve, reject) => {
+            if (!email) return reject({ msg: 'No data (email).', code: 400 });
+            if (!password) return reject({ msg: 'No data (password).', code: 400 });
 
+            UsuarioModel.findOne({ email: email })
+                .populate('nombre')
+                .exec((err, userDB) => {
+
+                    if (err) return reject({ msg: 'Error db', err, code: 500 });
+                    if (!userDB) return reject({ msg: 'Usuario no encontrado!!', code: 400 });
+
+                    userDB.password = bcrypt.hashSync(password, 10); // encrypt password
+                    if(recuperacion) {
+                        userDB.recuperacionPassword = true;
+                    } else {
+                        userDB.recuperacionPassword = false;
+                    }
+                // data persist
+                userDB.save((err, userUpdate) => {
+                    console.log(err);
+                    if (err) return reject({ msg: 'Error db', err, code: 500 });
+                    if (!userUpdate) return reject({ msg: 'No se pudo actualizar los datos.', code: 400 });
+                    resolve(userUpdate);
+                });
+            });
+        });
+    }
 
     static login(email, password) {
         return new Promise((resolve, reject) => {

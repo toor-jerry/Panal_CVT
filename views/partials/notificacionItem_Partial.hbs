@@ -1,0 +1,31 @@
+<a class="dropdown-item d-flex align-items-center" href="#">
+    <div class="mr-3">
+        {{#if (ifeq titulo "Recuperación de contraseña")}}
+        <div class="icon-circle bg-warning">
+            <i class="fas fa-exclamation-triangle text-white"></i>
+        </div>
+        {{else}}
+        {{#unless de}}
+        <div class="icon-circle bg-info">
+            <i class="fas fa-info-circle text-white"></i>
+        </div>
+        {{else}}
+        <div class="icon-circle bg-success">
+            <i class="fas fa-check-double text-white"></i>
+        </div>
+        {{/unless}}
+        {{/if}}
+    </div>
+    <div>
+        <div class="small text-primary">{{titulo}} {{#if de}} - <b>"{{de.nombre}}"</b>{{/if}}</div>
+
+        {{#if (ifeq @index 0)}}
+        <span class="texto-verde">{{mensaje}}</span>
+        {{else}}
+        <span class="texto-oscuro">{{mensaje}}</span>
+        {{/if}}
+        <br>
+        <span class="text-gray-500">{{fechaNotificacion}}</span>
+
+    </div>
+</a>

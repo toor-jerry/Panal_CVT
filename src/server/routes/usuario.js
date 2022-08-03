@@ -13,7 +13,7 @@ const app = express();
 app.use(fileUpload());
 const { io } = require('../app');
 
-const { today, generarNombreAleatorio,obtenerRutaDeCargaArchivos } = require('../utils/utils');
+const { today, obtenerRutaDeCargaArchivos } = require('../utils/utils');
 
 // ==========================
 // Recuperar contraseña (form)
@@ -146,7 +146,7 @@ app.put('/actualizar', checkSession, async(req, res) => {
     if (extensionesValidas.indexOf(extensionImagen) < 0)
         return errorExtensiones(res, extensionesValidas, extensionImagen);
 
-    const nameFile =  generarNombreAleatorio(idUsuario, extensionImagen);
+    const nameFile =  `${idUsuario}.${extensionImagen}`;
 
     // Move file
     const path = obtenerRutaDeCargaArchivos("fotografias", nameFile);

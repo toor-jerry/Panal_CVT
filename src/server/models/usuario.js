@@ -172,6 +172,13 @@ const usuarioSchema = new Schema({
     },
     curriculoPdf: {
         type: String
+    },
+    notificacionesLeidas: {
+        type: Number,
+        default: 0
+    },
+    recuperacionPassword: {
+        type: Boolean,
     }
 });
 

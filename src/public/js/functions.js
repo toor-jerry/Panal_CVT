@@ -1,62 +1,127 @@
 var socket = io(); // initialization sockets
 
-$(document).ready(function() {
+$(document).ready(function () {
     // ==========================
     // Listen Sockets
     // ==========================
-
     /***************************
      * Listen cites
      ***************************/
-
     // Listen status connection
-    socket.on('connect', function() {
+    socket.on('connect', function () {
         $('#alert_connection').hide();
         $('#statusCon').removeClass('text-danger');
         $('#statusCon').addClass('text-success');
     });
 
-    socket.on('disconnect', function() {
+    socket.on('disconnect', function () {
         $('#alert_connection').show();
         $('#statusCon').addClass('text-danger');
         $('#statusCon').removeClass('text-success');
     });
 
-    $("#hombre").change(function() {
+    $("#hombre").change(function () {
         genero = "Hombre"
     });
 
-    $("#mujer").change(function() {
+    $("#mujer").change(function () {
         genero = "Mujer"
     });
 
     // Al seleccionar la foto
-    $("#inputFoto").change(function() {
+    $("#inputFoto").change(function () {
         leerImagen(this);
     });
-    
-    });
 
-    function obtenerAlertSwal(text = 'Se guardado su información.', title = 'Actualización exitosa!', icon='success') {
-        return swal.fire({
-            title: title,
-            text: text,
-            confirmButtonText: 'Aceptar',
-            showLoaderOnConfirm: true
-        });
+    if (new URLSearchParams(window.location.search).has('limitNotificaciones'))
+    {
+        $('#dropdown-notificaciones').trigger('click');
     }
 
-function obtenerToast(time = 1000) {
-return Swal.mixin({ // create toast
-    toast: true,
-    icon: 'success',
-    title: 'General Title',
-    animation: false,
-    position: 'center',
-    showConfirmButton: false,
-    timer: time,
-    timerProgressBar: true
+// onsubmit modal
+$("#cambioPassword-form").submit(function (event) {
+
+    event.preventDefault();
+    if ($('#inputPassword').val() !== '' && PasswordStrength.test('', $('#inputPassword').val()).score <= 35) {
+        return obtenerAlertSwal('Por favor mejore la seguridad de su contraseña!!', 'Datos inválidos!!','warning');
+    }
+
+    // show alert loading
+    getLoading("Loading..", "Por favor espere.");
+    // submit data
+    const formData = new FormData();
+    const xhr = new XMLHttpRequest();
+
+    formData.append('password', $('#inputPassword').val());
+    formData.append('recuperacionPassword', false);
+    
+
+    xhr.onreadystatechange = () => {
+
+        if (xhr.readyState === 4) {
+            if (xhr.status === 201 || xhr.status === 200) {
+                obtenerAlertSwal('Se actualizó correctamente su contraseña.')
+                    .then(() => location.reload());
+            } else {
+                showError(xhr.response, true);
+            }
+        }
+
+    };
+    xhr.open('PUT', '/usuario/actualizar', true);
+
+    xhr.send(formData);
 });
+});
+
+function marcarNotificacionesComoLeidas(notificacionesTotal) {
+        // show alert loading
+        getLoading("Loading..", "Por favor espere.");
+        // submit data
+        const formData = new FormData();
+        const xhr = new XMLHttpRequest();
+
+        formData.append('notificacionesLeidas', notificacionesTotal);
+
+      xhr.onreadystatechange = () => {
+
+        if (xhr.readyState === 4) {
+          if (xhr.status === 201 || xhr.status === 200) {
+            
+            obtenerAlertSwal('No tiene nuevas notificaciones.')
+                .then(() => window.location.reload())
+          } else {
+            showError(xhr.response, true);
+          }
+        }
+
+      };
+      xhr.open('PUT', '/usuario/actualizar', true);
+      
+      xhr.send(formData);
+}
+
+function obtenerAlertSwal(text = 'Se guardado su información.', title = 'Actualización exitosa!', icon = 'success') {
+    return swal.fire({
+        title: title,
+        text: text,
+        icon: icon,
+        confirmButtonText: 'Aceptar',
+        showLoaderOnConfirm: true
+    });
+}
+
+function obtenerToast(time = 1000) {
+    return Swal.mixin({ // create toast
+        toast: true,
+        icon: 'success',
+        title: 'General Title',
+        animation: false,
+        position: 'center',
+        showConfirmButton: false,
+        timer: time,
+        timerProgressBar: true
+    });
 }
 
 var audio = new Audio('/audio/new-cite.mp3');
@@ -66,9 +131,9 @@ $('#alert_connection').hide(); // hide alert "No connection"
 function leerImagen(input) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();
-        
+
         const tipo = /image.*/
-        if (!input.files[0].type.match(tipo)){
+        if (!input.files[0].type.match(tipo)) {
             swal.fire({
                 title: 'Advertencia',
                 text: `Seleccione imágenes.`,
@@ -77,13 +142,13 @@ function leerImagen(input) {
             });
             return
         }
-        
+
         imagen = input.files[0];
-        reader.onload = function(e) {
+        reader.onload = function (e) {
             $("#img-previo").attr("src", e.target.result); // Se renderiza la imagen
+        }
+        reader.readAsDataURL(input.files[0]);
     }
-    reader.readAsDataURL(input.files[0]);
-}
 }
 
 
@@ -212,7 +277,7 @@ function createFieldTableUsers(user) {
 }
 
 
-jQuery(function($) {
+jQuery(function ($) {
 
     $(".security-password").strength({
         templates: {
@@ -235,5 +300,3 @@ jQuery(function($) {
 
     });
 });
-
-

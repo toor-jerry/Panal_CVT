@@ -18,6 +18,9 @@ hbs.registerHelper('admin', (role) => (role === 'ADMIN_ROLE') ? true : false);
 // equals
 hbs.registerHelper('ifeq', (a, b) => (a == b) ? true : false );
 
+// equals
+hbs.registerHelper('mostrarNotificaciones', (notificacionesTotales, notificacionesLeidas) => ((notificacionesTotales - notificacionesLeidas) != 0) ? true : false );
+
 // es igual a la vacante 
 hbs.registerHelper('ifeq_vacante', (vacanteId, postulaciones) => {
     let flag = false;
@@ -59,15 +62,3 @@ hbs.registerHelper('suma', (a,b) => (Number(a) + Number(b)));
 
 // Resta
 hbs.registerHelper('resta', (a,b) => (Number(a) - Number(b)));
-
-// Retorna resto de arreglo
-hbs.registerHelper('retornaArregloMasItemsFaltantes', (arreglo,numeroItems) => {
-    let arregloManipulado = []
-    if(arreglo) {
-        arregloManipulado = arreglo
-    }
-    for (let index = arregloManipulado.length; index < numeroItems; index++) {
-        arregloManipulado.push('')
-    }
-    return arregloManipulado
-})

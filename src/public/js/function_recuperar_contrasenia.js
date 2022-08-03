@@ -9,7 +9,7 @@ $(document).ready(function() {
         getLoading("Enviando el correo para recuperar su contraseña...", "Sending.." );
 
         // submit data
-        $.post("/correo", { email: $('#inputEmail').val() }, function() {})
+        $.post("/correo/recuperarContrasenia", { email: $('#inputEmail').val() }, function() {})
             .done(function(res) {
                 obtenerToast(5000).fire({
                         animation: true,

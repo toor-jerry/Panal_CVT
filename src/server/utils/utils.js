@@ -53,8 +53,6 @@ const response500 = (res, err, message = undefined) => {
         errors: err
     });
 }
-
-const generarNombreAleatorio = (id_user, fileExtention) => `${ id_user }-${uuid.v1()}.${fileExtention}`;
 // return date today
 const today = `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}`;
 
@@ -74,7 +72,6 @@ module.exports = {
     response403,
     response404,
     response500,
-    generarNombreAleatorio,
     obtenerRutaDeCargaArchivos,
     today,
     getHash

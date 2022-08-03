@@ -1,4 +1,4 @@
-<select {{#if mostrarId}}id="inputNivelAcademico"{{/if}}{{#if desabilitado }} disabled{{/if}} class="form-control texto-oscuro">
+<select {{#if mostrarId}}id="inputNivelAcademico"{{/if}}{{#if desabilitado }} disabled{{/if}} class="form-control form-control-lg">
     <option selected>Nivel Académico</option>
     <option {{#if (ifeq nivelAcademico "1" )}} selected{{/if}} value="1">Doctorado</option>
     <option {{#if (ifeq nivelAcademico "2" )}} selected {{/if}} value="2">Maestria</option>

@@ -9,8 +9,13 @@
 .text-center {
     text-align: center;
 }
+.center {
+        text-align: center;
+        }
 .photo {
-    width: 3cm;
+    height: 200px; 
+    border-radius: 80px;
+    width: 150px;
 }
 .text-right {
     text-align: right;
@@ -32,11 +37,14 @@ p {
 </style>
 
 <body>
-            <h2 class="text-center">
+    {{#if foto}}
+    <div class="center">
+        <img src="{{foto}}" class="photo" alt=""/>
+    <br>
+</div>
+{{/if}}
+    <h2 class="text-center">
                 {{name}} {{last_name}}
-                {{#if photoUser}}
-                    <img src="{{{photoUser}}}" class="photo" style="float: right;" alt=""/>
-                {{/if}}
                 </h2>
                 <h5 class="bold">{{carrera}}</h5>
                 <p class="text-justify">{{description}}</p>

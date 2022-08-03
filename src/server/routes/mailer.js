@@ -5,13 +5,17 @@ const app = express();
 
 const nodemailer = require('nodemailer');
 const uuid = require('uuid');
+const { Usuario } = require('../classes/usuario'); // user class
+const { Notificacion } = require('../classes/notificacion'); // user class
+const { checkSession, checkAdminRole } = require('../middlewares/auth'); // midlewares auth
+
 
 
 // ==========================
 // Post email
 // ==========================
 // email sender function
-app.post('/', (req, res) => {
+app.post('/recuperarContrasenia', async(req, res) => {
     // Definimos el transporter
         const transporter = nodemailer.createTransport({
             service: 'Gmail',
@@ -21,7 +25,7 @@ app.post('/', (req, res) => {
             }
         });
     // Definimos el email
-    let hash = uuid.v1()
+    const hash = uuid.v1()
     let email = req.body.email
     var mailOptions = {
         from: 'Remitente',
@@ -31,13 +35,22 @@ app.post('/', (req, res) => {
         html: `<p>Use el siguiente código como contraseña temporal <b>${hash}</b></p>`
     };
     // Enviamos el email
-    transporter.sendMail(mailOptions, (error, info) =>{
+    await transporter.sendMail(mailOptions, (error, info) =>{
         if (error){
             console.log(error);
             res.status(500).json({ msg: "error", err: error });
         } else {
             console.log("Email sent to: " + email);
-            res.status(200).json({ data: email });
+              Usuario.actualizarContrasenia(email, hash, true)
+                .then((usuarioDB) => {
+                    Notificacion.crear({para: usuarioDB._id, titulo: 'Recuperación de contraseña', mensaje: 'Se ha enviado un correo con la nueva contraseña'})
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            res.status(201).json({data: email
+            });
+        })
+        .catch(err => res.status(err.code).json({ msg: err.msg, err: err.err }))
         }
     }); 
 

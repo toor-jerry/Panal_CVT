@@ -6,7 +6,7 @@ const fileUpload = require('express-fileupload');
 const UsuarioModel = require('../models/usuario');
 
 const { response500, response400, response200, response201 } = require('../utils/utils');
-const { generarNombreAleatorio,obtenerRutaDeCargaArchivos } = require('../utils/utils');
+const { obtenerRutaDeCargaArchivos } = require('../utils/utils');
 
 const TAMANIO_FOTOGRAFIA = 400;
 

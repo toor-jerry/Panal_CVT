@@ -16,8 +16,8 @@
                             
 <div class="card text-center border-info mb-3">
         <div class="card-body">
-          <input class="d-none" type="text" id="informacionUsuarioID" value="{{ informacionUsuario._id }}" class="texto-oscuro"></input>
-          <h3 class="texto-oscuro">{{ informacionUsuario.nombre }}</h3>
+          <input class="d-none" type="text" id="informacionUsuarioID" value="{{ informacionUsuario._id }}"></input>
+          <h3 class="form-control-lg">{{ informacionUsuario.nombre }}</h3>
           <h4 class="card-title">{{ informacionUsuario.razonSocial }}</h4>
           {{#if informacionUsuario.foto}}
           <img src="/archivos/fotografias/{{ informacionUsuario.foto }}" class="card-img foto-empresa" alt="Foto empresa">

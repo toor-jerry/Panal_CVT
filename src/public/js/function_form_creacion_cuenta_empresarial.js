@@ -5,9 +5,8 @@ $(document).ready(function() {
     $("#form-cuenta-personal").submit(function(event) {
 
         event.preventDefault();
+        verifcarNivelSeguridadPassword();
             // show alert loading
-            verifcarNivelSeguridadPassword();
-
             getLoading("Creando cuenta...");
 
             // submit data
@@ -17,14 +16,14 @@ $(document).ready(function() {
                                 email: $('#inputEmail').val(),
                                 password: $('#inputPassword').val(),
                                 contacto: $('#inputContacto').val(),
-                                role: 'USER_PERSONAL'
+                                role: 'USER_ENTERPRISE'
                             }, function() {})
                 .done(function(res) {
                     obtenerToast().fire({
                             animation: true,
                             title: `La cuenta ${res.data.email} ha sido creada con éxito!!`
                         })
-                        .then(() => window.location.href = "/registro/personalizacion_de_perfil")
+                        .then(() => window.location.href = "/perfil/empresarial/1")
                 })
                 .fail(function(errResp) {
                     showAlert(errResp); // show error alert

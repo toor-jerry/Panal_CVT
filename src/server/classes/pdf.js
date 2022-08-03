@@ -63,6 +63,7 @@ class PDF {
 
                 if (user.foto) {
                     foto = base64Img.base64Sync(path.resolve(__dirname, '../../../uploads/fotografias/' + user.foto))
+                    console.log(path.resolve(__dirname, '../../../uploads/fotografias/' + user.foto))
                 }
 
                 if (user.numeroContacto) {
@@ -144,6 +145,7 @@ class PDF {
                         habilidad1: user.habilidad1 || '',
                         habilidad2: user.habilidad2 || '',
                         habilidad3: user.habilidad3 || '',
+                        foto: foto,
                         empleos,
                         estudios
                     },

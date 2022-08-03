@@ -6,18 +6,21 @@ const app = express(); // aplication
 const { Usuario } = require('../classes/usuario'); // Usuario class
 const { Vacante } = require('../classes/vacante'); // Vacante class
 const { Postulacion } = require('../classes/postulacion'); // Vacante class
+const { Notificacion } = require('../classes/notificacion'); // Vacante class
 const { checkSession, checkAdminRole, checkSuperRole, checkEnterpriseRole  } = require('../middlewares/auth');
 
 // Tipo de registro route
 app.get('/', checkSession, (req, res) => {
     const idUsuario = req.session.usuario._id;
+    const limitNotificaciones = req.query.limitNotificaciones || 10;
     Promise.all([
         Usuario.findById(idUsuario),
         Vacante.encontrarTodas(),
         Usuario.buscaTodasLasEmpresas(),
-        Postulacion.buscarTodasLasPostulacionesPorUsuario(idUsuario)
+        Postulacion.buscarTodasLasPostulacionesPorUsuario(idUsuario),
+        Notificacion.buscarPorUsuario(idUsuario, limitNotificaciones)
     ])
-    .then(responses =>
+    .then(responses =>{
         res.render('mi_perfil', {
             page: 'Mi Perfil',
             nombre_boton_navbar: 'Mi Perfil',
@@ -28,9 +31,10 @@ app.get('/', checkSession, (req, res) => {
             vacantes: { data: responses[1].data, total: responses[1].total },
             convenios:{ data: responses[2].data, total: responses[2].total },
             postulaciones: { data: responses[3].data, total: responses[3].total },
+            notificaciones: { data: responses[4].data, total: responses[4].total },
 
             archivoJS: 'function_perfil.js'})
-        ).catch(err => res.status(500).json(err))
+}).catch(err => res.status(500).json(err))
     
 });
 

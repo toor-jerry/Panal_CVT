@@ -30,7 +30,8 @@ app.get('/registro_cuenta_empresarial', (req, res) => {
         page: 'Registro de Cuenta',
         nombre_boton_navbar: 'Registro de Cuenta (Perfil Empresarial)',
         mostrar_boton_regreso: true,
-        direccion_link_boton_navbar: 'tipo_registro'
+        direccion_link_boton_navbar: 'tipo_registro',
+        archivoJS: 'function_form_creacion_cuenta_empresarial.js'
     })
 });
 

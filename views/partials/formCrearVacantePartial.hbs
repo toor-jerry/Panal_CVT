@@ -7,7 +7,7 @@
     <div class="form-row">
         <div class="col">
             <!-- Puesto -->
-            <div class="form-group texto-oscuro">Empresas - Total: ({{ empresas.total }})</label>
+            <div class="form-group form-control-lg">Empresas - Total: ({{ empresas.total }})</label>
                 <select id="empresasSelect" class="custom-select mr-sm-2 border border-warning">
                     {{#each empresas.data }}
                     <option id="{{ this._id }}" value="{{ this._id }}">{{ this.razonSocial }}</option>
@@ -19,48 +19,43 @@
     {{/if}}
     <!-- Fila -->
     <div class="form-row">
-        <div class="col">
+        <div class="form-group col">
             <!-- Puesto -->
-            <div class="form-group texto-oscuro">Puesto</label>
+            <label class="form-control-lg">Puesto</label>
                 <input type="text" id="inputPuesto" class="form-control form-control-user"
                     placeholder="Puesto solicitado" name="puesto" required>
             </div>
-        </div>
-        <div class="col">
+        <div class="form-group col">
             <!-- Horarios -->
-            <div class="form-group texto-oscuro">Horarios</label>
+            <label class="form-control-lg">Horarios</label>
                 <input type="text" id="inputHorarios" class="form-control form-control-user"
                     placeholder="Lunes - Sábado 09:00 am - 05:00 pm" name="horarios" required>
             </div>
-        </div>
     </div>
 
     <!-- Fila -->
     <div class="form-row">
-        <div class="col">
+        <div class="form-group col">
             <!-- Puesto -->
-            <div class="form-group texto-oscuro">Funciones</label>
-                <textarea class="form-control" id="inputFunciones" name="funciones" placeholder="Funciones a realizar"
+            <label class="form-control-lg">Funciones</label>
+                <textarea class="form-control form-control-lg texto-oscuro" id="inputFunciones" name="funciones" placeholder="Funciones a realizar"
                     rows="3" required></textarea>
-            </div>
         </div>
     </div>
     <!-- Fila -->
     <div class="form-row">
-        <div class="col">
+        <div class="form-group  col">
             <!-- Salario -->
-            <div class="form-group texto-oscuro">Salario $</label>
+            <label class="form-control-lg">Salario $</label>
                 <input type="number" id="inputSalario" class="form-control form-control-user"
                     placeholder="Monto en pesos" name="salario" required>
             </div>
-        </div>
-        <div class="col">
+        <div class="form-group col">
             <!-- Notas -->
-            <div class="form-group texto-oscuro">Notas</label>
+            <label class="form-control-lg">Notas</label>
                 <input type="text" id="inputNotas" class="form-control form-control-user" placeholder="Notas extras"
                     name="notas" required>
             </div>
-        </div>
     </div>
     <div class="form-group w-50 mx-auto">
         <button type="submit" class="btn btn-success btn-user btn-block">

@@ -20,7 +20,7 @@
             {{#each vacantes.data}}
             <div class="card text-center border-info mb-3">
                 <div class="card-body context">
-                    <h3 class="texto-oscuro">{{ this.puesto }}</h3>
+                    <h3 class="form-control-lg">{{ this.puesto }}</h3>
                     <h4 class="card-title">{{ this.empresa.razonSocial }}</h4>
                     {{#if this.empresa.foto}}
                     <img src="/archivos/fotografias/{{ this.empresa.foto }}" class="card-img foto-empresa"

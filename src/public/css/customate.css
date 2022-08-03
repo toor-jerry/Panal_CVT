@@ -41,7 +41,11 @@ body {
     height:200px;
     border: 4px solid goldenrod;
 }
-
+input[type=text], input[type=number], input[type=search], input[type=password] {
+    color: black;
+    font-weight: bold;
+    text-align: center;
+}
 .texto-oscuro {
     color: black;
     font-weight: bold;

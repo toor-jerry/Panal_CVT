@@ -5,19 +5,19 @@
             <form
                 class="user animated bounceIn">
                 <!-- Fila -->
-                 <div class="form-row align-items-center">
+                 <div class="form-row align-items-center" id="form-cuenta-empresarial">
 
                      <div class="col">
                          <!-- Nombre -->
                         <div class="form-group text-center">
                             <label for="nombre" class="text-dark font-weight-bold">Ingrese el nombre de la empresa</label>
-                            <input type="text" id="nombre" class="form-control form-control-user" placeholder="Nombre(s)" name="nombre" required>
+                            <input type="text" id="inputNombre" class="form-control form-control-user" placeholder="Nombre(s)" name="nombre" required>
                         </div>
 
                          <!-- RFC -->
                         <div class="form-group text-center">
                             <label for="rfc" class="text-dark font-weight-bold">Ingresa el RFC</label>
-                            <input type="text" id="rfc" class="form-control form-control-user" placeholder="RFC" name="rfc" maxlength="12" required>
+                            <input type="text" id="inputRFC" class="form-control form-control-user" placeholder="RFC" name="rfc" maxlength="12" required>
                         </div>
 
                          <!-- Correo -->
@@ -40,7 +40,7 @@
                         <label class="text-dark font-weight-bold">Elija el logo</label>
                         <div class="custom-file">
                         <input type="file" class="custom-file-input" id="logo" lang="es">
-                        <label class="custom-file-label" for="logo"><i class="fa fa-building text-primary" aria-hidden="true" style="font-size: 40px;"></i>  Seleccionar logo</label>
+                        <label class="custom-file-label" for="logo"><i class="fa fa-building text-primary" aria-hidden="true" style="font-size: 25px;"></i>  Seleccionar logo</label>
                         </div>
                         </div>
 
@@ -53,7 +53,7 @@
                         <!-- Descripcion del puesto-->
                         <div class="form-group text-center">
                             <label for="descripcion" class="text-dark font-weight-bold">Descripción</label>
-                            <textarea class="form-control" id="descripcion" name="descripcion" placeholder="Describa de forma breve a que se dedica la empresa (100 palabras máximo." rows="3" maxlength="100"></textarea>
+                            <textarea class="form-control form-control-lg texto-oscuro" id="descripcion" name="descripcion" placeholder="Describa de forma breve a que se dedica la empresa (100 palabras máximo." rows="3" maxlength="100"></textarea>
                         </div>
 
                         <!-- Dirección -->
@@ -62,8 +62,6 @@
                             <input type="text" id="direccion" class="form-control form-control-user" placeholder="Dirección de la organización" name="direccion" required>
                         </div>
                     </div>
-                        <!-- Role user -->
-                        <input name="userRole" type="hidden" value="USER_ENTERPRISE">
 
                  </div>
 

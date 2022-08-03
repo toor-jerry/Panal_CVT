@@ -9,7 +9,7 @@ const { response400, response404, response500 } = require('../utils/utils');
 const { Subir } = require('../classes/subir'); // user class
 const { Usuario } = require('../classes/usuario'); // user class
 
-const { generarNombreAleatorio,obtenerRutaDeCargaArchivos } = require('../utils/utils');
+const { obtenerRutaDeCargaArchivos } = require('../utils/utils');
 
 const app = express();
 // default options (req.files <- todo lo que viene)
