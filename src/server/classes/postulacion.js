@@ -90,6 +90,33 @@ class Postulacion {
             });
     }
 
+    static buscarTodasLasPostulacionesPorEmpresa(idEmpresa) {
+
+        return new Promise((resolve, reject) => {
+        PostulacionModel.find({ empresa: idEmpresa })
+            .lean()
+            .populate('usuario')
+            .exec((err, postulaciones) => {
+
+                if (err) reject({ code: 500, err });
+                if (!postulaciones) reject({ code: 400, err: 'No se encontraron postulaciones.' });
+            
+                PostulacionModel.countDocuments({ empresa: idEmpresa })
+                .exec((err, count) => {
+
+                    if (err) reject({ code: 500, err });
+
+                    return resolve({
+                        ok: true,
+                        data: postulaciones,
+                        total: count
+                    });
+
+                });
+            });
+            });
+    }
+
 
     static findById(res, id) {
 
@@ -114,7 +141,7 @@ class Postulacion {
         return new Promise((resolve, reject) => {
             if (!data) return reject({ msg: 'No data', code: 400 });
 
-        PostulacionModel.findOne({ vacante: data.vacante, usuario: data.usuario }, (err, postulacionDB) => {
+        PostulacionModel.findOne({ vacante: data.vacante, usuario: data.usuario, empresa: data.empresa }, (err, postulacionDB) => {
             if (err) return reject({ msg: 'Error db', err, code: 500 });
 
             if (postulacionDB) return reject({ msg: 'Ya ha sido postulad@.', code: 400 });

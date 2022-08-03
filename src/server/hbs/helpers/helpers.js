@@ -19,7 +19,7 @@ hbs.registerHelper('admin', (role) => (role === 'ADMIN_ROLE') ? true : false);
 hbs.registerHelper('ifeq', (a, b) => (a == b) ? true : false );
 
 // equals
-hbs.registerHelper('mostrarNotificaciones', (notificacionesTotales, notificacionesLeidas) => ((notificacionesTotales - notificacionesLeidas) != 0) ? true : false );
+hbs.registerHelper('mostrarNotificaciones', (notificacionesTotales, notificacionesLeidas) => (notificacionesLeidas && (notificacionesTotales - notificacionesLeidas) != 0) ? true : false );
 
 // es igual a la vacante 
 hbs.registerHelper('ifeq_vacante', (vacanteId, postulaciones) => {

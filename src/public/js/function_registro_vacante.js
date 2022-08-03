@@ -44,7 +44,7 @@ function leerPDF(input) {
 }
 
 
-function postular(vacanteID) {
+function postular(vacanteID, empresaID) {
     let idVacante = vacanteID;
       // show alert loading
       getLoading("Loading..", "Postulando a la vacante...");
@@ -52,6 +52,7 @@ function postular(vacanteID) {
       const formData = new FormData();
       const xhr = new XMLHttpRequest();
       formData.append('vacante', idVacante);
+      formData.append('empresa', empresaID);
 
       xhr.onreadystatechange = () => {
         if (xhr.readyState === 4) {

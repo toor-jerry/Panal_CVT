@@ -37,7 +37,8 @@ app.get('/:idVacante/:nombre_empresa', checkSession, async(req, res) => {
 app.post('/', checkSession, (req, res) =>{
     Postulacion.crear({
         vacante: req.body.vacante,
-        usuario: req.session.usuario._id
+        usuario: req.session.usuario._id,
+        empresa: req.body.empresa
     }).then(resp => res.status(200).json({
         ok: true,
         data: resp.data

@@ -9,6 +9,10 @@ const estatusPerfil = {
 };
 
 const postulacionSchema = new Schema({
+    empresa: {
+        type: Schema.Types.ObjectId,
+        ref: "Usuario"
+    },
     vacante: {
         type: Schema.Types.ObjectId,
         ref: 'Vacante',
