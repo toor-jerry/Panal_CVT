@@ -1,0 +1,79 @@
+{{> head_Partial }}
+
+<div class="col">
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <h1 class="h3 mb-2 text-gray-800" id="edit-user-id" name="{{usuarioEditar._id}}">
+                    Usuario:
+                    
+                    <b>{{usuarioEditar.nombre}} {{usuarioEditar.apellidos}}</b>
+                    {{#if (ifdiff usuario.userRole "SUPER_USER")}} 
+                    <a class="btn btn-danger" onclick="deleteUser('{{usuarioEditar._id}}')">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                    {{/if}}
+                    <br>
+                    {{#if (ifeq usuarioEditar.userRole "USER_ENTERPRISE")}}<span class="badge badge-pill badge-primary">Empresa</span> {{/if}}
+                    {{#if (ifeq usuarioEditar.userRole "USER_PERSONAL")}}<span class="badge badge-pill badge-success">Estudiante</span> {{/if}}
+                    {{#if (ifeq usuarioEditar.userRole "USER_ADMIN")}}<span class="badge badge-pill badge-warning">Administrador</span> {{/if}}
+                    {{#if (ifeq usuarioEditar.userRole "SUPER_USER")}}<span class="badge badge-pill badge-danger">Súper Administrador</span> {{/if}}
+                    </h1>
+                <hr>
+                <form class="user" id="form-user-update">
+                    <div class="form-group row">
+                        <div class="col col-md-6 mx-auto">
+                            {{> inputImagenPrevia_Partial foto=usuarioEditar.foto }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col {{#if usuarioEditar.apellidos}}col-md-4 mb-3{{/if}} mb-sm-0">
+                        {{> inputNombre_Partial nombre=usuarioEditar.nombre}}
+                        </div>
+                        {{#if usuarioEditar.apellidos}}
+                        <div class="col-md-4 mb-3 mb-sm-0">
+                            {{> inputApellidos_Partial apellidos=usuarioEditar.apellidos}}
+                        </div>
+                        {{/if}}
+                        <div class="col">
+                            <input type="email" class="form-control form-control-user" id="inputEmail"
+                                placeholder="Correo electrónico" value="{{usuarioEditar.email}}" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        {{#if (ifdiff usuario.userRole "SUPER_USER")}}
+                        <div class="col">
+                            {{> selectRolDeUsuario_Partial userRole=usuarioEditar.userRole}}
+                        </div>
+                        {{/if}}
+                        <div class="col">
+                            <input type="password" name="password"
+                                class="form-control form-control-user security-password" id="inputPasswordUser"
+                                placeholder="Contraseña" minlength="8">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-success btn-user btn-block col-md-7 mx-auto" id="btn-create">
+                        Actualizar usuario
+                    </button>
+                    </a>
+                </form>
+
+
+            </div>
+            <!-- /.container-fluid -->
+        </div>
+        <!-- End of Page Wrapper -->
+    </div>
+    <!-- End of Main Content -->
+</div>
+<!-- Fin container -->
+</div>
+
+{{> footer }}

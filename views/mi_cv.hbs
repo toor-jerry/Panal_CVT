@@ -1,7 +1,7 @@
 {{> head_Partial }}
 <div class="col-lg-5 animated bounceIn">
     <div class="row">
-        {{> inputImagenPrevia_Partial}}
+        {{> inputImagenPrevia_Partial foto=usuario.foto }}
     </div>
 
     <form>
@@ -84,10 +84,10 @@
                 <label class="font-weight-bold text-dark" for="inputNombre">Revisa tu nombre</label>
                 <div class="form-row">
                     <div class="form-group col col-md-4">
-                        {{> nombre}}
+                        {{> inputNombre_Partial nombre=usuario.nombre}}
                     </div>
                     <div class="form-group col">
-                        {{> apellidos_Partial}}
+                        {{> inputApellidos_Partial apellidos=usuario.apellidos}}
                     </div>
                 </div>
             </div>

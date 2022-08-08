@@ -1,0 +1,8 @@
+<label class="font-weight-bold texto-oscuro" for="inputExpLaboral">Rol de usuario:</label>
+<select class="form-control" id="inputRole" required>
+    <option value="USER_PERSONAL" {{#if (ifeq userRole "USER_PERSONAL" )}}selected{{/if}}>Estudiante
+    </option>
+    <option value="USER_ENTERPRISE" {{#if (ifeq userRole "USER_ENTERPRISE" )}}selected{{/if}}>Empresa
+    </option>
+    <option value="USER_ADMIN" {{#if (ifeq userRole "USER_ADMIN" )}}selected{{/if}}>Administrador</option>
+</select>

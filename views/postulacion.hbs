@@ -13,11 +13,11 @@
                         <div class="form-row" id="form-postulacion">
                             <div class="form-group col-md-5 text-center">
                                 <label for="nombre" class="text-dark font-weight-bold">Ingresa tu nombre:</label>
-                                {{> nombre }}
+                                {{> inputNombre_Partial nombre=usuario.nombre}}
                             </div>
                             <div class="form-group col text-center">
                                 <label for="apellidos" class="text-dark font-weight-bold">Apellidos:</label>
-                                {{> apellidos_Partial }}
+                                {{> inputApellidos_Partial apellidos=usuario.apellidos}}
                             </div>
                         </div>
                         <div class="form-row">

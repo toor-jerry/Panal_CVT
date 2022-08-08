@@ -12,6 +12,7 @@ app.get('/', checkSession, async(req, res) => {
         nombre_boton_navbar: 'Mi Curriculum',
         direccion_link_boton_navbar: '/perfil',
         mostrar_boton_guardar: true,
+        mostrar_boton_regreso: true,
 
         usuario: await Usuario.findById(req.session.usuario._id)
             .then(resp => resp.data)

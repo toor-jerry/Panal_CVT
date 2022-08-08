@@ -44,35 +44,43 @@ app.get('/all', [checkSession, checkAdminRole], async(req, res) => {
 // ==========================
 // Crear usuario
 // ==========================
-app.post('/', (req, res) =>
-
+app.post('/', (req, res) => {
+let guardarSesion = false;
+if (req.query.noGuardarSesion == false) {
+    guardarSesion = false;
+} else {
+    guardarSesion = true;
+}
     Usuario.crear(req.body)
     .then(resp => {
         // session register
+        if (guardarSesion == true) {
         req.session.usuario = resp.data;
+        }
         res.status(201).json(resp);
-        io.emit('nuevo-usuario', resp);
     })
     .catch(err => res.status(err.code).json({ msg: err.msg, err: err.err }))
-
+}
 );
 
 
 // ==========================
-// Update view
+//Editar usuario
 // ==========================
-app.get('/edit/:id', [checkSession, checkAdminRole], async(req, res) => {
-    res.render('dashboard_user', {
-        page: 'Usuario | Editar',
-        cites: await Cite.findAllByAreaAndDate(req.session.user.area._id, today)
+app.get('/editar/:id', [checkSession, checkAdminRole], async(req, res) => {
+    res.render('editar_usuario', {
+        usuario: await Usuario.findById(req.session.usuario._id)
             .then(resp => resp.data)
-            .catch(() => []),
-        user_edit: await User.findById(req.params.id)
-            .then(resp => resp.data)
-            .catch(() => []),
-        areas: await Area.findAll()
-            .then(resp => resp.data)
-            .catch(() => [])
+            .catch(() => {}),
+        usuarioEditar: await Usuario.findById(req.params.id)
+        .then(resp => resp.data)
+        .catch(() => {}),
+
+        page: 'Mi Perfil Sistemas',
+        nombre_boton_navbar: 'Mi Perfil Sistemas',
+        direccion_link_boton_navbar: '/perfil/sistemas',
+        mostrar_boton_regreso: true,
+        archivoJS: 'function_actualizar_usuario.js'
     })
 });
 
@@ -189,12 +197,12 @@ app.put('/actualizar', checkSession, async(req, res) => {
 });
 
 // ==========================
-// Delete a user by Id
+// Borarar usuario
 // ==========================
 app.delete('/:id', [checkSession, checkAdminRole], (req, res) => {
 
-    User.delete(req.params.id)
-        .then(() => res.status(200).json({}))
+    Usuario.delete(req.params.id)
+        .then((usuario) => res.status(200).json({data: usuario}))
         .catch(err => res.status(err.code).json({ msg: err.msg, err: err.err }))
 
 });

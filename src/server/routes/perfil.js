@@ -64,6 +64,25 @@ app.get('/informacion/:idUsuario', checkSession, async(req, res) => {
 });
 
 // Tipo de registro empresarial route
+app.get('/sistemas', [checkSession, checkSuperRole], async(req, res) => {
+    let indice = req.params.indice;
+    res.render('mi_perfil_sistemas', {
+        usuario: await Usuario.findById(req.session.usuario._id)
+            .then(resp => resp.data)
+            .catch(() => {}),
+
+        page: 'Mi Perfil Sistemas',
+        nombre_boton_navbar: 'Mi Perfil Sistemas',
+        
+        usuarios: await Usuario.findAll()
+        .then(resp =>resp.data)
+            .catch(() => {}),
+
+        archivoJS: 'function_perfil_sistemas.js'
+    })
+});
+
+// Tipo de registro empresarial route
 app.get('/empresarial/:indice', [checkSession, checkEnterpriseRole], async(req, res) => {
     let indice = req.params.indice;
     res.render('mi_perfil_empresarial', {

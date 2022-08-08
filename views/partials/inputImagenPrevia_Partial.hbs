@@ -1,12 +1,12 @@
-{{#if usuario.foto}}
-        <img id="img-previo" class="z-depth-2 foto-perfil mx-auto" src="/archivos/fotografias/{{usuario.foto }}"
-            data-holder-rendered="true">
-        {{else}}
-        <img class="z-depth-2 foto-perfil mx-auto" src="/img/no-img.jpg" data-holder-rendered="true">
-        {{/if}}
+{{#if foto}}
+<img id="img-previo" class="z-depth-2 foto-perfil mx-auto" src="/archivos/fotografias/{{foto }}"
+    data-holder-rendered="true">
+{{else}}
+<img id="img-previo" class="z-depth-2 foto-perfil mx-auto" src="/img/no-img.jpg" data-holder-rendered="true">
+{{/if}}
 
-        <div class="custom-file">
-            <input type="file" class="custom-file-input cursor-puntero" id="inputFoto" lang="es">
-            <label class="custom-file-label cursor-puntero" for="logo"><i class="fa fa-plus text-primary"
-                    aria-hidden="true" style="font-size: 25px;"></i> Seleccionar fotografía</label>
-        </div>
+<div class="custom-file">
+    <input type="file" class="custom-file-input cursor-puntero" id="inputFoto" lang="es">
+    <label class="custom-file-label cursor-puntero" for="logo"><i class="fa fa-plus text-primary" aria-hidden="true"
+            style="font-size: 25px;"></i> Seleccionar fotografía</label>
+</div>

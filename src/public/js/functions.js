@@ -1,5 +1,5 @@
 var socket = io(); // initialization sockets
-
+var imagen;
 $(document).ready(function () {
     // ==========================
     // Listen Sockets
@@ -300,3 +300,32 @@ jQuery(function ($) {
 
     });
 });
+
+
+// delete user
+function deleteUser(userId) {
+
+
+    showQuestion('¿Está seguro?', 'Esta opción eliminará al usuario!')
+        .then((result) => {
+            if (result.value) {
+
+                // Show loading
+                getLoading('Eliminando', 'Por favor espere....');
+
+                // Delete request
+                $.ajax({
+                    url: '/usuario/' + userId,
+                    type: 'DELETE',
+                    success: function() {
+                        obtenerAlertSwal(`Cuenta eliminada correctamente!`,'Cuenta eliminada!')
+                        .then(() => $(`#${userId}-field`).remove())
+                    },
+                    error: function(errResp) {
+                        showError(errResp, true); // show error alert
+                    }
+                });
+
+            }
+        })
+}

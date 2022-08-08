@@ -2,7 +2,9 @@
 // Encrypt library
 const bcrypt = require('bcryptjs');
 const _ = require('underscore');
-
+const { obtenerRutaDeCargaArchivos } = require('../utils/utils');
+const fs = require('fs');
+const path = require('path');
 // Usuario model
 const UsuarioModel = require('../models/usuario');
 const { response500, response400, response200, response201 } = require('../utils/utils');
@@ -44,7 +46,7 @@ class Usuario {
     static buscaEmpresas(from, limit) {
 
         return new Promise((resolve, reject) => {
-                UsuarioModel.find({ userRole: 'USER_ENTERPRISE' })
+            UsuarioModel.find({ userRole: 'USER_ENTERPRISE' })
                 .skip(from - 1)
                 .limit(limit)
                 .lean()
@@ -61,17 +63,17 @@ class Usuario {
                             total: count,
                             paginas: Math.ceil(count / limit)
                         });
-                        
+
 
                     });
-            });
+                });
         });
     }
-    
+
     static buscaEstudiantes(from, limit) {
 
         return new Promise((resolve, reject) => {
-                UsuarioModel.find({ userRole: 'USER_PERSONAL' })
+            UsuarioModel.find({ userRole: 'USER_PERSONAL' })
                 .skip(from - 1)
                 .limit(limit)
                 .lean()
@@ -88,10 +90,10 @@ class Usuario {
                             total: count,
                             paginas: Math.ceil(count / limit)
                         });
-                        
+
 
                     });
-            });
+                });
         });
     }
 
@@ -99,7 +101,7 @@ class Usuario {
     static buscaTodasLasEmpresas() {
 
         return new Promise((resolve, reject) => {
-                UsuarioModel.find({ userRole: 'USER_ENTERPRISE' })
+            UsuarioModel.find({ userRole: 'USER_ENTERPRISE' })
                 .lean()
                 .exec((err, empresas) => {
 
@@ -117,25 +119,25 @@ class Usuario {
 
 
                     });
-            });
+                });
         });
     }
 
     // Busca empresas
     static buscaTodosLosEstudiantes() {
         return new Promise((resolve, reject) => {
-                UsuarioModel.find({ userRole: 'USER_PERSONAL' })
+            UsuarioModel.find({ userRole: 'USER_PERSONAL' })
                 .lean()
                 .exec((err, users) => {
 
                     if (err) return reject({ msg: `No se pudo buscar los estudiantes.`, err, code: 500 });
 
                     if (!users) return reject({ msg: `No se pudo obtener los datos.`, code: 500 })
-                        return resolve({
-                            ok: true,
-                            data: users
-                        });
-            });
+                    return resolve({
+                        ok: true,
+                        data: users
+                    });
+                });
         });
     }
 
@@ -187,12 +189,12 @@ class Usuario {
             if (!empleo) return reject({ msg: 'No data', code: 400 });
 
             // find user
-        UsuarioModel.findByIdAndUpdate(id, { $addToSet: { empleos: empleo } }, { new: true })
-            .exec((err, userUpdate) => {
-                if (err) return reject({ msg: 'Error server', err, code: 500 });
-                if (!userUpdate) return reject({ msg: 'Usuario no encontrado.', code: 400 });
-                resolve(userUpdate);
-            });
+            UsuarioModel.findByIdAndUpdate(id, { $addToSet: { empleos: empleo } }, { new: true })
+                .exec((err, userUpdate) => {
+                    if (err) return reject({ msg: 'Error server', err, code: 500 });
+                    if (!userUpdate) return reject({ msg: 'Usuario no encontrado.', code: 400 });
+                    resolve(userUpdate);
+                });
         });
     }
 
@@ -203,12 +205,12 @@ class Usuario {
             if (!empleo) return reject({ msg: 'No data', code: 400 });
 
             // find user
-        UsuarioModel.findByIdAndUpdate(id, { $pull: { empleos: {_id : empleo} } }, { new: true })
-            .exec((err, userUpdate) => {
-                if (err) return reject({ msg: 'Error server', err, code: 500 });
-                if (!userUpdate) return reject({ msg: 'Usuario no encontrado.', code: 400 });
-                resolve(userUpdate);
-            });
+            UsuarioModel.findByIdAndUpdate(id, { $pull: { empleos: { _id: empleo } } }, { new: true })
+                .exec((err, userUpdate) => {
+                    if (err) return reject({ msg: 'Error server', err, code: 500 });
+                    if (!userUpdate) return reject({ msg: 'Usuario no encontrado.', code: 400 });
+                    resolve(userUpdate);
+                });
         });
     }
 
@@ -219,12 +221,12 @@ class Usuario {
             if (!idEstudio) return reject({ msg: 'No data', code: 400 });
 
             // find user
-        UsuarioModel.findByIdAndUpdate(id, { $pull: { estudios: {_id : idEstudio} } }, { new: true })
-            .exec((err, userUpdate) => {
-                if (err) return reject({ msg: 'Error server', err, code: 500 });
-                if (!userUpdate) return reject({ msg: 'Usuario no encontrado.', code: 400 });
-                resolve(userUpdate);
-            });
+            UsuarioModel.findByIdAndUpdate(id, { $pull: { estudios: { _id: idEstudio } } }, { new: true })
+                .exec((err, userUpdate) => {
+                    if (err) return reject({ msg: 'Error server', err, code: 500 });
+                    if (!userUpdate) return reject({ msg: 'Usuario no encontrado.', code: 400 });
+                    resolve(userUpdate);
+                });
         });
     }
 
@@ -235,12 +237,12 @@ class Usuario {
             if (!estudio) return reject({ msg: 'No data', code: 400 });
 
             // find user
-        UsuarioModel.findByIdAndUpdate(id, { $addToSet: { estudios: estudio } }, { new: true })
-            .exec((err, userUpdate) => {
-                if (err) return reject({ msg: 'Error server', err, code: 500 });
-                if (!userUpdate) return reject({ msg: 'Usuario no encontrado.', code: 400 });
-                resolve(userUpdate);
-            });
+            UsuarioModel.findByIdAndUpdate(id, { $addToSet: { estudios: estudio } }, { new: true })
+                .exec((err, userUpdate) => {
+                    if (err) return reject({ msg: 'Error server', err, code: 500 });
+                    if (!userUpdate) return reject({ msg: 'Usuario no encontrado.', code: 400 });
+                    resolve(userUpdate);
+                });
         });
     }
 
@@ -288,8 +290,8 @@ class Usuario {
             });
         });
     }
-    
-    static actualizarContrasenia(email, password, recuperacion=false) {
+
+    static actualizarContrasenia(email, password, recuperacion = false) {
         return new Promise((resolve, reject) => {
             if (!email) return reject({ msg: 'No data (email).', code: 400 });
             if (!password) return reject({ msg: 'No data (password).', code: 400 });
@@ -302,19 +304,19 @@ class Usuario {
                     if (!userDB) return reject({ msg: 'Usuario no encontrado!!', code: 400 });
 
                     userDB.password = bcrypt.hashSync(password, 10); // encrypt password
-                    if(recuperacion) {
+                    if (recuperacion) {
                         userDB.recuperacionPassword = true;
                     } else {
                         userDB.recuperacionPassword = false;
                     }
-                // data persist
-                userDB.save((err, userUpdate) => {
-                    console.log(err);
-                    if (err) return reject({ msg: 'Error db', err, code: 500 });
-                    if (!userUpdate) return reject({ msg: 'No se pudo actualizar los datos.', code: 400 });
-                    resolve(userUpdate);
+                    // data persist
+                    userDB.save((err, userUpdate) => {
+                        console.log(err);
+                        if (err) return reject({ msg: 'Error db', err, code: 500 });
+                        if (!userUpdate) return reject({ msg: 'No se pudo actualizar los datos.', code: 400 });
+                        resolve(userUpdate);
+                    });
                 });
-            });
         });
     }
 
@@ -341,15 +343,48 @@ class Usuario {
     }
 
     // delete user
-    static delete(user) {
+    static delete(userId) {
         return new Promise((resolve, reject) => {
 
-            UsuarioModel.findByIdAndRemove(user, (err, userDB) => {
+            UsuarioModel.findByIdAndRemove(userId, (err, userDB) => {
 
                 if (err) return reject({ msg: 'Error db', err, code: 500 });
                 if (!userDB) return reject({ msg: 'Could not delete the user.', code: 500 });
 
-                io.emit('delete-user-registered-admin', { data: userDB });
+                const NotificacionModel = require('../models/notificacion');
+                const PostulacionModel = require('../models/postulacion');
+                const VacanteModel = require('../models/vacante');
+
+                try {
+                    NotificacionModel.deleteMany({})
+                        .or([{ para: userId }, { de: userId }])
+                        .exec((err) => console.log(err));
+                        PostulacionModel.deleteMany({})
+                        .or([{ empresa: userId }, { usuario: userId }])
+                        .exec((err) => console.log(err));
+                        PostulacionModel.deleteMany({ empresa: userId })
+                        .exec((err) => console.log(err));
+
+                } catch (err) {
+                    return reject({ msg: 'Could not delete the user.', code: 500 });
+                };
+
+                // Todos las posibles rutas que tenga el usuario
+                let paths = [];
+                paths.push(obtenerRutaDeCargaArchivos('comprobantesDomicilio', `${userId}.pdf`));
+                paths.push(obtenerRutaDeCargaArchivos('cv', `${userId}.pdf`));
+                paths.push(obtenerRutaDeCargaArchivos('cv', `Custom_${userId}.pdf`));
+                paths.push(obtenerRutaDeCargaArchivos('fotografias', userDB.foto));
+                paths.push(obtenerRutaDeCargaArchivos('INE', `${userId}.pdf`));
+                paths.push(obtenerRutaDeCargaArchivos('RFC', `${userId}.pdf`));
+                
+                paths.forEach(path => {
+                    // Eliminar archivos
+                if (fs.existsSync(path)) {
+                    fs.unlinkSync(path);
+                }
+            });
+
                 resolve(userDB);
             });
         });

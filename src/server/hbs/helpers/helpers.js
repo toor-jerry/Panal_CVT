@@ -17,6 +17,8 @@ hbs.registerHelper('admin', (role) => (role === 'ADMIN_ROLE') ? true : false);
 
 // equals
 hbs.registerHelper('ifeq', (a, b) => (a == b) ? true : false );
+// equals
+hbs.registerHelper('ifdiff', (a, b) => (a !== b) ? true : false );
 
 // equals
 hbs.registerHelper('mostrarNotificaciones', (notificacionesTotales, notificacionesLeidas) => (notificacionesLeidas && (notificacionesTotales - notificacionesLeidas) != 0) ? true : false );

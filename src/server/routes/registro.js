@@ -2,6 +2,7 @@ const express = require('express'); // express module
 const app = express(); // aplication
 
 const { checkSession, checkAdminRole } = require('../middlewares/auth'); // midlewares auth
+const { Usuario } = require('../classes/usuario'); // user class
 
 // Tipo de registro route
 app.get('/tipo_registro', (req, res) => {
@@ -43,6 +44,21 @@ app.get('/personalizacion_de_perfil', checkSession, (req, res) => {
         nombre_boton_navbar: 'Personalización de Perfil',
         usuario: req.session.usuario,
         archivoJS: 'function_personalizacion_perfil.js',
+    })
+});
+
+// Personalización de perfil route
+app.get('/nuevo-usuario', [checkSession, checkAdminRole], async(req, res) => {
+    res.render('nuevo_usuario', {
+        usuario: await Usuario.findById(req.session.usuario._id)
+            .then(resp => resp.data)
+            .catch(() => {}),
+
+        page: 'Mi Perfil Sistemas',
+        nombre_boton_navbar: 'Mi Perfil Sistemas',
+        direccion_link_boton_navbar: '/perfil/sistemas',
+        mostrar_boton_regreso: true,
+        archivoJS: 'function_crear_usuario.js'
     })
 });
 

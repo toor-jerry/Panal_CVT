@@ -25,6 +25,8 @@ $(document).ready(function() {
                             location.href = "/perfil/empresarial/1"
                         } else if(res.data.userRole == 'USER_ADMIN'){
                             location.href = "/perfil/administrativo/1/1"
+                        } else if(res.data.userRole == 'SUPER_USER'){
+                            location.href = "/perfil/sistemas"
                         }
                     })
             })
