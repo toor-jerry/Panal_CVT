@@ -1,5 +1,7 @@
 var socket = io(); // initialization sockets
-var audioInformacion = new Audio('/audio/informacion.mp3');
+var audioInformacion = new Audio('/audio/Info-tone.mp3');
+var audioInformacionError = new Audio('/audio/Error-sound-effect.mp3');
+var audioInformacionSuccess = new Audio('/audio/Success-sound-effect.mp3');
 var audioNotificacion = new Audio('/audio/notificacion.mp3');
 var imagen;
 $(document).ready(function () {
@@ -45,7 +47,6 @@ socket.on('delete-cite-registered-admin', function(res) {
         $('#alert_connection').hide();
         $('#statusCon').removeClass('text-danger');
         $('#statusCon').addClass('text-success');
-        audioInformacion.play();
     });
 
     socket.on('disconnect', function () {
@@ -97,7 +98,7 @@ $("#cambioPassword-form").submit(function (event) {
                 obtenerAlertSwal('Se actualizó correctamente su contraseña.')
                     .then(() => location.reload());
             } else {
-                showError(xhr.response, true);
+                obtenerToast(`A ocurrido un error.\n ${xhr.response}`, 'Error!', 'error')
             }
         }
 
@@ -125,7 +126,7 @@ function marcarNotificacionesComoLeidas(notificacionesTotal) {
             obtenerAlertSwal('No tiene nuevas notificaciones.')
                 .then(() => window.location.reload())
           } else {
-            showError(xhr.response, true);
+            obtenerToast(`A ocurrido un error.\n ${xhr.response}`, 'Error!', 'error')
           }
         }
 
@@ -136,6 +137,13 @@ function marcarNotificacionesComoLeidas(notificacionesTotal) {
 }
 
 function obtenerAlertSwal(text = 'Se guardado su información.', title = 'Actualización exitosa!', icon = 'success') {
+    if (icon == 'success') {
+        audioInformacionSuccess.play();
+    } else if (icon == 'info') {
+        audioInformacion.play();
+    } else{
+        audioInformacionError.play();
+    }
     return swal.fire({
         title: title,
         text: text,
@@ -146,6 +154,7 @@ function obtenerAlertSwal(text = 'Se guardado su información.', title = 'Actual
 }
 
 function obtenerToast(time = 1000) {
+    audioInformacionSuccess.play();
     return Swal.mixin({ // create toast
         toast: true,
         icon: 'success',
@@ -186,48 +195,11 @@ function leerImagen(input) {
 }
 
 
-// get error
-function showError(errResp, reload) {
-    let err = errResp.responseJSON;
-
-    var error = err;
-    if (err.err && err.err.msg) {
-        error = err.err.msg;
-    }
-    // if error reload window
-    swal.fire({
-        title: 'Error!',
-        text: `A ocurrido un error.\n ${err.msg} \n ${error}`,
-        icon: 'error',
-    }).then(result => {
-        if (reload === true) {
-            location.reload();
-        }
-    });
-}
-
-// get alert
-function showAlert(errResp, reload) {
-    let err = errResp.responseJSON;
-
-    var error = err;
-    if (err.err && err.err.msg) {
-        error = err.err.msg;
-    }
-    // if error reload window
-    swal.fire({
-        title: err.msg,
-        icon: 'warning',
-    }).then(result => {
-        if (reload === true) {
-            location.reload();
-        }
-    });
-}
 
 
 // return loading
 function getLoading(title, txt = "Loading...") {
+    audioInformacion.play();
     return swal.fire({
         title: title,
         text: txt,
@@ -248,6 +220,7 @@ function getLoading(title, txt = "Loading...") {
 
 // show alert question
 function showQuestion(title, text, icon = 'warning') {
+    audioInformacion.play();
     return Swal.fire({
         title: title,
         text: text,
@@ -356,7 +329,7 @@ function deleteUser(userId) {
                         .then(() => $(`#${userId}-field`).remove())
                     },
                     error: function(errResp) {
-                        showError(errResp, true); // show error alert
+                        obtenerToast(`A ocurrido un error.\n ${errResp.responseText}`, 'Error!', 'error')
                     }
                 });
 

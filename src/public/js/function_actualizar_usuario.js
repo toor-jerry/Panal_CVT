@@ -37,7 +37,7 @@ $(document).ready(function () {
           obtenerAlertSwal('Se actualizó con éxito la cuenta.')
             .then(() => location.reload())
         } else {
-          showError(xhr.response, true);
+          obtenerToast(`A ocurrido un error.\n ${xhr.response}`, 'Error!', 'error')
         }
       }
 

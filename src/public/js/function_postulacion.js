@@ -35,7 +35,7 @@ function guardarDatos(idVacante) {
                 obtenerAlertSwal('Su información ha sido actualizada con éxito!')
                 .then(() => window.location.href = `/vacante/${vacanteId}`)
             } else {
-                showError(xhr.response, true);
+                obtenerToast(`A ocurrido un error.\n ${xhr.response}`, 'Error!', 'error')
             }
         }
 

@@ -34,7 +34,7 @@ $(document).ready(function() {
                         .then(() => location.reload())
                 })
                 .fail(function(errResp) {
-                    showAlert(errResp); // show error alert
+                    obtenerToast(`A ocurrido un error.\n ${errResp.responseText}`, 'Error!', 'error')
                 });
     }});
 });
@@ -59,7 +59,7 @@ function borrarVacante(vacante, nombreVacante) {
                         .then(() => location.reload())
                     },
                     error: function(errResp) {
-                        showError(errResp, true); // show error alert
+                        obtenerToast(`A ocurrido un error.\n ${xhr.response}`, 'Error!', 'error')
                     }
                 });
 

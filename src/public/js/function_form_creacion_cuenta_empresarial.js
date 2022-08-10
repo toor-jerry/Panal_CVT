@@ -26,7 +26,7 @@ $(document).ready(function() {
                         .then(() => window.location.href = "/perfil/empresarial/1")
                 })
                 .fail(function(errResp) {
-                    showAlert(errResp); // show error alert
+                    obtenerToast(`A ocurrido un error.\n ${errResp.responseText}`, 'Error!', 'error')
                 });
 });
 });

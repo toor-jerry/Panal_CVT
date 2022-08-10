@@ -73,7 +73,7 @@ function deleteUser(user) {
                         obtenerAlertSwal('Cuenta eliminada!',`Cuenta eliminada correctamente!`)
                     },
                     error: function(errResp) {
-                        showError(errResp, true); // show error alert
+                        obtenerToast(`A ocurrido un error.\n ${xhr.response}`, 'Error!', 'error')
                     }
                 });
 
@@ -117,7 +117,7 @@ function actualizarStatusPostulacion(postulacionID, status) {
                         .then(() => location.reload());
                     },
                     error: function(errResp) {
-                        showError(errResp, true); // show error alert
+                        obtenerToast(`A ocurrido un error.\n ${errResp.responseText}`, 'Error!', 'error')
                     }
                 });
             }

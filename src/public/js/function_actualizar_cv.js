@@ -27,7 +27,7 @@ $(document).ready(function() {
             obtenerAlertSwal('Se agregó un nuevo empleo.')
                 .then(() => window.location.href = '/cv')
           } else {
-            showError(xhr.response, true);
+            obtenerToast(`A ocurrido un error.\n ${xhr.response}`, 'Error!', 'error')
           }
         }
 
@@ -60,7 +60,7 @@ $(document).ready(function() {
           obtenerAlertSwal('Se agregó una nueva formación.')
                .then(() => window.location.href = '/cv')
         } else {
-          showError(xhr.response, true);
+          obtenerToast(`A ocurrido un error.\n ${xhr.response}`, 'Error!', 'error')
         }
       }
 
@@ -108,7 +108,7 @@ xhr.onreadystatechange = () => {
       obtenerAlertSwal('Se actualizó su CV.')
          .then(() => window.location.href = '/cv')
     } else {
-      showError(xhr.response, true);
+      obtenerToast(`A ocurrido un error.\n ${xhr.response}`, 'Error!', 'error')
     }
   }
 
@@ -137,7 +137,7 @@ function borrarEmpleo(empleo) {
                      .then(() => window.location.href = '/cv')
                   },
                   error: function(errResp) {
-                      showError(errResp, true); // show error alert
+                    obtenerToast(`A ocurrido un error.\n ${xhr.response}`, 'Error!', 'error')
                   }
               });
 
@@ -164,7 +164,7 @@ function borrarEstudio(idEstudio) {
                       .then(() => window.location.href = '/cv')
                   },
                   error: function(errResp) {
-                      showError(errResp, true); // show error alert
+                    obtenerToast(`A ocurrido un error.\n ${xhr.response}`, 'Error!', 'error')
                   }
               });
 

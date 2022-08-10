@@ -55,7 +55,7 @@ $(document).ready(function() {
           if (xhr.status === 201 || xhr.status === 200) {
             obtenerAlertSwal('Se guardado su información.').then(() => window.location.href = '/perfil/verificacion_cuenta_en_proceso')
           } else {
-            showError(xhr.response, true);
+            obtenerToast(`A ocurrido un error.\n ${xhr.response}`, 'Error!', 'error')
           }
         }
       };
@@ -98,7 +98,7 @@ function subirArchivo(archivo, nombreEtiqueta, carpetaAGuardar) {
                     $("#fechaModificacion"+carpetaAGuardar).html(new Date().toLocaleString())
                 })
             } else {
-              showError(xhr.response, true);
+              obtenerToast(`A ocurrido un error.\n ${xhr.response}`, 'Error!', 'error')
             }
           }
         };
