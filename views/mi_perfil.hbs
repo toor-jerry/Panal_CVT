@@ -1,12 +1,12 @@
-{{> head_Partial }}
+{{>head_Partial }}
 
 <div class="col">
     <div class="row">
         <div class="col">
-            {{> busqueda_Partial }}
+            {{>busqueda_Partial }}
         </div>
         <div class="col">
-            {{> listadoConvenios }}
+            {{>listadoConvenios }}
         </div>
     </div>
 
@@ -50,12 +50,20 @@
                             <a href="/vacante/{{ this._id }}" class="btn btn-info">Ver vacante</a>
                         </div>
                         <div class="col">
-                            {{#if (ifeq_vacante this._id ../postulaciones.data)}}
-                            <button type="button" class="btn btn-success" disabled> Postulado el día {{fechaPostulacion
+                            {{#if (ifeq (ifeq_vacante this._id ../postulaciones.data) 'En proceso')}}
+                            <button type="button" class="btn btn-info" disabled> Postulado el día {{fechaPostulacion
                                 this._id ../postulaciones.data}}</button>
+                            {{else}}
+                            {{#if (ifeq (ifeq_vacante this._id ../postulaciones.data) 'Aceptado')}}
+                            <button type="button" class="btn btn-success" disabled> Aceptado</button>
+                            {{else}}
+                            {{#if (ifeq (ifeq_vacante this._id ../postulaciones.data) 'Rechazado')}}
+                            <button type="button" class="btn btn-warning" disabled> Rechazado</button>
                             {{else}}
                             <a href="/postulacion/{{ this._id }}/{{ this.puesto }}" class="btn btn-primary">
                                 Postularme</a>
+                            {{/if}}
+                            {{/if}}
                             {{/if}}
 
                         </div>
@@ -70,4 +78,4 @@
 </div>
 <!-- Fin container -->
 </div>
-{{> footer }}
+{{>footer }}

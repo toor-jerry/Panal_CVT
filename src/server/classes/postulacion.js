@@ -174,6 +174,34 @@ class Postulacion {
         });
 
     }
+
+
+    static actualizar(id, data) {
+        return new Promise((resolve, reject) => {
+            if (!id) return reject({ msg: 'Petición incorrecta!, falta id de usuario.', code: 400 });
+            if (!data) return reject({ msg: 'No data', code: 400 });
+
+            // find user
+            PostulacionModel.findById(id, (err, userDB) => {
+
+                if (err) return reject({ msg: 'Error server', err, code: 500 });
+                if (!userDB) return reject({ msg: 'Usuario no encontrado.', code: 400 });
+
+
+                userDB = _.extend(userDB, _.pick(data, ['status']));
+
+                // data persist
+                userDB.save((err, userUpdate) => {
+                    console.log(err);
+                    if (err) return reject({ msg: 'Error db', err, code: 500 });
+                    if (!userUpdate) return reject({ msg: 'No se pudo actualizar los datos.', code: 400 });
+
+                    resolve(userUpdate);
+                });
+            });
+        });
+    }
+
 }
 
 

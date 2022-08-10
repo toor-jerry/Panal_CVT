@@ -1,5 +1,7 @@
 var terminoBusquedaTemp = ""
 $(document).ready(function() {
+
+
     terminoBusquedaTemp = $("input[name='keyword']").val();
     $('#'+$('#informacionUsuarioID').val()).prop('selected', true);
 
@@ -77,6 +79,49 @@ function deleteUser(user) {
 
             }
         })
+}
+
+
+
+function buscar() {
+    var terminoBusqueda = $("input[name='keyword']").val();
+    if (terminoBusqueda == terminoBusquedaTemp) {
+        return;
+    }
+    terminoBusquedaTemp = terminoBusqueda;
+        if (terminoBusqueda == '') {
+            window.location.href = "/perfil";
+        } else {
+            window.location.href = "/vacante/buscar/"+terminoBusqueda;
+        }
+    
+}
+
+
+// aceptar postulante
+function actualizarStatusPostulacion(postulacionID, status) {
+
+    showQuestion('¿Está seguro?', 'Esta opción actualizará el status de la postulación!')
+        .then((result) => {
+            if (result.value) {
+
+                // Show loading
+                getLoading('Reclutando', 'Por favor espere....');
+
+                
+                $.ajax({
+                    url: `/postulacion/actualizar/reclutar/${postulacionID}/${status}`,
+                    type: 'PUT',
+                    success: function() {
+                        obtenerAlertSwal('Usuario reclutado!',`Se ha reclutado al postulante con éxito, se ha enviado un correo electrónico al usuario.`)
+                        .then(() => location.reload());
+                    },
+                    error: function(errResp) {
+                        showError(errResp, true); // show error alert
+                    }
+                });
+            }
+            });
 }
 
 

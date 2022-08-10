@@ -5,7 +5,7 @@ const fileUpload = require('express-fileupload');
 const { Usuario } = require('../classes/usuario'); // Usuario class
 const { Vacante } = require('../classes/vacante'); // Vacante class
 const { Postulacion } = require('../classes/postulacion'); // Vacante class
-const { checkSession, checkAdminRole, checkSuperRole, checkEnterpriseRole  } = require('../middlewares/auth');
+const { checkSession, checkEnterpriseRole, checkAdminRole, checkSuperRole  } = require('../middlewares/auth');
 const JSONTransport = require('nodemailer/lib/json-transport');
 app.use(fileUpload());
 
@@ -43,6 +43,17 @@ app.post('/', checkSession, (req, res) =>{
         ok: true,
         data: resp.data
     }))
+    .catch(err => res.status(err.code).json({ msg: err.msg, err: err.err }))
+});
+
+// ==========================
+// Actualizar postulacion
+// ==========================
+app.put('/actualizar/reclutar/:postulacionId/:status', [checkSession, checkEnterpriseRole], (req, res) => {
+    Postulacion.actualizar(req.params.postulacionId, {'status': req.params.status})
+    .then(() => {
+        res.status(200).json({});
+    })
     .catch(err => res.status(err.code).json({ msg: err.msg, err: err.err }))
 });
 

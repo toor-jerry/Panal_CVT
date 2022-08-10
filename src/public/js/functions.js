@@ -1,4 +1,6 @@
 var socket = io(); // initialization sockets
+var audioInformacion = new Audio('/audio/informacion.mp3');
+var audioNotificacion = new Audio('/audio/notificacion.mp3');
 var imagen;
 $(document).ready(function () {
     // ==========================
@@ -43,6 +45,7 @@ socket.on('delete-cite-registered-admin', function(res) {
         $('#alert_connection').hide();
         $('#statusCon').removeClass('text-danger');
         $('#statusCon').addClass('text-success');
+        audioInformacion.play();
     });
 
     socket.on('disconnect', function () {
@@ -155,7 +158,7 @@ function obtenerToast(time = 1000) {
     });
 }
 
-var audio = new Audio('/audio/new-cite.mp3');
+
 
 $('#alert_connection').hide(); // hide alert "No connection"
 

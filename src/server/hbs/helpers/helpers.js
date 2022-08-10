@@ -25,14 +25,14 @@ hbs.registerHelper('mostrarNotificaciones', (notificacionesTotales, notificacion
 
 // es igual a la vacante 
 hbs.registerHelper('ifeq_vacante', (vacanteId, postulaciones) => {
-    let flag = false;
+    let status = '';
     postulaciones.forEach(postulacion => {
         if (postulacion.vacante._id.toString() == vacanteId.toString()) {
-            flag = true;
+            status = postulacion.status;
         }
     }   // end forEach
     ); // end forEach
-    return flag;
+    return status;
 } );
 
 //  

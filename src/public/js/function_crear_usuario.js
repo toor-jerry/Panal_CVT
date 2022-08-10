@@ -1,5 +1,11 @@
 $(document).ready(function () {
-
+    $("#inputRole").change(function () {
+        if ($(this).val() == "USER_ENTERPRISE") {
+            $("#inputApellidos").attr("placeholder", "Razón Social");
+        } else {
+            $("#inputApellidos").attr("placeholder", "Apellidos");
+        }
+    });
     // onsubmit signup form
     $("#form-register").submit(function (event) {
 
@@ -16,7 +22,11 @@ $(document).ready(function () {
 
         formData.append('foto', imagen);
         formData.append('nombre', $('#inputNombre').val());
-        formData.append('apellidos', $('#inputApellidos').val());
+        if ($('#inputRole').val() == "USER_ENTERPRISE") {
+            formData.append('razonSocial', $('#inputApellidos').val());
+        } else {
+            formData.append('apellidos', $('#inputApellidos').val());
+        }
         formData.append('role', $('#inputRole').val());
         formData.append('email', $('#inputEmail').val());
 

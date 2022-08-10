@@ -3,8 +3,8 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 // Estatus de perfil
-const estatusPerfil = {
-    values: ['En proceso', 'Rechazado'],
+const estatusPostulacion = {
+    values: ['En proceso', 'Rechazado', 'Aceptado'],
     message: '{VALUE} estatus no válido!!'
 };
 
@@ -31,7 +31,7 @@ const postulacionSchema = new Schema({
         type: String,
         required: true,
         default: "En proceso",
-        enum: estatusPerfil
+        enum: estatusPostulacion
 
     }
 });
