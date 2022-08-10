@@ -93,7 +93,8 @@ class Postulacion {
     static buscarTodasLasPostulacionesPorEmpresa(idEmpresa) {
 
         return new Promise((resolve, reject) => {
-        PostulacionModel.find({ empresa: idEmpresa })
+        PostulacionModel.find({})
+        .or([{ empresa: idEmpresa }, {perfilCreacion: idEmpresa}])
             .lean()
             .populate('usuario')
             .exec((err, postulaciones) => {
@@ -101,7 +102,8 @@ class Postulacion {
                 if (err) reject({ code: 500, err });
                 if (!postulaciones) reject({ code: 400, err: 'No se encontraron postulaciones.' });
             
-                PostulacionModel.countDocuments({ empresa: idEmpresa })
+                PostulacionModel.countDocuments({})
+                .or([{ empresa: idEmpresa }, { perfilCreacion: idEmpresa }])
                 .exec((err, count) => {
 
                     if (err) reject({ code: 500, err });
