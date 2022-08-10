@@ -49,21 +49,10 @@
                                         {{/if}}
                                         <td>{{this.email}}</td>
                                         <td>
-                                            {{#if (ifeq this.userRole "USER_ENTERPRISE")}}<span class="badge badge-pill badge-primary">{{this.userRole}}</span> {{/if}}
-                                            {{#if (ifeq this.userRole "USER_PERSONAL")}}<span class="badge badge-pill badge-success">{{this.userRole}}</span> {{/if}}
-                                            {{#if (ifeq this.userRole "USER_ADMIN")}}<span class="badge badge-pill badge-warning">{{this.userRole}}</span> {{/if}}
-                                            {{#if (ifeq this.userRole "SUPER_USER")}}<span class="badge badge-pill badge-danger">{{this.userRole}}</span> {{/if}}
+                                            {{> badgeRolDeUsuario_Partial}}
                                         </td>
                                             <td>
-                                        {{#if (ifeq this.perfilVerificado "Verificado")}}
-                                                <h5 class="text-success font-weight-bold">{{perfilVerificado}}</h5>
-                                        {{/if}}
-                                        {{#if (ifeq this.perfilVerificado "No verificado")}}
-                                                <h5 class="text-gray-800 font-weight-bold">{{perfilVerificado}}</h5>
-                                        {{/if}}
-                                        {{#if (ifeq this.perfilVerificado "Rechazado")}}
-                                                <h5 class="text-danger font-weight-bold">{{perfilVerificado}}</h5>
-                                        {{/if}}
+                                                {{> estatusPerfil_Partial }}
                                             </td>
                                         
                                         <td class="text-center">

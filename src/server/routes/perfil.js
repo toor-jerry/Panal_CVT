@@ -41,11 +41,25 @@ app.get('/', checkSession, (req, res) => {
 // Tipo de registro route
 app.get('/informacion/:idUsuario', checkSession, async(req, res) => {
     let idUsuario = req.params.idUsuario;
-    res.render('informacion_empresa', {
+
+    let rutaRegreso = '/';
+
+    if (req.session.usuario.userRole === 'USER_ADMIN') {
+        rutaRegreso = '/perfil/administrativo/1/1';
+    } else if (req.session.usuario.userRole === 'USER_ENTERPRISE') {
+        rutaRegreso = '/perfil/empresarial/1';
+    } else if (req.session.usuario.userRole === 'SUPER_USER') {
+        rutaRegreso = '/perfil/sistemas';
+    } else {
+        rutaRegreso = '/perfil';
+    }
+
+    res.render('informacion_usuario', {
         page: 'Mi Perfil',
         nombre_boton_navbar: 'Información de empresa',
-        direccion_link_boton_navbar: '/',
+        direccion_link_boton_navbar: rutaRegreso,
         mostrarInformacionUsuario: true,
+        mostrar_boton_regreso: true,
 
         usuario: await Usuario.findById(req.session.usuario._id)
             .then(resp => resp.data)

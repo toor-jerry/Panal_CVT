@@ -7,8 +7,7 @@
         {{/if}}
 
         <h5 class="font-weight-bold mt-3">
-            {{#if (ifeq usuario.licenciatura "LIA")}}LIA - Licenciatura en Informática Administrativa{{/if}}
-            {{#if (ifeq usuario.licenciatura "ICO")}}ICO - Licenciatura en Ingeniería en Computación{{/if}}
+            {{> licenciaturas licenciatura=this.usuario.licenciatura }}
         </h5>
         <p class="card-text text-justify">{{ this.usuario.descripcion }}</p>
         <div class="row">
@@ -37,11 +36,11 @@
                 <a href="#" class="btn btn-success">Reclutar</a>
             </div>
             <div class="col">
-                <a href="#" class="btn btn-info">Ver perfil</a>
+                <a href="/perfil/informacion/{{this.usuario._id}}" class="btn btn-info">Ver perfil</a>
             </div>
 
             <div class="col">
-                <a href="#" class="btn btn-warning">Descargar CV</a>
+                <a href="/pdf?idUsuario={{this.usuario._id}}" target="_blank"class="btn btn-warning">Descargar CV</a>
             </div>
         </div>
     </div>
