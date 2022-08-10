@@ -155,7 +155,9 @@ class Usuario {
                         userRole: data.role,
                         contacto: data.contacto
                     };
-
+                    if (data.razonSocial) {
+                        body.razonSocial = data.razonSocial;
+                    }
                     // new model of user
                     let usuario = new UsuarioModel(body);
 

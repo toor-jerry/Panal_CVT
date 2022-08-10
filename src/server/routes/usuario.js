@@ -5,7 +5,7 @@ const fileUpload = require('express-fileupload');
 const { Usuario } = require('../classes/usuario'); // user class
 const { Subir } = require('../classes/subir'); // user class
 
-const { checkSession, checkAdminRole } = require('../middlewares/auth'); // midlewares auth
+const { checkSession, checkAdminRole, intentCheckSession } = require('../middlewares/auth'); // midlewares auth
 
 // express initialization
 const app = express();
@@ -26,37 +26,15 @@ app.get('/recuperar_contrasenia', (req, res) => {
 });
 
 // ==========================
-// Get all users
-// ==========================
-app.get('/all', [checkSession, checkAdminRole], async(req, res) => {
-    res.status(200).render('dashboard_users', {
-        page: 'Dashboard | Usuarios',
-        users: await User.findAll()
-            .then(resp => resp.data)
-            .catch(err => res.status(err.code).json({ msg: err.msg, err: err.err })),
-        cites: await Cite.findAllByAreaAndDate(req.session.user.area._id, today)
-            .then(resp => resp.data)
-            .catch(() => [])
-    })
-
-});
-
-// ==========================
 // Crear usuario
 // ==========================
-app.post('/', (req, res) => {
-let guardarSesion = false;
-if (req.query.noGuardarSesion == false) {
-    guardarSesion = false;
-} else {
-    guardarSesion = true;
-}
+app.post('/', intentCheckSession, (req, res) => {
     Usuario.crear(req.body)
     .then(resp => {
         // session register
-        if (guardarSesion == true) {
+        if (!req.session.usuario) {
         req.session.usuario = resp.data;
-        }
+        } 
         res.status(201).json(resp);
     })
     .catch(err => res.status(err.code).json({ msg: err.msg, err: err.err }))

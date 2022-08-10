@@ -1,6 +1,18 @@
 // ==========================
 // Verif session
 // ==========================
+const intentCheckSession = (req, res, next) => {
+    const usuario = req.session.usuario
+    // send user to view
+    if ( usuario ) {
+    res.locals = { usuario: usuario };
+    }
+    next();
+}
+
+// ==========================
+// Verif session
+// ==========================
 const checkSession = (req, res, next) => {
     const usuario = req.session.usuario
     if (!usuario) { // if user session is not exists, redirect to login page
@@ -61,4 +73,4 @@ const checkEnterpriseRole = (req, res, next) => {
 }
 
 
-module.exports = { checkSession, checkAdminRole, checkSuperRole, checkEnterpriseRole, checkEstatusVerificacion }
+module.exports = { checkSession, checkAdminRole, checkSuperRole, checkEnterpriseRole, checkEstatusVerificacion, intentCheckSession }

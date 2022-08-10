@@ -10,7 +10,7 @@ const app = express();
 
 app.get('/', checkSession, (req, res) => {
     let usuario;
-    let pathPdf;
+    var pathPdf;
     if (req.query.idUsuario) {
         usuario = req.query.idUsuario;
         pathPdf = path.resolve(__dirname, `../../../uploads/cv/Custom_${usuario}.pdf`);
@@ -25,8 +25,7 @@ app.get('/', checkSession, (req, res) => {
         usuario =  req.session.usuario._id;
         PDF.generatePDF(usuario)
             .then(fileName => {
-                path.resolve(__dirname, `../../../uploads/cv/${fileName}`);
-
+                pathPdf = path.resolve(__dirname, `../../../uploads/cv/${fileName}`);
 
                 if (fs.existsSync(pathPdf)) {
                     res.set({

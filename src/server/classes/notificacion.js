@@ -1,38 +1,9 @@
 const _ = require('underscore');
 const NotificacionModel = require('../models/notificacion');
 
-const { response500, response400, response200, response201 } = require('../utils/utils');
+const { response500, response400, response200 } = require('../utils/utils');
 
 class Notificacion {
-
-    static findAll(res, from, limit) {
-
-        PostulationModel.find({})
-            .skip(from)
-            .limit(limit)
-            .populate({
-                path: 'employment',
-                populate: { path: 'user', select: 'name user role email thumbnail_photography' }
-            })
-            .populate('user', 'name username email')
-            .exec((err, postulations) => {
-
-                if (err) return response500(res, err);
-
-                PostulationModel.countDocuments((err, count) => {
-
-                    if (err) return response500(res, err);
-
-                    res.status(200).json({
-                        ok: true,
-                        data: postulations,
-                        total: count
-                    });
-
-                });
-
-            });
-    }
 
     // buscar por usuario
     static buscarPorUsuario(idUsuario,limit) {
@@ -64,25 +35,6 @@ class Notificacion {
                 });
             });
             });
-    }
-
-
-    static findById(res, id) {
-
-        PostulationModel.findById(id)
-            .populate({
-                path: 'employment',
-                populate: { path: 'user', select: 'name user role email thumbnail_photography' }
-            })
-            .populate('user', 'name username email')
-            .exec((err, postulation) => {
-
-                if (err) return response500(res, err);
-                if (!postulation) return response400(res, 'Postulation not found.');
-
-                response200(res, postulation);
-            });
-
     }
 
     // Crear
