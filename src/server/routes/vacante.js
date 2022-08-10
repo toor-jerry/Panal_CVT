@@ -84,7 +84,7 @@ app.get('/buscar/:terminoBusqueda', checkSession, async(req, res) => {
 // ==========================
 // Eliminar una vacante por ID 
 // ==========================
-app.delete('/:vacante', [checkSession, checkEnterpriseRole], (req, res) => Vacante.eliminar(res, req.params.vacante, req.session.usuario._id));
+app.delete('/:vacante/:empresaID', [checkSession, checkEnterpriseRole], (req, res) => Vacante.eliminar(res, req.params.vacante, req.params.empresaID));
 
 // Tipo de registro route (postulacion a vacante)
 app.get('/:id', checkSession, async(req, res) => {
@@ -179,6 +179,10 @@ app.put('/:id', [checkSession, checkEnterpriseRole], (req, res) => Employment.up
 app.post('/', [checkSession, checkEnterpriseRole], (req, res) => {
     let body = req.body;
     body.empresa = req.query.empresaId || req.session.usuario._id;
+    // Se está creando desde un perfil diferente del de la empresa
+    if (req.query.empresaId) {
+        body.perfilCreacion = req.session.usuario._id;
+    }
     Vacante.crear(body)
         .then(resp => {
             res.status(201).json(resp);

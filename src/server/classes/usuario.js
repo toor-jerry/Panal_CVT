@@ -107,18 +107,11 @@ class Usuario {
 
                     if (err) reject({ msg: `No se pudo buscar las empresas.`, err, code: 500 });
 
-                    UsuarioModel.countDocuments({ role: 'USER_ENTERPRISE' }, (err, count) => {
-
-                        if (err) reject({ msg: `No se pudo contar las empresas.`, err, code: 500 })
-
                         resolve({
                             ok: true,
                             data: empresas,
-                            total: count
+                            total: empresas.length
                         });
-
-
-                    });
                 });
         });
     }

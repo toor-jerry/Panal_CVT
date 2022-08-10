@@ -9,7 +9,6 @@
             </div>
 
             <!-- Solicitantes -->
-            {{#if (ifeq usuario.userRole "USER_ENTERPRISE")}}
             <div class="row">
                 <div class="col">
                     <div class="alert alert-light font-weight-bold" role="alert">
@@ -34,7 +33,7 @@
                                 </div>
                                 <div class="col">
                                     <button class="btn btn-danger"
-                                        onclick="borrarVacante('{{this._id}}', '{{this.puesto}}')"><i
+                                        onclick="borrarVacante('{{this._id}}', '{{this.puesto}}', '{{this.empresa}}')"><i
                                             class="fa fa-trash-can" aria-hidden="true"></i> Eliminar</button>
                                 </div>
                             </div>
@@ -50,7 +49,6 @@
                 </div>
 
             </div>
-            {{/if}}
             <!-- Fin de la fila -->
         </div>
         <!-- Fin container -->

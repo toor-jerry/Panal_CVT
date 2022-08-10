@@ -19,6 +19,10 @@ const vacanteSchema = new Schema({
         ref: 'Usuario',
         required: [true, "Empresa es requerido!"]
     },
+    perfilCreacion: {
+        type: Schema.Types.ObjectId,
+        ref: 'Usuario'
+    },
     salario: {
         type: Number,
         required: [true, "Salario es requerido!"]

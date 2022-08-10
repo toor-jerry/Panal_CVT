@@ -41,7 +41,7 @@ $(document).ready(function() {
 });
 
 // Borrar vacante
-function borrarVacante(vacante, nombreVacante) {
+function borrarVacante(vacante, nombreVacante, empresa) {
 
     showQuestion('¿Está seguro?', `Esta opción eliminará la vacante "${nombreVacante}"!`)
         .then((result) => {
@@ -52,7 +52,7 @@ function borrarVacante(vacante, nombreVacante) {
 
                 // Delete request
                 $.ajax({
-                    url: '/vacante/' + vacante,
+                    url: '/vacante/' + vacante+'/'+empresa,
                     type: 'DELETE',
                     success: function() {
                         obtenerAlertSwal(`La vacante '${nombreVacante}' eliminada correctamente!`,'Vacante eliminada!')

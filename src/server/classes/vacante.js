@@ -98,7 +98,8 @@ class Vacante {
     static encontrarPorEmpresa(empresa) {
 
         return new Promise((resolve, reject) => {
-            VacanteModel.find({ empresa: empresa })
+            VacanteModel.find({})
+            .or([{ empresa: empresa }, {perfilCreacion: empresa}])
                 .lean()
                 .sort({ 'fechaCreacion': -1 })
                 .exec((err, vacantes) => {
@@ -106,7 +107,9 @@ class Vacante {
                     if (err) reject({ code: 500, err });
                     if (!vacantes) reject({ code: 400, err: 'No se encontraron vacantes.' });
                     
-                    VacanteModel.countDocuments({ empresa: empresa }, (err, count) => {
+                    VacanteModel.countDocuments({})
+                    .or([{ empresa: empresa }, {perfilCreacion: empresa}])
+                    .exec((err, count) => {
                         
                         if (err) reject({ code: 500, err });
                         
@@ -147,7 +150,7 @@ class Vacante {
 
     static crear(data) {
         return new Promise((resolve, reject) => {
-            let body = _.pick(data, ['puesto', 'empresa', 'salario', 'horarios', 'funciones', 'notas']);
+            let body = _.pick(data, ['puesto', 'empresa', 'salario', 'horarios', 'funciones', 'notas', 'perfilCreacion']);
             let vacante = new VacanteModel(body);
             vacante.save((err, vacanteCreada) => {
                 if (err) reject({ code: 500, err });
