@@ -98,7 +98,7 @@ $("#cambioPassword-form").submit(function (event) {
                 obtenerAlertSwal('Se actualizó correctamente su contraseña.')
                     .then(() => location.reload());
             } else {
-                obtenerToast(`A ocurrido un error.\n ${xhr.response}`, 'Error!', 'error')
+                obtenerAlertSwal(`A ocurrido un error.\n ${xhr.response}`, 'Error!', 'error')
             }
         }
 
@@ -126,7 +126,7 @@ function marcarNotificacionesComoLeidas(notificacionesTotal) {
             obtenerAlertSwal('No tiene nuevas notificaciones.')
                 .then(() => window.location.reload())
           } else {
-            obtenerToast(`A ocurrido un error.\n ${xhr.response}`, 'Error!', 'error')
+            obtenerAlertSwal(`A ocurrido un error.\n ${xhr.response}`, 'Error!', 'error')
           }
         }
 
@@ -248,41 +248,6 @@ function createCiteNotif(cite) {
             </a>`;
 }
 
-// add field to cites table
-function createFieldTableCites(cite) {
-    return `<tr id="${cite._id}-field">
-                <td>${cite.date}</td>
-                <td>${cite.hour}</td>
-                <td>${cite.description}</td>
-                <td>
-                    <a class="btn btn-danger" onclick="deleteCite('${cite._id}')">
-                    <i class="fas fa-trash-alt"></i>
-                    </a>
-                </td>
-                <td>
-                    <a class="btn btn-info" href="/cite/show/${cite._id}">
-                    <i class="fa fa-eye" aria-hidden="true"></i>
-                    </a>
-                </td>
-            </tr>`;
-}
-
-// add field to users table
-function createFieldTableUsers(user) {
-    return `<tr id="${user._id}-field">
-                <td>${user.name}</td>
-                <td>${user.last_name}</td>
-                <td>${user.email}</td>
-                <td>${user.role}</td>
-                <td>${user.area.name}</td>
-                <td>
-                    <a class="btn btn-danger" onclick="deleteUser('${user._id}')">
-                    <i class="fas fa-trash-alt"></i>
-                    </a>
-                </td>
-            </tr>`;
-}
-
 
 jQuery(function ($) {
 
@@ -329,7 +294,7 @@ function deleteUser(userId) {
                         .then(() => $(`#${userId}-field`).remove())
                     },
                     error: function(errResp) {
-                        obtenerToast(`A ocurrido un error.\n ${errResp.responseText}`, 'Error!', 'error')
+                        obtenerAlertSwal(`A ocurrido un error.\n ${errResp.responseText}`, 'Error!', 'error')
                     }
                 });
 

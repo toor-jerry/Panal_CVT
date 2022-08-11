@@ -29,7 +29,7 @@ function validarEstatus(userIDParam, estatusParam, estatusParam) {
                             obtenerAlertSwal('Se ha actualizado el estatus con éxito.')
                             .then(() => location.reload());
                         } else {
-                            obtenerToast(`A ocurrido un error.\n ${xhr.response}`, 'Error!', 'error')
+                            obtenerAlertSwal(`A ocurrido un error.\n ${xhr.response}`, 'Error!', 'error')
                         }
                     }
 

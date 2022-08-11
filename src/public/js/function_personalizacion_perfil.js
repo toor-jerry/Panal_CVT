@@ -44,7 +44,7 @@ $(document).ready(function() {
             obtenerAlertSwal('Se actualizó con éxito la cuenta.')
            .then(() => window.location.href = '/perfil')
           } else {
-            obtenerToast(`A ocurrido un error.\n ${xhr.response}`, 'Error!', 'error')
+            obtenerAlertSwal(`A ocurrido un error.\n ${xhr.response}`, 'Error!', 'error')
           }
         }
 

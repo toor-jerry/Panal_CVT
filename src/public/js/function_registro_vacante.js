@@ -31,7 +31,7 @@ function leerPDF(input) {
           if (xhr.status === 201 || xhr.status === 200) {
             obtenerAlertSwal("Se ha subido su currículo vitae con éxito.","Carga exitosa!")
           } else {
-            obtenerToast(`A ocurrido un error.\n ${xhr.response}`, 'Error!', 'error')
+            obtenerAlertSwal(`A ocurrido un error.\n ${xhr.response}`, 'Error!', 'error')
           }
         }
       };

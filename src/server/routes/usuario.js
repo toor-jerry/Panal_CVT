@@ -29,7 +29,11 @@ app.get('/recuperar_contrasenia', (req, res) => {
 // Crear usuario
 // ==========================
 app.post('/', intentCheckSession, (req, res) => {
-    Usuario.crear(req.body)
+    let foto = null;
+    if (req.files?.foto){
+        foto = req.files.foto;
+    }
+    Usuario.crear(req.body, foto)
     .then(resp => {
         // session register
         if (!req.session.usuario) {

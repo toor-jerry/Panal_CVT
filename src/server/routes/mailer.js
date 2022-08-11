@@ -7,7 +7,6 @@ const nodemailer = require('nodemailer');
 const uuid = require('uuid');
 const { Usuario } = require('../classes/usuario'); // user class
 const { Notificacion } = require('../classes/notificacion'); // user class
-const { checkSession, checkAdminRole } = require('../middlewares/auth'); // midlewares auth
 
 
 

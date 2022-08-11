@@ -7,7 +7,7 @@ $(document).ready(function () {
 
     if ($('#inputPasswordUser').val() !== '') {
       if (PasswordStrength.test('', $('#inputPasswordUser').val()).score <= 35) {
-        obtenerAlertSwal(`Por favor mejore la seguridad de su contraseña!!`, 'Datos inválidos!!', 'warning')
+        return obtenerAlertSwal(`Por favor mejore la seguridad de su contraseña!!`, 'Datos inválidos!!', 'warning')
       }
     }
 
@@ -37,7 +37,7 @@ $(document).ready(function () {
           obtenerAlertSwal('Se actualizó con éxito la cuenta.')
             .then(() => location.reload())
         } else {
-          obtenerToast(`A ocurrido un error.\n ${xhr.response}`, 'Error!', 'error')
+          obtenerAlertSwal(`A ocurrido un error.\n ${xhr.response}`, 'Error!', 'error')
         }
       }
 

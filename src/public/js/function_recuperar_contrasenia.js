@@ -18,7 +18,7 @@ $(document).ready(function() {
                     .then(() => location.href = "/")
             })
             .fail(function(errResp) {
-                obtenerToast(`A ocurrido un error.\n ${errResp.responseText}`, 'Error!', 'error')
+                obtenerAlertSwal(`A ocurrido un error.\n ${errResp.responseText}`, 'Error!', 'error')
             });
     });
 

@@ -34,7 +34,7 @@ $(document).ready(function() {
                         .then(() => location.reload())
                 })
                 .fail(function(errResp) {
-                    obtenerToast(`A ocurrido un error.\n ${errResp.responseText}`, 'Error!', 'error')
+                    obtenerAlertSwal(`A ocurrido un error.\n ${errResp.responseText}`, 'Error!', 'error')
                 });
     }});
 });
@@ -59,7 +59,7 @@ function borrarVacante(vacante, nombreVacante, empresa) {
                         .then(() => location.reload())
                     },
                     error: function(errResp) {
-                        obtenerToast(`A ocurrido un error.\n ${xhr.response}`, 'Error!', 'error')
+                        obtenerAlertSwal(`A ocurrido un error.\n ${xhr.response}`, 'Error!', 'error')
                     }
                 });
 

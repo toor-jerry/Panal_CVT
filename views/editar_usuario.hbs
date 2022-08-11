@@ -13,16 +13,16 @@
                 <!-- Page Heading -->
                 <h1 class="h3 mb-2 text-gray-800" id="edit-user-id" name="{{usuarioEditar._id}}">
                     Usuario:
-                    
+
                     <b>{{usuarioEditar.nombre}} {{usuarioEditar.apellidos}}</b>
-                    {{#if (ifdiff usuario.userRole "SUPER_USER")}} 
+                    {{#if (ifdiff usuario.userRole "SUPER_USER")}}
                     <a class="btn btn-danger" onclick="deleteUser('{{usuarioEditar._id}}')">
                         <i class="fas fa-trash-alt"></i>
                     </a>
                     {{/if}}
                     <br>
                     {{> badgeRolDeUsuario_Partial userRole=usuarioEditar.userRole}}
-                    </h1>
+                </h1>
                 <hr>
                 <form class="user" id="form-user-update">
                     <div class="form-group row">
@@ -32,7 +32,7 @@
                     </div>
                     <div class="form-group row">
                         <div class="col {{#if usuarioEditar.apellidos}}col-md-4 mb-3{{/if}} mb-sm-0">
-                        {{> inputNombre_Partial nombre=usuarioEditar.nombre}}
+                            {{> inputNombre_Partial nombre=usuarioEditar.nombre}}
                         </div>
                         {{#if usuarioEditar.apellidos}}
                         <div class="col-md-4 mb-3 mb-sm-0">

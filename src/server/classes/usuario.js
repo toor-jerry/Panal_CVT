@@ -7,6 +7,7 @@ const fs = require('fs');
 const path = require('path');
 // Usuario model
 const UsuarioModel = require('../models/usuario');
+const { Subir } = require('../classes/subir'); // user class
 const { response500, response400, response200, response201 } = require('../utils/utils');
 
 class Usuario {
@@ -135,7 +136,7 @@ class Usuario {
     }
 
     // Crear un usuario
-    static crear(data) {
+    static crear(data, foto) {
         return new Promise((resolve, reject) => {
             if (!data) return reject({ msg: 'No data', code: 400 });
 
@@ -153,7 +154,10 @@ class Usuario {
                         email: data.email,
                         password: bcrypt.hashSync(data.password, 10), // encrypt password
                         userRole: data.role,
-                        contacto: data.contacto
+                        numeroContacto: data.numeroContacto,
+                        rfc: data.rfc,
+                        direccion: data.direccion,
+                        descripcion: data.descripcion,
                     };
                     if (data.razonSocial) {
                         body.razonSocial = data.razonSocial;
@@ -167,6 +171,30 @@ class Usuario {
                         if (err) return reject({ msg: 'Error db', err, code: 500 });
                         if (!usuarioNuevo) return reject({ msg: 'No se pudo crear el usuario.', code: 400 });
 
+
+                        if (foto){
+                            // console.log(req.files);
+                    
+                        // Extenciones válidas
+                        const extensionesValidas = ['png', 'jpg', 'gif', 'jpeg'];
+                    
+                        // Name file
+                        const file = foto;
+                        const splitName = file.name.split('.');
+                        const extensionImagen = splitName[splitName.length - 1];
+                    
+                    
+                        const nameFile =  `${usuarioNuevo._id}.${extensionImagen}`;
+                    
+                        // Move file
+                        const path = obtenerRutaDeCargaArchivos("fotografias", nameFile);
+                        // Size file
+                        let redimension = false;
+                        if (file.size > 900000) {
+                            redimenion = true;
+                        } 
+                        Subir.subirFotografia(usuarioNuevo._id, file.data, nameFile, redimension);
+                    }
                         resolve({
                             data: usuarioNuevo
                         });

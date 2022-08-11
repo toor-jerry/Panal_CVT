@@ -31,7 +31,7 @@ $(document).ready(function() {
                     })
             })
             .fail(function(errResp) {
-                obtenerToast(`A ocurrido un error.\n ${errResp.responseText}`, 'Error!', 'error')
+                obtenerAlertSwal(`A ocurrido un error.\n ${errResp.responseText}`, 'Error!', 'error')
             });
     });
 
