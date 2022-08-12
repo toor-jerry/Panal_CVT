@@ -1,7 +1,7 @@
 {{#each solicitantes.data}}
 <div class="card text-center border-info mb-3">
     <div class="card-body">
-        <h4 class="card-title texto-oscuro">{{ this.usuario.nombre }}</h4>
+        <h4 class="card-title texto-oscuro">{{ this.usuario.nombre }} {{this.usuario.apellidos}}</h4>
         {{#if this.usuario.foto}}
         <img src="/archivos/fotografias/{{ this.usuario.foto }}" class="card-img foto-empresa" alt="Fotografía">
         {{/if}}

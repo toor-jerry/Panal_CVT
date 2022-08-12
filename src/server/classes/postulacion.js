@@ -96,7 +96,10 @@ class Postulacion {
             if (!data) return reject({ msg: 'No data', code: 400 });
 
             // find user
-            PostulacionModel.findById(id, (err, userDB) => {
+            PostulacionModel.findById({_id: id})
+            .populate('vacante')
+            .populate('usuario')
+            .exec((err, userDB) => {
 
                 if (err) return reject({ msg: 'Error server', err, code: 500 });
                 if (!userDB) return reject({ msg: 'Usuario no encontrado.', code: 400 });
@@ -110,6 +113,7 @@ class Postulacion {
                     if (err) return reject({ msg: 'Error db', err, code: 500 });
                     if (!userUpdate) return reject({ msg: 'No se pudo actualizar los datos.', code: 400 });
 
+                    
                     resolve(userUpdate);
                 });
             });

@@ -59,7 +59,7 @@ function borrarVacante(vacante, nombreVacante, empresa) {
                         .then(() => location.reload())
                     },
                     error: function(errResp) {
-                        obtenerAlertSwal(`A ocurrido un error.\n ${xhr.response}`, 'Error!', 'error')
+                        obtenerAlertSwal(`A ocurrido un error.\n ${errResp}`, 'Error!', 'error')
                     }
                 });
 

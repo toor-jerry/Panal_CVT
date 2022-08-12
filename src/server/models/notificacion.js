@@ -30,7 +30,7 @@ const notifacionSchema = new Schema({
     tipo: {
         type: String,
         required: true,
-        default: "Personal",
+        default: "Todos",
         enum: tiposNotificacion
 
     }

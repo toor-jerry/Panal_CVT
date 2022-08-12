@@ -4,6 +4,7 @@ const fileUpload = require('express-fileupload');
 
 const { Usuario } = require('../classes/usuario'); // Usuario class
 const { Vacante } = require('../classes/vacante'); // Vacante class
+const { Email } = require('../classes/mailer'); // Vacante class
 const { Postulacion } = require('../classes/postulacion'); // Vacante class
 const { checkSession, checkEnterpriseRole, checkAdminRole, checkSuperRole  } = require('../middlewares/auth');
 const JSONTransport = require('nodemailer/lib/json-transport');
@@ -49,10 +50,16 @@ app.post('/', checkSession, (req, res) =>{
 // ==========================
 // Actualizar postulacion
 // ==========================
-app.put('/actualizar/reclutar/:postulacionId/:status', [checkSession, checkEnterpriseRole], (req, res) => {
-    Postulacion.actualizar(req.params.postulacionId, {'status': req.params.status})
-    .then(() => {
-        res.status(200).json({});
+app.put('/actualizar/reclutar/:postulacionId/:status', [checkSession, checkEnterpriseRole], async(req, res) => {
+    await Postulacion.actualizar(req.params.postulacionId, {'status': req.params.status})
+    .then((dbPostulation) => {
+        Email.send(email = dbPostulation.usuario.email, title='Ha sido reclutado!', text=`Ha sido reclutado para la vacante: '${dbPostulation.vacante.puesto}' de la empresa: '${dbPostulation.vacante.empresa.nombre}'`)
+        .then(() => {
+            console.log('Email sent');
+        }).catch(err => {
+            console.log(err);
+        });
+        return res.status(200).json({});
     })
     .catch(err => res.status(err.code).json({ msg: err.msg, err: err.err }))
 });

@@ -53,7 +53,7 @@
                     <i class="fas fa-bell fa-fw fa-2x text-warning"></i>
                     <!-- Counter - Alerts -->
                     {{#if (mostrarNotificaciones notificaciones.total usuario.notificacionesLeidas)}}
-                    <span class="badge badge-danger numero-notificacion">{{resta notificaciones.total usuario.notificacionesLeidas}}+</span>
+                    <span class="badge badge-danger numero-notificacion" id="nNotificacionesSpan">{{resta notificaciones.total usuario.notificacionesLeidas}}</span>
                     {{/if}}
                 </a>
                 <!-- Dropdown - Alerts -->
@@ -68,11 +68,13 @@
                         <i class="fas fa-check"></i> Marcar como leidas</button>
                     </h6>
                         {{/if}}
+                        <div id="notificaciones-container">
                     {{#if (esMayor notificaciones.total 0)}}
                     {{#each notificaciones.data}}
                         {{> notificacionItem_Partial}}
                     {{/each}}
                     {{/if}}
+                    </div>
                     {{#if (esMayor notificaciones.total 10)}}
                     <h6><a class="dropdown-item text-center small text-primary font-weight-bold" href="?limitNotificaciones=1000">
                         <i class="fas fa-circle-chevron-down"></i>

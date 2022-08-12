@@ -13,40 +13,33 @@ $(document).ready(function () {
      ***************************/
 
 
-// Delete cite
-socket.on('delete-cite-registered-admin', function(res) {
+    // Delete cite
+    socket.on('new-notificacion', function (res) {
+        var notificacion = res.data;
 
-    var cite = res.data; // cite created by a user
+            var nNotificaciones = Number($("#nNotificacionesSpan").text()); // nNotificaciones to number
+            if (nNotificaciones == NaN || nNotificaciones == undefined || nNotificaciones == null) { // if error
+                nNotificaciones = 0;
+            }
 
-    if (cite.area == $("#areaName").attr('name')) { // if area cite is this
-        var nCites = Number($("#nCitesTopBar").text()); // ncites to number
-        if (nCites == NaN || nCites == undefined || nCites == null) { // if error
-            nCites = 0;
-        }
-
-        // Notifications
-        if (nCites > 0) {
-            $("#nCitesTopBar").text(nCites - 1); // update ncites
-        } else {
-            $("#nCitesTopBar").text('0'); // update ncites
-        }
-
-        // Remove notif
-        $(`#${cite._id}-notif`).remove();
-
-        // Añade
-        $("#nCitesTopBar").text(nCites + 1); // update ncites
-
-        $("#cites_container").append(createCiteNotif(cite)); // add notification
-    }
-
-});
+            // Notifications
+            if (nNotificaciones > 0) {
+                $("#nNotificacionesSpan").text(nNotificaciones + 1); // update nNotificaciones
+            } else {
+                $("#nNotificacionesSpan").text('1'); // update nNotificaciones
+            }
+            $("#notificaciones-container").prepend(createNotificacion(notificacion)); // add notification
+            obtenerToast(titulo = notificacion?.titulo, time = 1000, posicion= 'top-end').fire({})
+    });
 
     // Listen status connection
     socket.on('connect', function () {
         $('#alert_connection').hide();
         $('#statusCon').removeClass('text-danger');
         $('#statusCon').addClass('text-success');
+        let idUsuario = $("#_idUsuario").attr("name");
+        let rolUsuario = $("#_rolUsuario").attr("name");
+        //socket.join([idUsuario, rolUsuario]);
     });
 
     socket.on('disconnect', function () {
@@ -68,35 +61,62 @@ socket.on('delete-cite-registered-admin', function(res) {
         leerImagen(this);
     });
 
-    if (new URLSearchParams(window.location.search).has('limitNotificaciones'))
-    {
+    if (new URLSearchParams(window.location.search).has('limitNotificaciones')) {
         $('#dropdown-notificaciones').trigger('click');
     }
 
-// onsubmit modal
-$("#cambioPassword-form").submit(function (event) {
+    // onsubmit modal
+    $("#cambioPassword-form").submit(function (event) {
 
-    event.preventDefault();
-    if ($('#inputPassword').val() !== '' && PasswordStrength.test('', $('#inputPassword').val()).score <= 35) {
-        return obtenerAlertSwal('Por favor mejore la seguridad de su contraseña!!', 'Datos inválidos!!','warning');
-    }
+        event.preventDefault();
+        if ($('#inputPassword').val() !== '' && PasswordStrength.test('', $('#inputPassword').val()).score <= 35) {
+            return obtenerAlertSwal('Por favor mejore la seguridad de su contraseña!!', 'Datos inválidos!!', 'warning');
+        }
 
+        // show alert loading
+        getLoading("Loading..", "Por favor espere.");
+        // submit data
+        const formData = new FormData();
+        const xhr = new XMLHttpRequest();
+
+        formData.append('password', $('#inputPassword').val());
+        formData.append('recuperacionPassword', false);
+
+
+        xhr.onreadystatechange = () => {
+
+            if (xhr.readyState === 4) {
+                if (xhr.status === 201 || xhr.status === 200) {
+                    obtenerAlertSwal('Se actualizó correctamente su contraseña.')
+                        .then(() => location.reload());
+                } else {
+                    obtenerAlertSwal(`A ocurrido un error.\n ${xhr.response}`, 'Error!', 'error')
+                }
+            }
+
+        };
+        xhr.open('PUT', '/usuario/actualizar', true);
+
+        xhr.send(formData);
+    });
+});
+
+function marcarNotificacionesComoLeidas(notificacionesTotal) {
     // show alert loading
     getLoading("Loading..", "Por favor espere.");
     // submit data
     const formData = new FormData();
     const xhr = new XMLHttpRequest();
 
-    formData.append('password', $('#inputPassword').val());
-    formData.append('recuperacionPassword', false);
-    
+    formData.append('notificacionesLeidas', notificacionesTotal);
 
     xhr.onreadystatechange = () => {
 
         if (xhr.readyState === 4) {
             if (xhr.status === 201 || xhr.status === 200) {
-                obtenerAlertSwal('Se actualizó correctamente su contraseña.')
-                    .then(() => location.reload());
+
+                obtenerAlertSwal('No tiene nuevas notificaciones.')
+                    .then(() => window.location.reload())
             } else {
                 obtenerAlertSwal(`A ocurrido un error.\n ${xhr.response}`, 'Error!', 'error')
             }
@@ -106,34 +126,6 @@ $("#cambioPassword-form").submit(function (event) {
     xhr.open('PUT', '/usuario/actualizar', true);
 
     xhr.send(formData);
-});
-});
-
-function marcarNotificacionesComoLeidas(notificacionesTotal) {
-        // show alert loading
-        getLoading("Loading..", "Por favor espere.");
-        // submit data
-        const formData = new FormData();
-        const xhr = new XMLHttpRequest();
-
-        formData.append('notificacionesLeidas', notificacionesTotal);
-
-      xhr.onreadystatechange = () => {
-
-        if (xhr.readyState === 4) {
-          if (xhr.status === 201 || xhr.status === 200) {
-            
-            obtenerAlertSwal('No tiene nuevas notificaciones.')
-                .then(() => window.location.reload())
-          } else {
-            obtenerAlertSwal(`A ocurrido un error.\n ${xhr.response}`, 'Error!', 'error')
-          }
-        }
-
-      };
-      xhr.open('PUT', '/usuario/actualizar', true);
-      
-      xhr.send(formData);
 }
 
 function obtenerAlertSwal(text = 'Se guardado su información.', title = 'Actualización exitosa!', icon = 'success') {
@@ -141,7 +133,7 @@ function obtenerAlertSwal(text = 'Se guardado su información.', title = 'Actual
         audioInformacionSuccess.play();
     } else if (icon == 'info') {
         audioInformacion.play();
-    } else{
+    } else {
         audioInformacionError.play();
     }
     return swal.fire({
@@ -153,14 +145,14 @@ function obtenerAlertSwal(text = 'Se guardado su información.', title = 'Actual
     });
 }
 
-function obtenerToast(time = 1000) {
+function obtenerToast(titulo = 'General Title', time = 1000, posicion= 'center') {
     audioInformacionSuccess.play();
     return Swal.mixin({ // create toast
         toast: true,
         icon: 'success',
-        title: 'General Title',
+        title: titulo,
         animation: false,
-        position: 'center',
+        position: posicion,
         showConfirmButton: false,
         timer: time,
         timerProgressBar: true
@@ -234,18 +226,35 @@ function showQuestion(title, text, icon = 'warning') {
 }
 
 // create new notification
-function createCiteNotif(cite) {
-    return `<a class="dropdown-item d-flex align-items-center" href="/cite/show/${cite._id}" id="${cite._id}-notif">
-                <div class="mr-3">
-                    <div class="icon-circle bg-success">
-                        <i class="fas fa-file-alt text-white"></i>
-                    </div>
-                </div>
-                <div>
-                    <div class="small text-gray-500">${cite.date} - ${cite.hour}</div>
-                    <span class="font-weight-bold">${cite.description}</span>
-                </div>
-            </a>`;
+function createNotificacion(notificacion) {
+    let icon = "";
+    let titulo = notificacion.titulo;
+    if (notificacion.titulo == "Recuperación de contraseña") {
+        icon = `<div class="icon-circle bg-warning">
+                    <i class="fas fa-exclamation-triangle text-white"></i>
+                </div>`;
+    } else if (notificacion?.de) {
+        titulo += `- <b>"${notificacion.de.nombre}"</b>`;
+        icon = `<div class="icon-circle bg-info">
+                    <i class="fas fa-info-circle text-white"></i>
+                </div>`;
+    } else {
+        icon =`<div class="icon-circle bg-success">
+                <i class="fas fa-check-double text-white"></i>
+            </div>`;
+    }
+        return `<a class="dropdown-item d-flex align-items-center" href="#">
+        <div class="mr-3">
+            ${icon}
+        </div>
+        <div>
+            <div class="small text-primary"><b>${titulo}</b></div>
+            <span class="text-info"><b>${notificacion.mensaje}</b></span>
+            <br>
+            <span class="text-gray-500">${notificacion.fechaNotificacion}</span>
+
+        </div>
+    </a>`;
 }
 
 
@@ -289,11 +298,11 @@ function deleteUser(userId) {
                 $.ajax({
                     url: '/usuario/' + userId,
                     type: 'DELETE',
-                    success: function() {
-                        obtenerAlertSwal(`Cuenta eliminada correctamente!`,'Cuenta eliminada!')
-                        .then(() => $(`#${userId}-field`).remove())
+                    success: function () {
+                        obtenerAlertSwal(`Cuenta eliminada correctamente!`, 'Cuenta eliminada!')
+                            .then(() => $(`#${userId}-field`).remove())
                     },
-                    error: function(errResp) {
+                    error: function (errResp) {
                         obtenerAlertSwal(`A ocurrido un error.\n ${errResp.responseText}`, 'Error!', 'error')
                     }
                 });

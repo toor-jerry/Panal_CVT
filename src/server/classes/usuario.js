@@ -107,7 +107,7 @@ class Usuario {
                 .exec((err, empresas) => {
 
                     if (err) reject({ msg: `No se pudo buscar las empresas.`, err, code: 500 });
-
+                    
                         resolve({
                             ok: true,
                             data: empresas,

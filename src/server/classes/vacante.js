@@ -93,22 +93,23 @@ class Vacante {
     }
 
     // Eliminar vacante
-    static eliminar(res, idVacante, empresa) {
-
+    static eliminar(idVacante, empresa) {
+        return new Promise((resolve, reject) => {
         VacanteModel.findOneAndRemove({ _id: idVacante, empresa: empresa }, (err, vacanteEliminada) => {
 
-            if (err) return response500(res, err);
-            if (!vacanteEliminada) return response400(res, 'No se pudo eliminar la vacante.');
+            if (err) reject({ code: 500, err });
+            if (!vacanteEliminada) reject({ code: 400, err: 'No se pudo eliminar la vacante.' });
 
             PostulacionModel.deleteMany({ vacante: idVacante }, (err, result) => {
-                if (err) return response500(res, err, 'No se pudieron borrar las postulaciones ligadas a esta vacante.');
-                return res.status(200).json({
+            if (err) reject({ code: 500, err: 'No se pudieron borrar las postulaciones ligadas a esta vacante.' });
+            
+                resolve({
                     ok: true,
                     data: vacanteEliminada,
                     totalDeleted: result.deletedCount
                 });
             });
-
+        });
         });
 
     }

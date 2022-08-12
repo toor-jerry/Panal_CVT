@@ -10,7 +10,7 @@
             <div class="form-group form-control-lg">Empresas - Total: ({{ empresas.total }})</label>
                 <select id="empresasSelect" class="custom-select mr-sm-2 border border-warning">
                     {{#each empresas.data }}
-                    <option id="{{ this._id }}" value="{{ this._id }}">{{ this.razonSocial }}</option>
+                    <option id="{{ this._id }}" value="{{ this._id }}">{{#if this.razonSocial}} {{ this.razonSocial }} {{else}} {{this.nombre}}{{/if}}</option>
                     {{/each}}
                 </select>
             </div>
@@ -39,7 +39,7 @@
             <!-- Puesto -->
             <label class="form-control-lg">Funciones</label>
                 <textarea class="form-control form-control-lg texto-oscuro" id="inputFunciones" name="funciones" placeholder="Funciones a realizar"
-                    rows="3" required></textarea>
+                    rows="3" required>asfasfas</textarea>
         </div>
     </div>
     <!-- Fila -->
