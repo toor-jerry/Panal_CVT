@@ -3,6 +3,7 @@ const express = require('express');
 const fileUpload = require('express-fileupload');
 
 const { Usuario } = require('../classes/usuario'); // user class
+const { Email } = require('../classes/mailer'); // user class
 const { Subir } = require('../classes/subir'); // user class
 
 const { checkSession, checkAdminRole, intentCheckSession } = require('../middlewares/auth'); // midlewares auth
@@ -36,14 +37,39 @@ app.post('/', intentCheckSession, (req, res) => {
     Usuario.crear(req.body, foto)
     .then(resp => {
         // session register
+        let data = resp.data;
         if (!req.session.usuario) {
-        req.session.usuario = resp.data;
-        } 
+        req.session.usuario = data;
+        }
+        
+        if (data.userRole === 'USER_PERSONAL') {
+            Email.send(email=data.email, 
+                        title='Verificación de cuenta', 
+                        text=`Use el siguiente link ${process.env.URI_SERVER}/usuario/actualizar/verificar_Cuenta/${data._id} para verificar su cuenta.`,
+                        html=`<p>Use el siguiente link <b>${process.env.URI_SERVER}/usuario/actualizar/verificar_Cuenta/${data._id}</b> para verificar su cuenta.</p>`)
+                        .then(() => console.log("Email sent to: " + data.email))
+                        .catch(err => console.log(err));
+                        
+        }
+        
         res.status(201).json(resp);
     })
     .catch(err => res.status(err.code).json({ msg: err.msg, err: err.err }))
 }
 );
+
+app.get('/actualizar/verificar_Cuenta/:idUsuario', (req, res) => {
+    Usuario.actualizar(req.params.idUsuario, {perfilVerificado: 'Verificado'})
+        .then((usuarioDB) => {
+            req.session.usuario = usuarioDB
+            res.render('verificacionCuenta', {
+                msg: 'Su cuenta ha sido validada correctamente!',
+            })
+        })
+        .catch(err => res.render('verificacionCuenta', {
+            msg: err
+        }))
+    });
 
 
 // ==========================

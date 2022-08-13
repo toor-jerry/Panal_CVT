@@ -9,6 +9,11 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'dev';
 process.env.PORT = process.env.PORT || 3000;
 
 // ==========================
+// URL Server
+// ==========================
+process.env.URI_SERVER = process.env.URI_SERVER || 'http://localhost:3000';
+
+// ==========================
 // DataBase URI
 // ==========================
 let urlDB;
