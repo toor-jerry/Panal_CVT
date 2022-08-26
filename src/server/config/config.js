@@ -11,7 +11,7 @@ process.env.PORT = process.env.PORT || 3001;
 // ==========================
 // URL Server
 // ==========================
-process.env.URI_SERVER = process.env.URI_SERVER || 'http://localhost:3000';
+process.env.URI_SERVER = process.env.URI_SERVER || 'http://localhost:3001';
 
 // ==========================
 // DataBase URI

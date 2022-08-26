@@ -9,7 +9,7 @@ const { response500, response400, response200, response201 } = require('../utils
 const { obtenerRutaDeCargaArchivos } = require('../utils/utils');
 
 const { initializeApp } = require("firebase/app");
-const { getStorage, ref, uploadBytes, uploadString } = require("firebase/storage");
+const { getStorage, ref, uploadBytes, uploadString, deleteObject } = require("firebase/storage");
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -94,9 +94,13 @@ class Subir {
                 const base64Data = data.toString('base64');
                 // Create a child reference
             const fotografiasRef = ref(storage, 'fotografias/' + nombreFoto);
+            deleteObject(fotografiasRef).then(() => {
+                console.log("File deleted successfully")
+              }).catch((error) => {
+                console.log(error)
+              });
                   uploadString(fotografiasRef, base64Data, 'base64').then((snapshot) => {
                     usuarioDB.foto = nombreFoto;
-                    console.log(snapshotß)
             usuarioDB.save((err, userUpdate) => {
 
                 
