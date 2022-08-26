@@ -76,8 +76,7 @@ const usuarioSchema = new Schema({
     },
     sectorEmpresarial: {
         type: String,
-        enum: sectorEmpresarial,
-        default: 'Privado'
+        enum: sectorEmpresarial
     },
     rfc: {
         type: String

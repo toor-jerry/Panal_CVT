@@ -8,6 +8,31 @@ const UsuarioModel = require('../models/usuario');
 const { response500, response400, response200, response201 } = require('../utils/utils');
 const { obtenerRutaDeCargaArchivos } = require('../utils/utils');
 
+const { initializeApp } = require("firebase/app");
+const { getStorage, ref, uploadBytes, uploadString } = require("firebase/storage");
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+    apiKey: "AIzaSyBt5cFXrI0D0NF4AJ1TQJRmd6X3WUOnuLs",
+    authDomain: "panal-6aa84.firebaseapp.com",
+    databaseURL: "https://panal-6aa84-default-rtdb.firebaseio.com",
+    projectId: "panal-6aa84",
+    storageBucket: "panal-6aa84.appspot.com",
+    messagingSenderId: "390583139213",
+    appId: "1:390583139213:web:e16721c150ef8fb4871bc4",
+    measurementId: "G-V5E33ME7XZ"
+  };
+
+
+const appFire = initializeApp(firebaseConfig);
+const storage = getStorage(appFire);
+
+
+
+
 const TAMANIO_FOTOGRAFIA = 400;
 
 class Subir {
@@ -64,16 +89,14 @@ class Subir {
                 .resize({
                     width: TAMANIO_FOTOGRAFIA
                 })
-                .toFile(`./uploads/fotografias/${nombreFoto}`)
-                .catch(err => console.log('Err ' + err));
-            }  else {
-                sharp(img)
-                    .toFile(`./uploads/fotografias/${nombreFoto}`)
-                    .catch(err => console.log('Err ' + err));
-            }
-
-            usuarioDB.foto = nombreFoto;
-
+                .toBuffer()
+                .then((data) => {
+                const base64Data = data.toString('base64');
+                // Create a child reference
+            const fotografiasRef = ref(storage, 'fotografias/' + nombreFoto);
+                  uploadString(fotografiasRef, base64Data, 'base64').then((snapshot) => {
+                    usuarioDB.foto = nombreFoto;
+                    console.log(snapshotß)
             usuarioDB.save((err, userUpdate) => {
 
                 
@@ -81,6 +104,18 @@ class Subir {
                 if (!userUpdate) return reject({ msg: 'No se pudo actualizar los datos.', code: 400 });
                 resolve(userUpdate);
             });
+                  }).catch(err => console.log(err)).finally(e => {
+                    console.log(e)
+                  })
+            })
+                .catch(err => console.log('Err ' + err));
+            }  else {
+                sharp(img)
+                    .toFile(`./uploads/fotografias/${nombreFoto}`)
+                    .catch(err => console.log('Err ' + err));
+            }
+
+            
         });
         });
     }

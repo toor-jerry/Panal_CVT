@@ -10,3 +10,7 @@ npm i -g nodemon
 
 alias app="cd ~/Escritorio/Panal_CUVT && nodemon src/server/app.js"
 alias video="mpv --fs --no-audio ~/Escritorio/Panal_CUVT/Datos/Jerry_InterfazPanal.mp4 &"
+
+
+Las variables de entorno PASSWORD es el cliente de gmail de google
+https://console.cloud.google.com/apis/credentials/consent?pli=1&project=collectionview
