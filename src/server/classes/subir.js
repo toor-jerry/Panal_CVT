@@ -94,7 +94,7 @@ class Subir {
                 const base64Data = data.toString('base64');
                 // Create a child reference
             const fotografiasRef = ref(storage, 'fotografias/' + nombreFoto);
-            deleteObject(desertRef).then(() => {
+            deleteObject(fotografiasRef).then(() => {
                 console.log("File deleted successfully")
               }).catch((error) => {
                 console.log("Uh-oh, an error occurred!")
