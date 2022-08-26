@@ -1,0 +1,50 @@
+{{> head_Partial }}
+        <div class="col-lg-5 animated bounceIn">
+        <h5 class="mx-auto">El registro es un procedimiento rápido y fácil. Aumenta tus oportunidades de empleo.</h5>
+            <form class="user animated bounceIn" id="form-cuenta-personal">
+                <!-- Nombre -->
+                <div class="form-group text-center">
+                    <label for="nombre" class="text-dark font-weight-bold">Ingresa tu nombre</label>
+                    {{> inputNombre_Partial }}
+                </div>
+
+                <!-- Apellidos -->
+                <div class="form-group text-center">
+                    <label for="apellidos" class="text-dark font-weight-bold">Ingresa tus apellidos</label>
+                    <input type="text" id="inputApellidos" class="form-control form-control-user" placeholder="Apellidos" name="apellidos" required>
+                </div>
+
+
+                <!-- Email -->
+                <div class="form-group text-center">
+                    <label for="email" class="text-dark font-weight-bold">Correo electrónico</label>
+                    <input type="email" id="inputEmail" class="form-control form-control-user" placeholder="Correo institucional UAEMEX" name="email" required>
+                </div>
+
+                <!-- Contraseña -->
+                <div class="form-group text-center">
+                    <label for="password" class="text-dark font-weight-bold">Contraseña</label>
+                    <input type="password" id="inputPasswordPersonal" class="form-control form-control-user security-password" placeholder="Mínimo 8 carácteres" name="password" minlength="8" required>
+                </div>
+
+                <!-- Contacto -->
+                <div class="form-group text-center">
+                    <label for="contacto" class="text-dark font-weight-bold">Número de contacto</label>
+                    <input type="tel" id="inputContacto" class="form-control form-control-user" placeholder="Mínimo 10 carácteres" name="contacto" minlength="10" required>
+                </div>
+
+                <div class="form-group w-50 mx-auto">
+                    <button type="submit" class="btn btn-success btn-user btn-block">
+                        Crear cuenta
+                    </button>
+                </div>
+
+            </form>
+        </div>
+        <div class="col-lg d-none d-lg-block">
+            <img src="/img/logo.png" class="mx-auto d-block w-75 filtro">
+        </div>
+    </div>
+    <!-- Fin de la fila -->
+</div>
+{{> footer }}

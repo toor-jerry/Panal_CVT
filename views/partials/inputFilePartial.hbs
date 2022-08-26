@@ -1,0 +1,19 @@
+<label for="rfc" class="form-control-lg">Adjuntar {{archivoNombre}}</label>
+{{#if fechaModificacion}}
+    <h6 class="text-primary">Última modificación:
+        <b id="fechaModificacion{{carpetaFile}}">{{ fechaModificacion }}</b>
+    </h6>
+{{/if}}
+<div class="custom-file">
+    <input type="file" class="custom-file-input cursor-puntero" id="input{{carpetaFile}}File" lang="es" accept="application/pdf">
+        <label id="label{{carpetaFile}}" class="custom-file-label cursor-puntero" for="input{{carpetaFile}}File">
+            <b>
+                <i class="fa fa-plus text-primary" aria-hidden="true" style="font-size: 25px;"></i>
+                {{#if fechaModificacion}}
+                    Actualizar {{archivoNombre}}
+                {{ else }}
+                    Adjuntar {{archivoNombre}}
+                {{/if}}
+            </b>
+        </label>
+    </div>

@@ -1,0 +1,129 @@
+<nav class="navbar navbar-expand-lg fixed-top navbar-light bg-gradient-dark">
+    <a class="navbar-brand text-decoration-none text-white"
+        href="{{#unless usuario}}/{{/unless}}{{#if (ifeq usuario.userRole " USER_PERSONAL")}}/perfil{{/if}}{{#if (ifeq
+        usuario.userRole "USER_ADMIN" )}}/perfil/administrativo/1/1{{/if}}{{#if (ifeq usuario.userRole "USER_ENTERPRISE"
+        )}}/perfil/empresarial/1{{/if}}">
+        <img src="/img/icono-panal.png" height="45" class="d-inline-block align-top" alt=""></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
+
+        {{#if mostrar_boton_regreso }}
+        <ul class="nav">
+            <!-- Icono de regreso -->
+            <li class="nav-item">
+                <a class="nav-link font-weight-bold text-warning text-lg" href="{{ direccion_link_boton_navbar }}">
+                    <i class="fa-solid fa-reply fa-2x"></i>
+                </a>
+            </li>
+        </ul>
+        {{/if}}
+
+        {{#if nombre_boton_navbar}}
+        <div class="container justify-content-center p-0 m-0">
+            <div class="border border-warning rounded font-weight-bold text-white p-2">
+                {{ nombre_boton_navbar }}
+            </div>
+        </div>
+        {{else}}
+        <ul class="nav">
+            <li class="nav-item">
+            </li>
+        </ul>
+        {{/if}}
+
+
+        {{#if usuario}}
+        <ul class="navbar-nav">
+            {{#if mostrar_boton_guardar}}
+            <!-- Guardar -->
+            <li class="nav-item">
+                <a class="nav-link" role="button" onclick="actualizarCV()">
+                    <i class="fa-solid fa-floppy-disk fa-2x text-warning"></i>
+                </a>
+            </li>
+            {{/if}}
+            <!-- Nav Item - Alerts -->
+            <li class="nav-item dropdown no-arrow mx-1">
+                <a id="dropdown-notificaciones" class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-bell fa-fw fa-2x text-warning"></i>
+                    <!-- Counter - Alerts -->
+                    {{#if (mostrarNotificaciones notificaciones.total usuario.notificacionesLeidas)}}
+                    <span class="badge badge-danger numero-notificacion" id="nNotificacionesSpan">{{resta notificaciones.total usuario.notificacionesLeidas}}</span>
+                    {{/if}}
+                </a>
+                <!-- Dropdown - Alerts -->
+                <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                    aria-labelledby="alertsDropdown">
+                    <h6 class="dropdown-header">
+                        Alertas
+                    </h6>
+                    {{#if (mostrarNotificaciones notificaciones.total usuario.notificacionesLeidas)}}
+                    <h6>
+                        <button type="button" class="dropdown-item text-center small text-primary font-weight-bold" onclick="marcarNotificacionesComoLeidas({{notificaciones.total}})">
+                        <i class="fas fa-check"></i> Marcar como leidas</button>
+                    </h6>
+                        {{/if}}
+                        <div id="notificaciones-container">
+                    {{#if (esMayor notificaciones.total 0)}}
+                    {{#each notificaciones.data}}
+                        {{> notificacionItem_Partial}}
+                    {{/each}}
+                    {{/if}}
+                    </div>
+                    {{#if (esMayor notificaciones.total 10)}}
+                    <h6><a class="dropdown-item text-center small text-primary font-weight-bold" href="?limitNotificaciones=1000">
+                        <i class="fas fa-circle-chevron-down"></i>
+                        Mostrar todas las
+                        notificaciones</a></h6>
+                        {{/if}}
+                </div>
+            </li>
+
+            <!-- Configuraciones -->
+            {{#if (ifeq usuario.userRole "USER_PERSONAL")}}
+            <li class="nav-item">
+                <a class="nav-link active" href="/registro/personalizacion_de_perfil">
+                    <i class="fa-solid fa-gear fa-2x text-warning"></i>
+                </a>
+            </li>
+            {{/if}}
+
+            <!-- Salida -->
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal">
+                    <i class="fa-solid fa-right-from-bracket fa-2x text-warning"></i>
+                </a>
+            </li>
+            <li class="nav-item">
+                <i class="fa fa-rss fa-2x text-success" aria-hidden="true" id="statusCon"></i>
+            </li>
+        </ul>
+
+        {{/if}}
+    </div>
+</nav>
+
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">¿Realmente desea salir?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Seleccione "Salir" para cerrar su sesión.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                <a class="btn btn-info" href="/">Salir</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,42 @@
+<div class="modal fade" id="empleoModal" tabindex="-1" role="dialog" aria-labelledby="empleoModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="empleoModalLabel">Agregar un empleo:</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+            </div>
+            <div class="modal-body">
+                <form class="user" id="empleo-form">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-5">
+                                        <input type="text" id="inputEmpleoNombreEmpresaModal" class="form-control text-center form-control-lg" placeholder="Nombre de la empresa" required>
+                                        </div>
+                                        <div class="form-group col">
+                                            <input type="text" id="inputPuestoDesempenadoModal" class="form-control text-center form-control-lg" placeholder="Puesto" required>
+                                            </div>
+                                    </div>
+                                    <div class="form-row">
+                                            <div class="form-group col">
+                                               <input type="text" id="inputPeriodoModal" class="form-control text-center form-control-lg" placeholder="Periodo" required>
+                                            </div>
+                                            <div class="form-group col">
+                                               <input type="number" id="inputSalarioModal" class="form-control text-center form-control-lg" placeholder="Salario" required>
+                                            </div>
+                                    </div>
+
+                                            <textarea class="form-control form-control-lg texto-oscuro" id="inputExpLaboralModal" placeholder="Describe en 100 palabras la experiencia ganada en tus trabajos anteriores, conocimientos adquiridos, habilidades y técnicas." rows="2"></textarea>
+
+
+                    <button type="submit" class="btn btn-info btn-user btn-block">
+                                            Agregar empleo
+                                        </button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" type="button" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>

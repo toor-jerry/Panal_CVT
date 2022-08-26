@@ -1,0 +1,10 @@
+<select {{#if mostrarId}}id="inputNivelAcademico"{{/if}}{{#if desabilitado }} disabled{{/if}} class="form-control form-control-lg">
+    <option selected>Nivel Académico</option>
+    <option {{#if (ifeq nivelAcademico "1" )}} selected{{/if}} value="1">Doctorado</option>
+    <option {{#if (ifeq nivelAcademico "2" )}} selected {{/if}} value="2">Maestria</option>
+    <option {{#if (ifeq nivelAcademico "3" )}} selected {{/if}} value="3">Postgrado</option>
+    <option {{#if (ifeq nivelAcademico "4" )}} selected {{/if}} value="4">Licenciatura - Ingenieria</option>
+    <option {{#if (ifeq nivelAcademico "5" )}} selected {{/if}} value="5">Preparatoria</option>
+    <option {{#if (ifeq nivelAcademico "6" )}} selected {{/if}} value="6">Secuandaria</option>
+    <option {{#if (ifeq nivelAcademico "7" )}} selected {{/if}} value="7">Primaria</option>
+</select>

@@ -1,0 +1,56 @@
+{{> head_Partial }}
+
+
+        <div class="col text-center">
+            <div class="row">
+                <div class="col">
+                    {{> formCrearVacantePartial}}
+                </div>
+            </div>
+
+            <!-- Solicitantes -->
+            <div class="row">
+                <div class="col">
+                    <div class="alert alert-light font-weight-bold" role="alert">
+                        Mis vacantes {{#if (esMayor vacantes.total 0) }} <b class="text-danger">{{vacantes.total}}</b>
+                        {{/if}}
+                    </div>
+
+                    {{#if (esMayor vacantes.total 0) }}
+                    {{#each vacantes.data}}
+                    <div class="card border-info mb-3 ">
+                        <div class="card-body text-justify">
+                            <h4 class="card-title font-weight-bold text-center">{{{ this.puesto }}}</h4>
+                            <h5><b>Funciones: </b> {{ this.funciones }}</h5>
+                            <h6><b>Salario: $</b> {{ this.salario }} <b>MXN</b></h6>
+                            <h6><b>Horario: </b> {{ this.horarios }}</b></h6>
+                            <h6><b>Notas: </b> {{ this.notas }}</b></h6>
+                            <p style="font-size: 20px;"><b>Publicado:</b> {{ this.fechaCreacion }}</p>
+                            <div class="row text-center">
+                                <div class="col">
+                                    <a href="#" class="btn btn-info"><i class="fa fa-pen-to-square"
+                                            aria-hidden="true"></i> Revisar</a>
+                                </div>
+                                <div class="col">
+                                    <button class="btn btn-danger"
+                                        onclick="borrarVacante('{{this._id}}', '{{this.puesto}}', '{{this.empresa}}')"><i
+                                            class="fa fa-trash-can" aria-hidden="true"></i> Eliminar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/each}}
+                    {{else}}
+                    <div class="alert alert-danger font-weight-bold" role="alert">
+                        No se ha publicado ninguna vacante
+                    </div>
+                    {{/if}}
+                    <!-- Fin columna -->
+                </div>
+
+            </div>
+            <!-- Fin de la fila -->
+        </div>
+        <!-- Fin container -->
+    </div>
+    {{> footer }}

@@ -1,0 +1,39 @@
+<div class="card-columns">
+    {{#each solicitantes.data}}
+    <div class="card text-center border-info mb-3">
+        <div class="card-body">
+            <h4 class="card-title">{{ this.nombre }}</h4>
+            {{#if this.foto}}
+            <img src="/archivos/fotografias/{{ this.foto }}" class="card-img foto-empresa" alt="Fotografía">
+            {{/if}}
+
+            <h5>{{ this.titulo }}</h5>
+            <p class="card-text font-weight-bold">{{ this.carrera }}</p>
+            <p class="card-text text-justify">{{ this.descripcion }}</p>
+            <div class="row">
+                <div class="col">
+                    Edad:
+                    {{ this.edad }}
+                    años
+                </div>
+                <div class="col">
+                    Sexo:
+                    {{ this.sexo }}
+                </div>
+                <div class="col">
+                    {{ this.progreso }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <a href="/perfil/informacion/{{this._id}}" class="btn btn-info">
+                        <i class="fa-solid fa-eye align-middle"></i>&nbsp; Ver perfil
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+    <!-- Fin de Card Colums -->
+</div>

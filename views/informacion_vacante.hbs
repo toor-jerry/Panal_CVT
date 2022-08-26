@@ -1,0 +1,83 @@
+{{> head_Partial }}
+
+<!-- Foto de la empresa -->
+{{#if vacante.empresa.foto}}
+<div class="col">
+    <img src="/archivos/fotografias/{{ vacante.empresa.foto }}" class="card-img foto-empresa" alt="Foto empresa">
+</div>
+{{/if}}
+<!-- Información de la vacante -->
+<div class="col text-dark font-weight-bold text-right">
+    <h3 class="texto-verde">{{ vacante.empresa.nombre }}</h3>
+    <h4>{{ vacante.empresa.razonSocial }}</h4>
+    <h5>{{ vacante.empresa.email }}</h5>
+    <h5>{{ vacante.empresa.numeroContacto }}</h5>
+    <h5>{{ vacante.empresa.descripcion }}</h5>
+</div>
+</div>
+<hr>
+<div class="row text-center text-dark font-weight-bold">
+    <div class="col">
+        <h4>Puesto</h4>
+        <div class="alert alert-light" role="alert">
+            {{ vacante.puesto }}
+        </div>
+    </div>
+    <div class="col">
+        <h4>Horarios</h4>
+        <div class="alert alert-light" role="alert">
+            {{ vacante.horarios }}
+        </div>
+    </div>
+</div>
+
+
+
+<div class="row text-center text-dark font-weight-bold">
+    <div class="col">
+        <h4>Funciones</h4>
+        <div class="alert alert-light" role="alert">
+            {{ vacante.funciones }}
+        </div>
+    </div>
+    <div class="col">
+        <h4>Notas</h4>
+        <div class="alert alert-light" role="alert">
+            {{ vacante.notas }}
+        </div>
+    </div>
+</div>
+
+
+
+<div class="row text-center text-dark font-weight-bold">
+    <div class="col">
+        <h4>Salario</h4>
+        <div class="alert alert-light" role="alert">
+            $ {{ vacante.salario }}
+        </div>
+    </div>
+    <div class="col">
+        <h4>Currículo Vitae</h4>
+        {{#if cvPersonal}}<h5>Última modificación: {{fechaModificacionCV}}</h5>{{/if}}
+        <div class="custom-file">
+            <input type="file" class="custom-file-input cursor-puntero" id="inputCV" lang="es" accept="application/pdf">
+            <label class="custom-file-label cursor-puntero" for="logo" id="labelCVPDF"><b><i
+                        class="fa fa-plus text-primary" aria-hidden="true" style="font-size: 25px;"></i> {{#if
+                    cvPersonal}} Actualizar CV {{else}} Adjuntar CV{{/if}}</b></label>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-5 mx-auto">
+        <button type="button" onclick="postular('{{vacante._id}}','{{vacante.empresa._id}}')" class="btn btn-success btn-user btn-block">
+            Postular
+        </button>
+    </div>
+</div>
+
+
+<!-- Fin container -->
+</div>
+{{> footer }}

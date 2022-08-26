@@ -1,0 +1,66 @@
+body {
+    background: #9FB333;
+}
+
+.filtro {
+    opacity: 0.1;
+    filter: alpha(opacity=10); /* Para IE8 y anteriores */
+}
+
+.back-Yellow-Black {
+    background: rgb(218,206,28);
+    background: radial-gradient(circle, rgba(218,206,28,1) 0%, rgba(131,139,54,1) 95%);
+}
+
+.bordes-form {
+    border-radius: 10%;
+}
+.numero-notificacion {
+  position: absolute;
+  transform: scale(1.0);
+  transform-origin: top right;
+  right: .25rem;
+  margin-top: -.25rem;
+}
+
+.texto-verde {
+    color:darkgreen;
+    font-weight: bold;
+}
+
+.foto-perfil {
+        width:200px;
+        height:200px;
+        /*border-radius:200px;*/
+        border: 4px solid goldenrod;
+}
+
+.foto-empresa {
+    width:200px;
+    height:200px;
+    border: 4px solid goldenrod;
+}
+input[type=text], input[type=number], input[type=search], input[type=password] {
+    color: black;
+    font-weight: bold;
+    text-align: center;
+}
+.texto-oscuro {
+    color: black;
+    font-weight: bold;
+}
+
+.texto-terminos {
+    font-size: 18px;
+    font-weight: bold;
+    color: black;
+}
+
+.cursor-puntero {
+    cursor: pointer;
+}
+
+mark{
+    background: orange;
+    color: black;
+}

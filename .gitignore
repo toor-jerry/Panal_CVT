@@ -1,0 +1,6 @@
+node_modules
+*.mp4
+.vscode
+.env
+.info.data.txt
+back-panal-example

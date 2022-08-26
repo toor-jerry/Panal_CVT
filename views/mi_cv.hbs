@@ -1,0 +1,121 @@
+{{> head_Partial }}
+<div class="col-lg-5 animated bounceIn">
+    <div class="row">
+        {{> inputImagenPrevia_Partial foto=usuario.foto }}
+    </div>
+
+    <form>
+        <!-- Fila Contacto-->
+        <div class="row mt-3">
+            <div class="col">
+                <!-- Contacto -->
+                {{> cardCVSeccion_Partial color="success" titulo="Contacto" icono="fa-address-card"}}
+
+                <div class="row mt-3">
+                    <div class="col text-center">
+                        <!-- Email -->
+                        {{> email_Partial}}
+
+                        <!-- Nombre -->
+                        <div class="form-group mt-2">
+                            {{> celular_Partial mensajeLabel="Revisa tu número de contacto" numeroContacto=
+                            usuario.numeroContacto}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Fin Contacto -->
+        </div>
+
+        <!-- Fila Habilidades-->
+        <div class="row mt-3">
+            <div class="col">
+                <!-- Habilidades -->
+                {{> cardCVSeccion_Partial color="primary" titulo="Habilidades" icono="fa-book-open-reader"}}
+
+                <div class="row mt-3">
+                    <div class="col text-center">
+                        <!-- Habilidades -->
+                        <label class="font-weight-bold text-dark">Ingresa 3 habilidades</label>
+                        <input type="text" id="inputHabilidad1" class="form-control text-center mb-2"
+                            placeholder="Agregue una habilidad" value="{{ usuario.habilidad1 }}">
+                        <input type="text" id="inputHabilidad2" class="form-control text-center form-control-lg mb-2"
+                            placeholder="Agregue una habilidad" value="{{ usuario.habilidad2 }}">
+                        <input type="text" id="inputHabilidad3" class="form-control text-center form-control-lg mb-2"
+                            placeholder="Agregue una habilidad" value="{{ usuario.habilidad3 }}">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Fin Habilidades -->
+
+        <!-- Fila Logros-->
+        <div class="row mt-3">
+            <div class="col">
+                <!-- Logros -->
+                {{> cardCVSeccion_Partial color="warning" titulo="Logros" icono="fa-medal"}}
+
+                <div class="row mt-3">
+                    <div class="col text-center">
+                        <!-- Logros -->
+                        <label class="font-weight-bold text-dark">Ingresa 3 logros</label>
+                        <input type="text" id="inputLogro1" class="form-control text-center form-control-lg mb-2"
+                            placeholder="Agregue un logro" value="{{ usuario.logro1 }}">
+                        <input type="text" id="inputLogro2" class="form-control text-center form-control-lg mb-2"
+                            placeholder="Agregue un logro" value="{{ usuario.logro2 }}">
+                        <input type="text" id="inputLogro3" class="form-control text-center form-control-lg mb-2"
+                            placeholder="Agregue un logro" value="{{ usuario.logro3 }}">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Fin Logoros -->
+</div>
+
+
+
+<div class="col text-center">
+    <div class="row">
+        <div class="col">
+
+
+            <!-- Nombre -->
+            <div class="form-group">
+                <label class="font-weight-bold text-dark" for="inputNombre">Revisa tu nombre</label>
+                <div class="form-row">
+                    <div class="form-group col col-md-4">
+                        {{> inputNombre_Partial nombre=usuario.nombre}}
+                    </div>
+                    <div class="form-group col">
+                        {{> inputApellidos_Partial apellidos=usuario.apellidos}}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Experiencia laboral -->
+            <div class="form-group">
+                <label class="font-weight-bold text-dark" for="inputExpLaboral">Experiencia Laboral</label>
+                <textarea class="form-control form-control-lg texto-oscuro" id="inputExpLaboral"
+                    placeholder="Describe en 100 palabras la experiencia ganada en tus trabajos anteriores, conocimientos adquiridos, habilidades y técnicas."
+                    rows="3">{{ usuario.experienciaLaboral }}</textarea>
+            </div>
+
+            <!-- Empresas -->
+            <label class="font-weight-bold text-dark">Empresas</label>
+            {{> seccionExperienciaEmpleo_Partial }}
+
+
+            <!-- Formación académica -->
+            <label class="font-weight-bold text-dark mt-3">Formación académica</label>
+            {{> seccionFormacionAcademica_Partial }}
+            </form>
+
+
+        </div>
+    </div>
+    <!-- Fin de la fila -->
+    <!-- New area Modal-->
+    {{> modal_nuevo_empleo}}
+    {{> modal_nueva_formacion}}
+</div>
+{{> footer }}

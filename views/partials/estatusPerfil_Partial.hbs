@@ -1,0 +1,9 @@
+{{#if (ifeq perfilVerificado "Verificado")}}
+                                                <h5 class="text-success font-weight-bold">{{perfilVerificado}}</h5>
+                                        {{/if}}
+                                        {{#if (ifeq this.perfilVerificado "No verificado")}}
+                                                <h5 class="text-gray-800 font-weight-bold">{{perfilVerificado}}</h5>
+                                        {{/if}}
+                                        {{#if (ifeq this.perfilVerificado "Rechazado")}}
+                                                <h5 class="text-danger font-weight-bold">{{perfilVerificado}}</h5>
+                                        {{/if}}

@@ -1,0 +1,98 @@
+{{> head_Partial }}
+
+        <div
+            class="col">
+
+            <!-- Vacantes -->
+            <div class="row">
+                <div class="col">
+                    <form>
+                        <div class="alert alert-light text-center" role="alert">
+                            Formulario entrevista -
+                            {{ vacante.nombre_empresa }}</div>
+                        <div class="form-row" id="form-postulacion">
+                            <div class="form-group col-md-5 text-center">
+                                <label for="nombre" class="text-dark font-weight-bold">Ingresa tu nombre:</label>
+                                {{> inputNombre_Partial nombre=usuario.nombre}}
+                            </div>
+                            <div class="form-group col text-center">
+                                <label for="apellidos" class="text-dark font-weight-bold">Apellidos:</label>
+                                {{> inputApellidos_Partial apellidos=usuario.apellidos}}
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-7 text-center">
+                                {{> licenciatura }}
+                            </div>
+                            <div class="form-group col text-center">
+                                <label for="matricula" class="text-dark font-weight-bold">Matricula</label>
+                                <input type="text" class="form-control text-center form-control-lg" id="inputMatricula" placeholder="Matricula" value="{{ usuario.matricula }}"></div>
+                            </div>
+
+
+                            <div class="form-row">
+
+                                <div class="form-group col-md-5">
+                                    {{> genero }}
+                                </div>
+                                <!-- Progreso -->
+                                <div class="form-group col text-center">
+                                    {{> progreso }}
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-5 text-center">
+                                    {{> celular_Partial mensajeLabel="Revisa tu número de contacto" numeroContacto= usuario.numeroContacto}}
+                                </div>
+                                <div class="form-group col text-center">
+                                    {{> email_Partial }}
+                                </div>
+                            </div>
+
+
+                            <div class="form-row">
+                                <div class="form-group col-md-9 text-center">
+                                    <label for="domicilio" class="text-dark font-weight-bold">Domicilio:</label>
+                                    <input type="text" class="form-control text-center form-control-lg" id="inputDomicilio" placeholder="domicilio" name="domicilio" value="{{ usuario.direccion }}"></div>
+                                    <div class="form-group col text-center">
+                                        <label for="anio_egreso" class="text-dark font-weight-bold">Año de egreso:</label>
+                                        <input type="number" id="inputAnioEgresado" class="form-control text-center form-control-lg" placeholder="Año de egreso" value="{{ usuario.anio_egreso }}"></div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-md-5 text-center">
+                                            <label for="titulo" class="text-dark font-weight-bold">Titulo profesional:</label>
+                                            <select id="inputTitulo" class="form-control" name="titulo" required>
+                                                <option value="SI" {{#if (ifeq usuario.titulo "SI")}} selected {{/if}}>SI</option>
+                                                <option value="NO" {{#if (ifeq usuario.titulo "NO")}} selected {{/if}}>NO</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col text-center">
+                                            <label for="cedula" class="text-dark font-weight-bold">Cédula profesional:</label>
+                                            <select id="inputCedula" class="form-control" name="cedula" required>
+                                                <option value="TRAMITE" {{#if (ifeq usuario.cedula "TRAMITE")}} selected {{/if}}>En trámite</option>
+                                                <option value="N/A" {{#if (ifeq usuario.cedula "N/A")}} selected {{/if}}>N/A</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-row">
+                                        <div class="form-group col text-center">
+                                            {{> descripcion_Partial }}
+                                        </div>
+                                    </div>
+
+                                    <button type="button" class="btn btn-success btn-user btn-block" onclick="guardarDatos('{{vacante.idVacante}}')">
+                                        Continuar
+                                    </button>
+                                </form>
+                            </div>
+
+                        </div>
+                        <!-- Fin de la fila -->
+                    </div>
+                    <!-- Fin container -->
+                </div>
+                {{> footer }}

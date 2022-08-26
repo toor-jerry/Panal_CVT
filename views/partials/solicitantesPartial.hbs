@@ -1,0 +1,74 @@
+{{#each solicitantes.data}}
+<div class="card text-center border-info mb-3">
+    <div class="card-body">
+        <h4 class="card-title texto-oscuro">{{ this.usuario.nombre }} {{this.usuario.apellidos}}</h4>
+        {{#if this.usuario.foto}}
+        <img src="/archivos/fotografias/{{ this.usuario.foto }}" class="card-img foto-empresa" alt="Fotografía">
+        {{/if}}
+
+        <h5 class="font-weight-bold mt-3">
+            {{> licenciaturas licenciatura=this.usuario.licenciatura }}
+        </h5>
+        <p class="card-text text-justify">{{ this.usuario.descripcion }}</p>
+        <div class="row">
+            {{#if this.usuario.edad}}
+            <div class="col">
+                Edad:
+                <b>{{ this.usuario.edad }}</b>
+                años
+            </div>
+            {{/if}}
+            {{#if this.usuario.sexo}}
+            <div class="col">
+                Sexo:
+                <b>{{ this.usuario.sexo }}</b>
+            </div>
+            {{/if}}
+            {{#if this.usuario.progreso}}
+            <div class="col">
+                <h5 class="texto-verde">{{ this.usuario.progreso }}</h5>
+            </div>
+            {{/if}}
+        </div>
+
+        <div class="row">
+            <div class="col col-md-6 border border-warning p-2">
+
+                <div class="row">
+                    <div class="col">
+                        <button onclick="actualizarStatusPostulacion('{{this._id}}', 'Aceptado')"
+                            class="btn btn-success btn-lg">
+                            <i class="fa fa-handshake" aria-hidden="true"></i> Reclutar</button>
+                    </div>
+                    <div class="col">
+                        <h5>Estatus: <br> 
+                        {{#if (ifeq this.status 'Aceptado')}}
+                        <span class="badge badge-pill badge-success">Aceptado</span>
+                        {{else}}
+                        {{#if (ifeq this.status 'Rechazado')}}
+                        <span class="badge badge-pill badge-danger">Rechazado</span>
+                        {{else}}
+                        <span class="badge badge-pill badge-secondary"><--Sin status--></span>
+                            {{/if}}
+                            {{/if}}
+                            </h2>
+                    </div>
+                    <div class="col">
+                        <button onclick="actualizarStatusPostulacion('{{this._id}}', 'Rechazado')"
+                            class="btn btn-danger btn-lg">
+                            <i class="fa fa-xmark" aria-hidden="true"></i> Rechazar</button>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col">
+                <a href="/perfil/informacion/{{this.usuario._id}}" class="btn btn-info btn-lg"><i class="fa fa-eye" aria-hidden="true"></i> Ver perfil</a>
+            </div>
+
+            <div class="col">
+                <a href="/pdf?idUsuario={{this.usuario._id}}" target="_blank" class="btn btn-warning btn-lg"><i class="fa fa-file-arrow-down" aria-hidden="true"></i> Descargar CV</a>
+            </div>
+        </div>
+    </div>
+</div>
+{{/each}}

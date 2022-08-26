@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <mate charest="utf-8" />
+    <title>Curriculum Vitae | {{name}} {{last_name}}</title>
+</head>
+<style>
+.text-center {
+    text-align: center;
+}
+.center {
+        text-align: center;
+        }
+.photo {
+    height: 200px; 
+    border-radius: 80px;
+    width: 150px;
+}
+.text-right {
+    text-align: right;
+}
+.bold {
+    font-weight: bold;
+}
+.logo {
+    width: 1cm;
+}
+p {
+    font-size: 12px;
+}
+
+.text-justify {
+    text-align: justify;
+}
+
+</style>
+
+<body>
+    {{#if foto}}
+    <div class="center">
+        <img src="{{foto}}" class="photo" alt=""/>
+    <br>
+</div>
+{{/if}}
+    <h2 class="text-center">
+                {{name}} {{last_name}}
+                </h2>
+                <h5 class="bold">{{carrera}}</h5>
+                <p class="text-justify">{{description}}</p>
+                
+                    <p><img src="{{{logoUaemex}}}" class="logo" alt=""/> Correo electrónico: <b>{{email}}</b></p>
+
+                {{# if movil_phone}}
+                    <h5><img src="{{{numeroContacto}}}" class="logo" alt=""/> {{movil_phone}}</h5>
+                {{/if}}
+                
+                {{#if domicile}}
+                    <p>Domicilio: <b>{{domicile}}</b></p>
+                {{/if}}
+                
+                {{#if gender}}
+                    <p>Género: <b>{{gender}}</b></p>
+                {{/if}}
+                
+                {{#if age}}
+                <p>Edad: <b>{{age}}</b></p>
+                {{/if}}
+
+                {{#if progress}}
+                <p>Progreso: <b>{{progress}}</b></p>
+                {{/if}}
+
+                {{#if experienciaLaboral}}
+                <p>experienciaLaboral: <b>{{experienciaLaboral}}</b></p>
+                {{/if}}
+
+                {{#if date_birth}}
+                    <p>Fecha de nacimiento: <b>{{date_birth}}</b></p>
+                {{/if}}
+
+                {{#if last_job}}
+                <p>Último trabajo: <b>{{last_job}}</b></p>
+                {{/if}}
+
+                <br>
+                <h3 class="text-center">Estudios</h3>
+                <hr>
+                {{#each estudios}}
+                    <p>Nombre del instituto: <b>{{ this.nombreEscuela }}</b></p>
+                    <p>Nivel académico: <b>{{ this.nivelAcademico }}</b></p>
+                    <p>Periodo: <b>{{ this.periodo }}</b></p>
+                    <hr>
+                {{/each}}
+
+                <br>
+                <h3 class="text-center">Empleos</h3>
+                <hr>
+                {{#each empleos}}
+                <p>Organización: <b>{{ this.nombreEmpresa }}</b></p>
+                <p>Puesto: <b>{{ this.puestoDesempenado }}</b></p>    
+                <p>Periodo: <b>{{ this.periodo }}</b></p>
+                <p>Funciones: <b>{{ this.funciones }}</b></p>
+                <hr>
+                {{/each}}
+                
+                
+                
+                    
+</body>
+
+</html>

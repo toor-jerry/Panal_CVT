@@ -1,0 +1,90 @@
+{{> head_Partial }}
+
+<div class="col">
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col">
+                        <h1 class="text-gray-800 mx-auto">Usuarios</h1>
+                    </div>
+                    <div class="col text-right">
+                        <a href="/registro/nuevo-usuario" class="btn btn-success btn-lg"><i class="fa fa-plus" aria-hidden="true"></i> Agregar</a>
+                    </div>
+                </div>
+
+                <!-- Users -->
+                <div class="card shadow mb-4 mt-3">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary text-center">Control de usuarios</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Apellidos/Razón Social</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
+                                        <th>Perfil verificado</th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody_users">
+                                    {{#each usuarios}}
+                                    <tr id="{{this._id}}-field">
+                                        <td>{{this.nombre}}</td>
+                                        {{#if this.apellidos}}
+                                        <td>{{this.apellidos}}</td>
+                                        {{else}}
+                                        <td>{{this.razonSocial}}</td>
+                                        {{/if}}
+                                        <td>{{this.email}}</td>
+                                        <td>
+                                            {{> badgeRolDeUsuario_Partial}}
+                                        </td>
+                                            <td>
+                                                {{> estatusPerfil_Partial }}
+                                            </td>
+                                        
+                                        <td class="text-center">
+
+                                    {{#if (ifdiff this.userRole "SUPER_USER")}}
+                                            <a class="btn btn-danger" onclick="deleteUser('{{this._id}}')">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </a>
+                                            {{/if}}
+                                        </td>
+                                        <td class="text-center">
+                                            <a class="btn btn-info" href="/usuario/editar/{{this._id}}">
+                                            <i class="fas fa-edit    "></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- End of Page Wrapper -->
+    </div>
+    <!-- End of Main Content -->
+</div>
+<!-- Fin container -->
+</div>
+
+{{> footer }}

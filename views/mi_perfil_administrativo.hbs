@@ -1,0 +1,48 @@
+{{> head_Partial }}
+
+<div class="col">
+    <!-- Fomularios realizados -->
+    <div class="row">
+        <div class="col text-center">
+            <div class="alert alert-light font-weight-bold" role="alert">
+                Formularios Realizados
+                <b>Estudiantes:</b>
+                <b class="texto-verde">{{ solicitantes.total }}</b>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            {{> cardInformacionEstudiantes_Partial }}
+            <!-- Si es más de un página -->
+            {{> navegacionEstudiantesPartial paginas=solicitantes.paginas no_paginas=no_pagina_formularios }}
+            <!-- Fin columna -->
+        </div>
+    </div>
+
+
+    <!-- Fomularios realizados -->
+    <div class="row">
+        <div class="col text-center">
+            <div class="alert alert-light font-weight-bold" role="alert">
+                Formularios Realizados
+                <b>Empresas:</b>
+                <b class="texto-verde">{{ empresas.total }}</b>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            {{> cardInformacionEmpresas_Partial }}
+            <!-- Si es más de un página -->
+            {{> navegacionEmpresasPartial paginas=empresas.paginas no_pagina=no_pagina_empresas }}
+            <!-- Fin columna -->
+        </div>
+    </div>
+    <!-- Fin de la fila -->
+</div>
+<!-- Fin container -->
+</div>
+{{> footer }}

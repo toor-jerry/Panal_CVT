@@ -1,0 +1,78 @@
+{{> head_Partial }}
+    <div class="row">
+        <h5 class="mx-auto">El personalizar tu cuenta no es un paso necesario. Pero es tu "toque personal".
+            <a href="/perfil">Omitir este paso.</a>
+        </h5>
+        <div class="col-lg-8 animated bounceIn">
+            <form class="user animated bounceIn" id="form-personalizacion">
+                <!-- Nickname -->
+                <div class="form-row align-items-center">
+                    
+                    <!-- Licenciatura -->
+                    <div class="col text-center">
+                        {{> licenciatura }}
+                    </div>
+                </div>
+
+                <!-- Género -->
+                <div class="form-row align-items-center">
+                    <div class="col-5 text-center">
+                        {{> genero}}
+                    </div>
+                    <!-- Progreso -->
+                    <div class="col text-center">
+                        {{> progreso}}
+                    </div>
+                </div>
+
+
+                <div
+                    class="form-row">
+                    <!-- Fecha de nacimiento -->
+                    <div class="col-5 text-center">
+                        <label class="text-dark font-weight-bold">Fecha de nacimiento</label>
+                        <div class="form-row">
+                            <div class="col">
+                                <input type="number" class="form-control form-control-user text-center" placeholder="DD" id="fecha_nacimiento_dia" name="fecha_nacimiento_dia" min="1" max="31" value="{{ usuario.fechaNacimientoDia }}">
+                            </div>
+                            <div class="col">
+                                <input type="number" class="form-control form-control-user text-center" placeholder="MM" id="fecha_nacimiento_mes" name="fecha_nacimiento_mes" min="1" max="12" value="{{ usuario.fechaNacimientoMes }}">
+                            </div>
+                            <div class="col">
+                                <input type="number" class="form-control form-control-user text-center" placeholder="AA" id="fecha_nacimiento_anio" name="fecha_nacimiento_anio" min="1990" max="2022" value="{{ usuario.fechaNacimientoAnio }}">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Términos y condiones -->
+                    <div class="col text-justify p-4">
+                        {{> terminosYCondiciones_Partial }}
+                    </div>
+                </div>
+
+                <!-- Descripción -->
+                <div class="form-group text-center">
+                    {{> descripcion_Partial}}
+                </div>
+
+
+        </div>
+
+        <div class="col col-lg text-center">
+            <label class="text-dark font-weight-bold">Cambiar foto de perfil</label>
+            <br>
+            {{> inputImagenPrevia_Partial foto=usuario.foto}}
+            <br>
+            <br>
+            <div class="form-group w-75 mx-auto">
+                <button type="submit" class="btn btn-success btn-user btn-block btn-lg">
+                    Guardar cambios
+                </button>
+            </div>
+            </form>
+            <a role="button" type="button" class="mx-auto btn btn-lg btn-warning w-75 btn-block" data-toggle="modal"
+                    data-target="#cambioPasswordModal">Cambiar contraseña!</a>
+        </div>
+    </div>
+    <!-- Fin de la fila -->
+</div>
+{{> footer }}

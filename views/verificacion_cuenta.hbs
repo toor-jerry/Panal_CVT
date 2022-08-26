@@ -1,0 +1,107 @@
+{{> head_Partial }}
+
+        <div class="col text-justify">
+            <h5>El verificar esta cuenta es importante para validar que es una empresa existente, y para establecer lazos de convenios. Y así lograr una relación de armonía y responsabilidad.</h5>
+            <h5 class="text-dark font-weight-bold">Para este paso el responsable de la empresa debe ingresar los datos correctos para su validación.</h5>
+        </div>
+        <!-- Fin de la fila -->
+    <form class="user animated bounceIn" id="form-verificacion-cuenta">
+        <div class="form-row mt-3 text-center">
+            <div class="form-group col">
+                <label for="rfc" class="form-control-lg">RFC</label>
+                <input type="text" class="form-control text-center form-control-lg" placeholder="Registro Federal del Contribuyente" id="inputRFC" name="rfc" value="{{ empresa.rfc }}" maxlength="12" required>
+                </div>
+                <div class="form-group col">
+                    <label for="nombre_contacto" class="form-control-lg">Nombre del contacto</label>
+                    <input type="text" class="form-control text-center form-control-lg" placeholder="Nombre completo" id="inputNombreContacto" name="nombreContacto" value="{{ empresa.nombreContacto }}" required></div>
+                    <div class="form-group col">
+                        {{>inputFilePartial archivoNombre="RFC" fechaModificacion=fechaModificacionRFC carpetaFile="RFC"}}
+                        </div>
+                    </div>
+
+
+                    <div class="form-row mt-3 text-center">
+                        <div class="form-group col">
+                            <label for="razon_social" class="form-control-lg">Razón social</label>
+                            <input type="text" class="form-control text-center form-control-lg" placeholder="Razón social" id="inputRazonSocial" value="{{ empresa.razonSocial }}" required></div>
+                            <div class="form-group col">
+                                <label for="cargo_contacto" class="form-control-lg">Cargo del contacto</label>
+                                <input type="text" class="form-control text-center form-control-lg" placeholder="Cargo del contacto" id="inputCargoContacto" value="{{ empresa.cargoContacto }}" required></div>
+                                <div class="form-group col">
+                                    <div class="custom-file">
+                                        {{>inputFilePartial archivoNombre="comprobante de domicilio (empresa)" fechaModificacion=fechaModificacionComprobante carpetaFile="comprobantesDomicilio"}}
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-row mt-3 text-center">
+                                    <div class="form-group col">
+                                        <label for="nombre" class="form-control-lg">Nombre comercial de la empresa</label>
+                                        <input type="text" class="form-control form-control-lg" placeholder="Razón social" id="inputNombre" name="nombre" value="{{ empresa.nombre }}" required>
+                                        </div>
+                                        <div class="form-group col">
+                                            <label for="sector" class="form-control-lg">Sector al que pertenece</label>
+                                            <div class="form-row align-items-center">
+                                                <div class="col text-center">
+                                                    <div class="custom-control custom-radio">
+                                                        <input type="radio" name="sector" id="privado" class="custom-control-input" checked>
+                                                            <label for="privado" class="custom-control-label form-control-lg">Privado</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col text-center">
+                                                        <div class="custom-control custom-radio">
+                                                            <input type="radio" name="sector" id="publico" class="custom-control-input" {{#if (ifeq empresa.sectorEmpresarial "Público")}} checked {{/if}}>
+                                                                <label for="publico" class="custom-control-label form-control-lg">Público</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col text-center">
+                                                        <div class="custom-control custom-radio">
+                                                            <input type="radio" name="sector" id="social" class="custom-control-input" {{#if (ifeq empresa.sectorEmpresarial "Social")}} checked {{/if}}>
+                                                                <label for="social" class="custom-control-label form-control-lg">Social</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col">
+                                                                            {{>inputFilePartial archivoNombre="INE" fechaModificacion=fechaModificacionINE carpetaFile="INE"}}
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="form-row mt-3 text-center">
+                                                    <div class="form-group col">
+                                                        <label for="nombre" class="form-control-lg">Ubicación</label>
+                                                        <input type="text" class="form-control text-center form-control-lg" placeholder="Latitud, altitud" id="inputUbicacion" value="{{ empresa.ubicacion }}" required></div>
+                                                        <div class="form-group col">
+                                                            <label for="nombre" class="form-control-lg">Correo</label>
+                                                            <input type="email" class="form-control text-center form-control-lg" placeholder="Correo de contacto" id="inputEmail" value="{{ empresa.email }}" required></div>
+                                                            <div class="form-group col">
+                                                                {{> terminosYCondiciones_Partial }}
+                                                                    <button type="submit" class="btn btn-success btn-user btn-block">
+                                                                        Continuar
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+
+
+                                                            <div class="form-row mt-3 text-center">
+                                                                <div class="form-group col-md-4">
+                                                                    {{> celular_Partial mensajeLabel="Tel. / Celular" numeroContacto= empresa.numeroContacto}}
+                                                                    </div>
+                                                                    <div class="form-group col text-justify">
+                                                                        <div class="alert alert-danger" role="alert">
+                                                                            Nota: La verificación de esta cuenta esta sujeta a validación del responsable de bolsa de trabajo, los datos proporcionados únicamente se usarán con fines de referencia de la empresa dentro del sistema "Panal del Trabajo". Para más información lea el
+                                                                            {{> avisoPrivacidad_Partial }}
+                                                                            <br>
+                                                                                {{> dudasYAclaraciones_Partial }}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </form>
+
+
+                                                                            <!-- Fin container -->
+                                                                        </div>
+                                                                        {{> footer }}
+

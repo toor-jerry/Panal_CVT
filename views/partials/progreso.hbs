@@ -1,0 +1,14 @@
+<label for="progreso" class="text-dark font-weight-bold">Selecciona tu progreso</label>
+                        <select id="progreso" class="form-control" name="progreso">
+                            <option {{#unless usuario.progreso}}selected{{/unless}}>Semestre / Egresado</option>
+                            <option {{#if (ifeq usuario.progreso "1")}} selected {{/if}} value="1">Primer Semestre</option>
+                            <option {{#if (ifeq usuario.progreso "2")}} selected {{/if}} value="2">Segundo Semestre</option>
+                            <option {{#if (ifeq usuario.progreso "3")}} selected {{/if}} value="3">Tercer Semestre</option>
+                            <option {{#if (ifeq usuario.progreso "4")}} selected {{/if}} value="4">Cuarto Semestre</option>
+                            <option {{#if (ifeq usuario.progreso "5")}} selected {{/if}} value="5">Quinto Semestre</option>
+                            <option {{#if (ifeq usuario.progreso "6")}} selected {{/if}} value="6">Sexto Semestre</option>
+                            <option {{#if (ifeq usuario.progreso "7")}} selected {{/if}} value="7">Séptimo Semestre</option>
+                            <option {{#if (ifeq usuario.progreso "8")}} selected {{/if}} value="8">Octavo Semestre</option>
+                            <option {{#if (ifeq usuario.progreso "9")}} selected {{/if}} value="9">Noveno Semestre</option>
+                            <option {{#if (ifeq usuario.progreso "Egresado")}} selected {{/if}} value="Egresado">Egresado</option>
+                        </select>

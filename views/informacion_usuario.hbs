@@ -1,0 +1,158 @@
+{{> head_Partial }}
+
+<div class="col">
+    <div class="row">
+        <div class="col">
+            {{> busqueda_Partial }}
+        </div>
+        <div class="col">
+            {{> listadoConvenios }}
+        </div>
+    </div>
+
+    <!-- Vacantes -->
+    <div class="row">
+        <div class="col">
+
+            <div class="card text-center border-info mb-3">
+                <div class="card-body">
+                    <input class="d-none" type="text" id="informacionUsuarioID"
+                        value="{{ informacionUsuario._id }}"></input>
+                    <h2 class="font-weight-bold">{{ informacionUsuario.nombre }} {{informacionUsuario.apellidos}}</h2>
+                    <h4 class="card-title">{{ informacionUsuario.razonSocial }} {{> licenciaturas
+                        licenciatura=informacionUsuario.licenciatura}}</h4>
+
+                    <div class="row">
+                        {{#if informacionUsuario.sectorEmpresarial}}
+                        <div class="col">
+                            <h3><b>Sector:</b>
+                                <span class="badge badge-pill badge-{{#if (ifeq informacionUsuario.sectorEmpresarial "
+                                    Privado")}}success{{/if}}{{#if (ifeq informacionUsuario.sectorEmpresarial "Público"
+                                    )}}secondary{{/if}}{{#if (ifeq informacionUsuario.sectorEmpresarial "Social"
+                                    )}}danger{{/if}}">{{ informacionUsuario.sectorEmpresarial }}</span>
+                            </h3>
+                            </div>
+                            {{/if}}
+                            <div class="col">
+                                <h4><b>Rol de usuario:</b>
+                                    {{> badgeRolDeUsuario_Partial userRole=informacionUsuario.userRole}}
+                            </h4>
+                            </div>
+                            <div class="col">
+                                <h4><b>Estatus del perfil:</b></h4>
+                            {{> estatusPerfil_Partial perfilVerificado=informacionUsuario.perfilVerificado}}
+                        </div>
+                    </div>
+
+                    {{#if informacionUsuario.foto}}
+                    <img src="/archivos/fotografias/{{ informacionUsuario.foto }}" class="card-img foto-empresa"
+                        alt="Foto">
+                    {{/if}}
+                    <div class="row">
+                    {{#if (ifeq informacionUsuario.titulo "SI")}}
+                        <div class="col"><h2><b>Titulado</b></h2></div>
+                    {{/if}}
+                        {{#if informacionUsuario.anio_egreso}}
+                        <div class="col"><h2><b>Año de egreso:</b> {{informacionUsuario.anio_egreso}}</h2></div>
+                        {{/if}}
+                    </div>
+                    {{#if informacionUsuario.descripcion}}
+                    <h5 class="card-text text-justify mt-2">Descripción: <b>{{ informacionUsuario.descripcion }}</b>
+                    </h5>
+                    {{/if}}
+                    {{#if informacionUsuario.experienciaLaboral}}
+                    <h5 class="card-text text-justify mt-2">Experiencia laboral: <b>{{
+                            informacionUsuario.experienciaLaboral }}</b>
+                    </h5>
+                    {{/if}}
+                    <div class="row">
+                        {{#if informacionUsuario.edad}}
+                        <div class="col">
+                            <h4>Edad: <b>{{informacionUsuario.edad}}</b> años</h4>
+                        </div>
+                        {{/if}}
+                        {{#if informacionUsuario.genero}}
+                        <div class="col">
+                            <h4>Género: <b>{{informacionUsuario.genero}}</b></h4>
+                        </div>
+                        {{/if}}
+                        {{#if informacionUsuario.progreso}}
+                        <div class="col">
+                            <h4>Progreso: <b>{{informacionUsuario.progreso}}</b></h4>
+                        </div>
+                        {{/if}}
+                    </div>
+                    <div class="row">
+                        {{#if informacionUsuario.rfc}}
+                        <div class="col">
+                            <h5>RFC: <b>{{informacionUsuario.rfc}}</b></h5>
+                        </div>
+                        {{/if}}
+                        {{#if informacionUsuario.email}}
+                        <div class="col">
+                            <h5>Email: <b>{{informacionUsuario.email}}</b></h5>
+                        </div>
+                        {{/if}}
+                        {{#if informacionUsuario.numeroContacto}}
+                        <div class="col">
+                            <h5>Número de contacto: <b>{{informacionUsuario.numeroContacto}}</b></h5>
+                        </div>
+                        {{/if}}
+                    </div>
+                    {{#if informacionUsuario.direccion}}
+                    <h6>Dirección: <b>{{informacionUsuario.direccion}}</b></h6>
+                    {{/if}}
+                    <!-- Información solo para el administrador -->
+                    {{#if (ifdiff usuario.userRole "USER_PERSONAL")}}
+                    <hr>
+                    <div class="row">
+                        {{#if informacionUsuario.nombreContacto}}
+                        <div class="col">
+                            <h4>Contacto: <b>{{informacionUsuario.nombreContacto}}</b></h4>
+                        </div>
+                        {{/if}}
+                        {{#if informacionUsuario.cargoContacto}}
+                        <div class="col">
+                            <h4>Cargo del contacto: <b>{{informacionUsuario.cargoContacto}}</b></h4>
+                        </div>
+                        {{/if}}
+                        {{#if informacionUsuario.matricula}}
+                        <div class="col">
+                            <h4>Matricula: <b>{{informacionUsuario.matricula}}</b></h4>
+                        </div>
+                        {{/if}}
+                    </div>
+                    <hr>
+                    <div class="row">
+                        {{#if informacionUsuario.comprobantesDomicilio}}
+                        <div class="col">
+                            <a target="_blank" href="/archivos/comprobantesDomicilio/{{informacionUsuario.comprobantesDomicilio}}" class="btn btn-warning btn-block texto-verde">
+                            <i class="fa-solid fa-cloud-arrow-down fa-2x align-middle"></i>&nbsp; Descargar comprobante de domicilio</a>
+                        </div>
+                        {{/if}}
+
+                        {{#if informacionUsuario.INE}}
+                        <div class="col">
+                            <a target="_blank" href="/archivos/INE/{{informacionUsuario.INE}}" class="btn btn-info btn-block texto-verde">
+                            <i class="fa-solid fa-cloud-arrow-down fa-2x align-middle"></i>&nbsp; Descargar Identificaión Nacional Electoral (INE)</a>
+                        </div>
+                        {{/if}}
+
+                        {{#if informacionUsuario.RFC}}
+                        <div class="col">
+                            <a target="_blank" href="/archivos/RFC/{{informacionUsuario.RFC}}" class="btn btn-success btn-block texto-verde">
+                            <i class="fa-solid fa-cloud-arrow-down fa-2x align-middle"></i>&nbsp; Descargar Registro Federal de Contribuyentes (RFC)</a>
+                        </div>
+                        {{/if}}
+                    </div>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- Fin de la fila -->
+</div>
+<!-- Fin container -->
+</div>
+{{> footer }}

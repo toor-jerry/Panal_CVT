@@ -1,0 +1,86 @@
+{{> head_Partial }}
+
+<h5 class="mx-auto">El registro es un procedimiento rápido y fácil. Registra tu empresa, genera difusión y acercamiento
+    con los futuros profesionistas.</h5>
+<div class="col-lg-8 animated bounceIn">
+    <form class="user animated bounceIn" id="form-cuenta-empresarial">
+        <!-- Fila -->
+        <div class="form-row align-items-center">
+
+            <div class="col">
+                <!-- Nombre -->
+                <div class="form-group text-center">
+                    <label for="nombre" class="text-dark font-weight-bold">Ingrese el nombre de la empresa</label>
+                    {{> inputNombre_Partial}}
+                </div>
+
+                <!-- RFC -->
+                <div class="form-group text-center">
+                    <label for="rfc" class="text-dark font-weight-bold">Ingresa el RFC</label>
+                    <input type="text" id="inputRFC" class="form-control form-control-user" placeholder="RFC" name="rfc"
+                        maxlength="12" required>
+                </div>
+
+                <!-- Correo -->
+                <div class="form-group text-center">
+                    <label for="correo" class="text-dark font-weight-bold">Correo electrónico</label>
+                    <input type="text" id="inputCorreo" class="form-control form-control-user"
+                        placeholder="Correo de contacto" name="correo" required>
+                </div>
+
+                <!-- Contraseña -->
+                <div class="form-group text-center">
+                    <label for="password" class="text-dark font-weight-bold">Contraseña</label>
+                    <input type="password" id="inputPasswordEmpresarial" class="form-control form-control-user security-password"
+                        placeholder="Mínimo 8 carácteres" name="password" minlength="8" required>
+                </div>
+                <!-- Dirección -->
+                <div class="form-group text-center">
+                    <label for="direccion" class="text-dark font-weight-bold">Dirección:</label>
+                    <input type="text" id="inputDireccion" class="form-control form-control-user"
+                        placeholder="Dirección de la organización" name="direccion" required>
+                </div>
+            </div>
+
+            <div class="col">
+                <!-- Logo -->
+                <div class="form-group text-center">
+                    <label class="text-dark font-weight-bold">Elija el logo</label>
+                    <br>
+                    {{> inputImagenPrevia_Partial }}
+                </div>
+
+                <!-- Número -->
+                <div class="form-group text-center">
+                    <label for="telefono" class="text-dark font-weight-bold">Teléfono</label>
+                    <input type="number" id="inputNumeroContacto" class="form-control form-control-user"
+                        placeholder="Teléfono de contacto" name="telefono" required>
+                </div>
+
+                <!-- Descripcion del puesto-->
+                <div class="form-group text-center">
+                    <label for="descripcion" class="text-dark font-weight-bold">Descripción</label>
+                    <textarea class="form-control form-control-lg texto-oscuro" id="inputDescripcion" name="descripcion"
+                        placeholder="Describa de forma breve a que se dedica la empresa (100 palabras máximo." rows="3"
+                        maxlength="100"></textarea>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="form-group w-50 mx-auto">
+            <button type="submit" class="btn btn-success btn-user btn-block">
+                Crear cuenta
+            </button>
+        </div>
+
+    </form>
+</div>
+
+<div class="col-lg d-none d-lg-block">
+    <img src="/img/logo.png" class="mx-auto d-block w-75 filtro">
+</div>
+</div>
+<!-- Fin de la fila -->
+</div>
+{{> footer }}
