@@ -96,10 +96,7 @@ class Subir {
             const fotografiasRef = ref(storage, 'fotografias/' + nombreFoto);
             deleteObject(fotografiasRef).then(() => {
                 console.log("File deleted successfully")
-              }).catch((error) => {
-                console.log(error)
-              });
-                  uploadString(fotografiasRef, base64Data, 'base64').then((snapshot) => {
+                uploadString(fotografiasRef, base64Data, 'base64').then((snapshot) => {
                     usuarioDB.foto = nombreFoto;
             usuarioDB.save((err, userUpdate) => {
 
@@ -111,6 +108,10 @@ class Subir {
                   }).catch(err => console.log(err)).finally(e => {
                     console.log(e)
                   })
+              }).catch((error) => {
+                console.log(error)
+              });
+                  
             })
                 .catch(err => console.log('Err ' + err));
             }  else {
