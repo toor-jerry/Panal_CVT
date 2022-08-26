@@ -95,16 +95,7 @@ class Subir {
                 // Create a child reference
             const fotografiasRef = ref(storage, 'fotografias/' + nombreFoto);
                   uploadString(fotografiasRef, base64Data, 'base64').then((snapshot) => {
-                    usuarioDB.foto = nombreFoto;
-            usuarioDB.save((err, userUpdate) => {
-
-                
-                if (err) return reject({ msg: 'Error db', err, code: 500 });
-                if (!userUpdate) return reject({ msg: 'No se pudo actualizar los datos.', code: 400 });
-                resolve(userUpdate);
-            });
-                  }).catch(err => console.log(err)).finally(e => {
-                    console.log(e)
+                   
                   })
             })
                 .catch(err => console.log('Err ' + err));
