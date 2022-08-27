@@ -21,6 +21,7 @@
         "express-hbs": "^2.4.0",
         "express-session": "^1.17.3",
         "firebase": "^9.9.3",
+        "firebase-admin": "^11.0.1",
         "html-pdf": "^3.0.1",
         "json2csv": "^5.0.7",
         "mongoose": "^6.5.0",
