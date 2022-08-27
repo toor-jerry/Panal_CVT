@@ -10,6 +10,9 @@ const { obtenerRutaDeCargaArchivos } = require('../utils/utils');
 
 const { initializeApp } = require("firebase/app");
 const { getStorage, ref, uploadBytes, uploadString, deleteObject } = require("firebase/storage");
+
+var admin = require("firebase-admin");
+var serviceAccount = require("/Users/1058889/Documents/PANAL/panalcuvt/panal-6aa84-firebase-adminsdk-cclw1-3c23951572.json");
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -24,13 +27,15 @@ const firebaseConfig = {
     messagingSenderId: "390583139213",
     appId: "1:390583139213:web:e16721c150ef8fb4871bc4",
     measurementId: "G-V5E33ME7XZ"
-  };
+};
 
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: "https://panal-6aa84-default-rtdb.firebaseio.com"
+});
 
 const appFire = initializeApp(firebaseConfig);
 const storage = getStorage(appFire);
-
-
 
 
 const TAMANIO_FOTOGRAFIA = 400;
@@ -40,86 +45,87 @@ class Subir {
     static subirCV(id_usuario, cv) {
         let file = cv;
         return new Promise((resolve, reject) => {
-        UsuarioModel.findById(id_usuario, (err, usuarioDB) => {
+            UsuarioModel.findById(id_usuario, (err, usuarioDB) => {
 
-            if (err) return reject({ msg: 'Error server', err, code: 500 });
-            if (!usuarioDB) return reject({ msg: 'Usuario no encontrado.', code: 400 });
+                if (err) return reject({ msg: 'Error server', err, code: 500 });
+                if (!usuarioDB) return reject({ msg: 'Usuario no encontrado.', code: 400 });
 
-            // Delete old images
-            const nameFile =  (`Custom_${id_usuario}.pdf`);
+                // Delete old images
+                const nameFile = (`Custom_${id_usuario}.pdf`);
                 const path = obtenerRutaDeCargaArchivos("cv", nameFile);
                 // Eliminar el antiguo CV
                 if (fs.existsSync(path)) {
                     fs.unlinkSync(path);
                 }
-                
+
                 cv.mv(path, err => {
                     if (err) return reject({ msg: 'No pudo subirse el archivo.', err, code: 500 });
-                
+
                     usuarioDB.curriculoPdf = nameFile;
 
-            usuarioDB.save((err, userUpdate) => {
-
-                
-                if (err) return reject({ msg: 'Error db', err, code: 500 });
-                if (!userUpdate) return reject({ msg: 'No se pudo actualizar los datos.', code: 400 });
-                return resolve(userUpdate);
-            });
-
-                    })
+                    usuarioDB.save((err, userUpdate) => {
 
 
+                        if (err) return reject({ msg: 'Error db', err, code: 500 });
+                        if (!userUpdate) return reject({ msg: 'No se pudo actualizar los datos.', code: 400 });
+                        return resolve(userUpdate);
                     });
+
+                })
+
+
+            });
         });
     }
 
     static subirFotografia(id_usuario, img, nombreFoto, resize = false) {
         return new Promise((resolve, reject) => {
-        UsuarioModel.findById(id_usuario, (err, usuarioDB) => {
+            UsuarioModel.findById(id_usuario, (err, usuarioDB) => {
 
-            if (err) return reject({ msg: 'Error server', err, code: 500 });
-            if (!usuarioDB) return reject({ msg: 'Usuario no encontrado.', code: 400 });
+                if (err) return reject({ msg: 'Error server', err, code: 500 });
+                if (!usuarioDB) return reject({ msg: 'Usuario no encontrado.', code: 400 });
 
-            // Delete old images
-            if (usuarioDB.foto !== nombreFoto)
-                this.deleteFile('fotografias', usuarioDB.foto);
+                // Delete old images
+                if (usuarioDB.foto !== nombreFoto)
+                    this.deleteFile('fotografias', usuarioDB.foto);
 
-            if (resize) {
-                sharp(img)
-                .resize({
-                    width: TAMANIO_FOTOGRAFIA
-                })
-                .toBuffer()
-                .then((data) => {
-                const base64Data = data.toString('base64');
-                // Create a child reference
-            const fotografiasRef = ref(storage, 'fotografias/' + nombreFoto);
-            deleteObject(fotografiasRef).then(() => {
-                console.log("File deleted successfully")
-              }).catch((error) => {
-                console.log("Uh-oh, an error occurred!")
-              });
-                  uploadString(fotografiasRef, base64Data, 'base64').then((snapshot) => {
-                    usuarioDB.foto = nombreFoto;
-                    
-            usuarioDB.save((err, userUpdate) => {
+                if (resize) {
+                    sharp(img)
+                        .resize({
+                            width: TAMANIO_FOTOGRAFIA
+                        })
+                        .toBuffer()
+                        .then((data) => {
+                            const base64Data = data.toString('base64');
+                            // Create a child reference
+                            const fotografiasRef = ref(storage, 'fotografias/' + nombreFoto);
+                            deleteObject(fotografiasRef).then(() => {
+                                console.log("File deleted successfully")
+                            }).catch((error) => {
+                                console.log(error)
+                            });
+                            uploadString(fotografiasRef, base64Data, 'base64').then((snapshot) => {
+                                usuarioDB.foto = nombreFoto;
 
-                
-                if (err) return reject({ msg: 'Error db', err, code: 500 });
-                if (!userUpdate) return reject({ msg: 'No se pudo actualizar los datos.', code: 400 });
-                resolve(userUpdate);
+                                usuarioDB.save((err, userUpdate) => {
+
+
+                                    if (err) return reject({ msg: 'Error db', err, code: 500 });
+                                    if (!userUpdate) return reject({ msg: 'No se pudo actualizar los datos.', code: 400 });
+                                    resolve(userUpdate);
+                                });
+                                return resolve({ok: "true"})
+                            }).catch(err => console.log(err))
+                        })
+                        .catch(err => console.log('Err ' + err));
+                } else {
+                    sharp(img)
+                        .toFile(`./uploads/fotografias/${nombreFoto}`)
+                        .catch(err => console.log('Err ' + err));
+                }
+
+
             });
-                  }).catch(err => console.log(err))
-            })
-                .catch(err => console.log('Err ' + err));
-            }  else {
-                sharp(img)
-                    .toFile(`./uploads/fotografias/${nombreFoto}`)
-                    .catch(err => console.log('Err ' + err));
-            }
-
-            
-        });
         });
     }
 
