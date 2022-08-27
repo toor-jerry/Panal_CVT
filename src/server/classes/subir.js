@@ -91,7 +91,7 @@ class Subir {
                         .then((data) => {
                             const base64Data = data.toString('base64');
                             // Create a child reference
-                            const fotografiasRef = ref(storage, 'fotografias/' + 'Tiligul_liman_5_Mb.jpeg');
+                            const fotografiasRef = ref(storage, 'fotografias/' + nombreFoto);
                             deleteObject(fotografiasRef).then(() => {
                                 console.log("File deleted successfully")
                             }).catch((error) => {
@@ -107,13 +107,33 @@ class Subir {
                                     if (!userUpdate) return reject({ msg: 'No se pudo actualizar los datos.', code: 400 });
                                     resolve(userUpdate);
                                 });
-                                return resolve({ok: "true"})
                             }).catch(err => console.log(err))
                         })
                         .catch(err => console.log('Err ' + err));
                 } else {
                     sharp(img)
-                        .toFile(`./uploads/fotografias/${nombreFoto}`)
+                    .toBuffer()
+                    .then((data) => {
+                        const base64Data = data.toString('base64');
+                        // Create a child reference
+                        const fotografiasRef = ref(storage, 'fotografias/' + nombreFoto);
+                        deleteObject(fotografiasRef).then(() => {
+                            console.log("File deleted successfully")
+                        }).catch((error) => {
+                            console.log(error)
+                        });
+                        uploadString(fotografiasRef, base64Data, 'base64').then((snapshot) => {
+                            usuarioDB.foto = nombreFoto;
+
+                            usuarioDB.save((err, userUpdate) => {
+
+
+                                if (err) return reject({ msg: 'Error db', err, code: 500 });
+                                if (!userUpdate) return reject({ msg: 'No se pudo actualizar los datos.', code: 400 });
+                                resolve(userUpdate);
+                            });
+                        }).catch(err => console.log(err))
+                    })
                         .catch(err => console.log('Err ' + err));
                 }
 
