@@ -11,8 +11,6 @@ const { obtenerRutaDeCargaArchivos } = require('../utils/utils');
 const { initializeApp } = require("firebase/app");
 const { getStorage, ref, uploadBytes, uploadString, deleteObject } = require("firebase/storage");
 
-var admin = require("firebase-admin");
-var serviceAccount = require("/Users/1058889/Documents/PANAL/panalcuvt/panal-6aa84-firebase-adminsdk-cclw1-3c23951572.json");
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -28,11 +26,6 @@ const firebaseConfig = {
     appId: "1:390583139213:web:e16721c150ef8fb4871bc4",
     measurementId: "G-V5E33ME7XZ"
 };
-
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    databaseURL: "https://panal-6aa84-default-rtdb.firebaseio.com"
-});
 
 const appFire = initializeApp(firebaseConfig);
 const storage = getStorage(appFire);
