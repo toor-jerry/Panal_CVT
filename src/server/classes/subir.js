@@ -55,7 +55,7 @@ class Subir {
         return new Promise((resolve, reject) => {
                     sharp(img)
                         .resize({
-                            width: size || TAMANIO_FOTOGRAFIA
+                            width: size
                         })
                         .toBuffer()
                         .then((data) => {

@@ -15,7 +15,7 @@ app.use(fileUpload());
 const { io } = require('../app');
 
 const { today, obtenerRutaDeCargaArchivos } = require('../utils/utils');
-
+const TAMANIO_FOTOGRAFIA = 400;
 // ==========================
 // Recuperar contraseña (form)
 // ==========================
@@ -165,7 +165,7 @@ app.put('/actualizar', checkSession, async(req, res) => {
     //const nameFile =  `${idUsuario}.${extensionImagen}`;
     const nameFile = `${idUsuario}.img`;
     // Size file
-    let size;
+    let size = TAMANIO_FOTOGRAFIA;
     if (file.size < 900000) {
         size = file.size;
     }
