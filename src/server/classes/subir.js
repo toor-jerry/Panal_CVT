@@ -2,6 +2,8 @@ const sharp = require('sharp');
 const fs = require('fs');
 const path = require('path');
 const fileUpload = require('express-fileupload');
+const base64Img = require('base64-img');
+const base64ArrayBuffer = require('base64-arraybuffer');
 
 const UsuarioModel = require('../models/usuario');
 
