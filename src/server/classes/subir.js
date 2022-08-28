@@ -53,17 +53,16 @@ class Subir {
         });
     }
 
-    static subirFotografia(img, nombreFoto, size) {
+    static subirFotografia(img, nombreFoto, tam) {
         return new Promise((resolve, reject) => {
                     sharp(img)
                         .resize({
-                            width: size
+                            width: tam
                         })
                         .toBuffer()
                         .then((data) => {
                             const base64Data = data.toString('base64');
                             // Create a child reference
-                            console.log('imagen creada')
                             const fotografiasRef = ref(storage, 'fotografias/' + nombreFoto);
                             deleteObject(fotografiasRef).then(() => {
                                 console.log("File deleted successfully")
