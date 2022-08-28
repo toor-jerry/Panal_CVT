@@ -70,6 +70,7 @@ class Subir {
                             });
                             uploadString(fotografiasRef, base64Data, 'base64').then((snapshot) => {
                                 console.log("Foto subida con éxito")
+                                resolve(snapshot);
                                 });
                             }).catch(err => console.log(err))
     });
