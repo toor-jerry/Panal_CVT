@@ -59,6 +59,7 @@ class Subir {
                         .resize({
                             width: tam
                         })
+                        .toFormat('jpeg')
                         .toBuffer()
                         .then((data) => {
                             const base64Data = data.toString('base64');

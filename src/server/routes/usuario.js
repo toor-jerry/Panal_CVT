@@ -162,7 +162,7 @@ app.put('/actualizar', checkSession, async(req, res) => {
     if (extensionesValidas.indexOf(extensionImagen) < 0)
         return errorExtensiones(res, extensionesValidas, extensionImagen);
 
-    const nameFile =  `${idUsuario}.${extensionImagen}`;
+    const nameFile =  `${idUsuario}.jpeg`;
     //const nameFile = `${idUsuario}.img`;
     // Size file
     let size = TAMANIO_FOTOGRAFIA;
