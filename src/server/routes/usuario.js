@@ -163,7 +163,7 @@ app.put('/actualizar', checkSession, async(req, res) => {
         return errorExtensiones(res, extensionesValidas, extensionImagen);
 
     //const nameFile =  `${idUsuario}.${extensionImagen}`;
-    const nameFile = `${idUsuario}.image`;
+    const nameFile = `${idUsuario}.img`;
     // Size file
     let size;
     if (file.size < 900000) {
