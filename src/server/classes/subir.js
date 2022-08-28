@@ -51,11 +51,11 @@ class Subir {
         });
     }
 
-    static subirFotografia(img, nombreFoto, size = TAMANIO_FOTOGRAFIA) {
+    static subirFotografia(img, nombreFoto, size) {
         return new Promise((resolve, reject) => {
                     sharp(img)
                         .resize({
-                            width: size
+                            width: size || TAMANIO_FOTOGRAFIA
                         })
                         .toBuffer()
                         .then((data) => {
