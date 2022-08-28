@@ -5,6 +5,9 @@ const pdf = require("pdf-creator-node");
 const fs = require('fs');
 const path = require('path');
 const base64Img = require('base64-img');
+const base64ArrayBuffer = require('base64-arraybuffer');
+
+const { storage, ref, getBytes} = require('../config/firebaseConfig')
 
 class PDF {
 
@@ -32,7 +35,7 @@ class PDF {
 
     static generatePDF(idUser) {
         return new Promise((resolve, reject) => {
-            UsuarioModel.findById(idUser, (err, user) => {
+            UsuarioModel.findById(idUser, async(err, user) => {
                 if (err) 
                     return reject({code: 500, err});
                 
@@ -60,10 +63,14 @@ class PDF {
                         'periodo': estudio.periodo})
             );
                 logoUaemex = base64Img.base64Sync(path.resolve(__dirname, '../utils/assets/logo_uaemex.png'))
-
+                
                 if (user.foto) {
-                    foto = base64Img.base64Sync(path.resolve(__dirname, '../../../uploads/fotografias/' + user.foto))
-                    console.log(path.resolve(__dirname, '../../../uploads/fotografias/' + user.foto))
+                    const fotografiasRef = ref(storage, 'fotografias/' + user.foto);
+                   await getBytes(fotografiasRef)
+                    .then(val => {
+                        foto =  base64ArrayBuffer.encode(val)
+                    })
+                    .catch(err => console.log(err))
                 }
 
                 if (user.numeroContacto) {
@@ -145,7 +152,6 @@ class PDF {
                         habilidad1: user.habilidad1 || '',
                         habilidad2: user.habilidad2 || '',
                         habilidad3: user.habilidad3 || '',
-                        foto: foto,
                         empleos,
                         estudios
                     },

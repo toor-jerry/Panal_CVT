@@ -8,19 +8,29 @@ const { Vacante } = require('../classes/vacante'); // Vacante class
 const { Postulacion } = require('../classes/postulacion'); // Vacante class
 const { Notificacion } = require('../classes/notificacion'); // Vacante class
 const { checkSession, checkAdminRole, checkSuperRole, checkEnterpriseRole  } = require('../middlewares/auth');
-
+const base64ArrayBuffer = require('base64-arraybuffer');
+const { storage, ref, getBytes} = require('../config/firebaseConfig')
 // Tipo de registro route
-app.get('/', checkSession, (req, res) => {
+app.get('/', checkSession, async(req, res) => {
     const idUsuario = req.session.usuario._id;
     const limitNotificaciones = req.query.limitNotificaciones || 10;
-    Promise.all([
+   const fotografiasRef = ref(storage, 'fotografias/' + idUsuario + '.img');
+    let foto;
+    await getBytes(fotografiasRef)
+        .then(val => {
+            foto =  base64ArrayBuffer.encode(val)
+            console.console.log(foto);
+            })
+        .catch(err => console.log(err))
+        await Promise.all([
         Usuario.findById(idUsuario),
         Vacante.encontrarTodas(),
         Usuario.buscaTodasLasEmpresas(),
         Postulacion.buscarTodasLasPostulacionesPorUsuario(idUsuario),
-        Notificacion.buscarPorUsuario(idUsuario, limitNotificaciones)
+        Notificacion.buscarPorUsuario(idUsuario, limitNotificaciones),
     ])
     .then(responses =>{
+        
         res.render('mi_perfil', {
             page: 'Mi Perfil',
             nombre_boton_navbar: 'Mi Perfil',
@@ -32,6 +42,7 @@ app.get('/', checkSession, (req, res) => {
             convenios:{ data: responses[2].data, total: responses[2].total },
             postulaciones: { data: responses[3].data, total: responses[3].total },
             notificaciones: { data: responses[4].data, total: responses[4].total },
+            foto: foto,
 
             archivoJS: 'function_perfil.js'})
 }).catch(err => res.status(500).json(err))

@@ -1,5 +1,4 @@
 {{> head_Partial }}
-
 <div class="col">
     <div class="row">
         <div class="col">
@@ -44,8 +43,8 @@
                         </div>
                     </div>
 
-                    {{#if informacionUsuario.foto}}
-                    <img src="/archivos/fotografias/{{ informacionUsuario.foto }}" class="card-img foto-empresa"
+                    {{#if foto}}
+                    <img src="data:image/png;base64,{{foto}}" class="card-img foto-empresa"
                         alt="Foto">
                     {{/if}}
                     <div class="row">

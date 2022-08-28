@@ -7,7 +7,7 @@ const { Email } = require('../classes/mailer'); // user class
 const { Subir } = require('../classes/subir'); // user class
 
 const { checkSession, checkAdminRole, intentCheckSession } = require('../middlewares/auth'); // midlewares auth
-
+const { storage, ref, getBytes} = require('../config/firebaseConfig')
 // express initialization
 const app = express();
 // default options (req.files <- todo lo que viene)
@@ -162,35 +162,22 @@ app.put('/actualizar', checkSession, async(req, res) => {
     if (extensionesValidas.indexOf(extensionImagen) < 0)
         return errorExtensiones(res, extensionesValidas, extensionImagen);
 
-    const nameFile =  `${idUsuario}.${extensionImagen}`;
-
-    // Move file
-    const path = obtenerRutaDeCargaArchivos("fotografias", nameFile);
+    //const nameFile =  `${idUsuario}.${extensionImagen}`;
+    const nameFile = `${idUsuario}.image`;
     // Size file
-    if (file.size > 900000) {
-
-        await Subir.subirFotografia(idUsuario, file.data, nameFile, true);
-        await Usuario.actualizar(idUsuario, req.body)
-        .then((usuarioDB) => {
-            if (actualizacionDatosMismoUsuario) {
-            req.session.usuario = usuarioDB
-            }
-            res.status(201).json({});
-        })
-        .catch(err => res.status(err.code).json({ msg: err.msg, err: err.err }))
-
-    } else {
-        await Subir.subirFotografia(idUsuario, file.data, nameFile, false);
-        await Usuario.actualizar(idUsuario, req.body)
-        .then((usuarioDB) => {
-            if (actualizacionDatosMismoUsuario) {
-            req.session.usuario = usuarioDB
-            }
-            res.status(201).json({});
-        })
-        .catch(err => res.status(err.code).json({ msg: err.msg, err: err.err }))
-
+    let size;
+    if (file.size < 900000) {
+        size = file.size;
     }
+        await Subir.subirFotografia(file.data, nameFile, size);
+        await Usuario.actualizar(idUsuario, req.body)
+        .then((usuarioDB) => {
+            if (actualizacionDatosMismoUsuario) {
+            req.session.usuario = usuarioDB
+            }
+            res.status(201).json({});
+        })
+        .catch(err => res.status(err.code).json({ msg: err.msg, err: err.err }))
 } else {
     Usuario.actualizar(idUsuario, req.body)
         .then((usuarioDB) => {
