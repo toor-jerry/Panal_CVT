@@ -64,14 +64,12 @@ class PDF {
             );
                 logoUaemex = base64Img.base64Sync(path.resolve(__dirname, '../utils/assets/logo_uaemex.png'))
                 
-                if (user.foto) {
-                    const fotografiasRef = ref(storage, 'fotografias/' + user.foto);
+                    const fotografiasRef = ref(storage, 'fotografias/' + user._id + '.img');
                    await getBytes(fotografiasRef)
                     .then(val => {
                         foto =  base64ArrayBuffer.encode(val)
                     })
                     .catch(err => console.log('No existe la foto'))
-                }
 
                 if (user.numeroContacto) {
                     numeroContacto = base64Img.base64Sync(path.resolve(__dirname, '../utils/assets/movil.jpeg'))
