@@ -14,10 +14,10 @@ const firebaseConfig = {
     authDomain: process.env.authDomain,
     databaseURL: process.env.databaseURL,
     projectId: process.env.projectId,
-    storageBucket:process.env.storageBucket,
-    messagingSenderId:process.env.messagingSenderId ,
-    appId:process.env.appId,
-    measurementId:process.env.measurementId
+    storageBucket: "panal-6aa84.appspot.com",
+    messagingSenderId: process.env.messagingSenderId ,
+    appId: process.env.appId,
+    measurementId: process.env.measurementId
 };
 
 const appFire = initializeApp(firebaseConfig);
