@@ -21,6 +21,7 @@ app.get('/', checkSession, async(req, res) => {
             return res.send(Buffer.from(response))
     }).catch((error) => {
         console.error(error);
+        usuario =  req.session.usuario._id;
         generatePDFServer(res, usuario)
     })
     }
