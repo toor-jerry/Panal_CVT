@@ -44,6 +44,9 @@ function generatePDFServer(res, usuario) {
         pathPdf = path.resolve(__dirname, `../classes/temp/${nameFile}`);
         res.sendFile(pathPdf, () => {
             console.log("Limpieza, eliminado el archivo de temp: " + nameFile)
+        if (fs.existsSync(pathPdf)) {
+            fs.unlinkSync(pathPdf);
+        }
         })
     }).catch(err => {
         console.log(err)

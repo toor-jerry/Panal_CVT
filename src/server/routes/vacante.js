@@ -106,13 +106,7 @@ app.get('/:id', checkSession, async (req, res) => {
     let idVacante = req.params.id;
     let idUsuario = req.session.usuario._id;
     let fechaModificacionCV = null;
-    const pathArchivo = path.resolve(__dirname, `../classes/temp/${idUsuario}.pdf`);
     let cvPersonal = false;
-
-    if (fs.existsSync(pathArchivo)) {
-        cvPersonal = true;
-        fechaModificacionCV = new Date(fs.statSync(pathArchivo).mtime).toLocaleString();
-    }
 
     res.render('informacion_vacante', {
         page: 'Postulacion',
