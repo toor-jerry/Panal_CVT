@@ -105,7 +105,7 @@ app.delete('/:vacante/:empresaID', [checkSession, checkEnterpriseRole], async (r
 app.get('/:id', checkSession, async (req, res) => {
     let idVacante = req.params.id;
     let idUsuario = req.session.usuario._id;
-    let fechaModificacionCV = null;
+    //let fechaModificacionCV = null;
     let cvPersonal = false;
 
     res.render('informacion_vacante', {
@@ -114,7 +114,7 @@ app.get('/:id', checkSession, async (req, res) => {
         direccion_link_boton_navbar: '/perfil',
         mostrar_boton_regreso: true,
         cvPersonal: cvPersonal,
-        fechaModificacionCV: fechaModificacionCV,
+        //fechaModificacionCV: fechaModificacionCV,
 
         vacante: await Vacante.buscarPorId(idVacante)
             .then(resp => { return resp.data })

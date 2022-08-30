@@ -26,7 +26,8 @@ class Vacante {
                     getBytes(ref(storage, 'fotografias/' + idUser + '.img'))
                         .then(val => {
                             vacante.empresa.foto = base64ArrayBuffer.encode(val)
-                        }).finally(() => {
+                        }).catch(err => console.log("Imagen no encontrada"))
+                        .finally(() => {
                             return resolve({
                                 ok: true,
                                 data: vacante
