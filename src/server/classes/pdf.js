@@ -178,7 +178,7 @@ class PDF {
                     console.log(res)
                     resolve(nameFile);
                 }).catch(error => {
-                    console.error(error)
+                    console.error("No se pudo escribir")
                     reject({code: 500, err});
                 });
             });
