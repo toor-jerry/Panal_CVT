@@ -49,7 +49,7 @@ function generatePDFServer(res, usuario) {
         }
         })
     }).catch(err => {
-        console.log(err)
+        console.log("No se pudo generar")
         return response400(err)
     })
 }
