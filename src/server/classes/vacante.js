@@ -21,10 +21,9 @@ class Vacante {
                     if (!vacante) reject({ code: 400, err: 'No se encontró la vacante.' });
                     let idUser;
                     if (vacante?.empresa) {
-                        idUser = vacante.empresa._id;
-
+                        idUser = vacante?.empresa._id;
                     }
-                    getBytes(ref(storage, 'fotografias/' + vacante.empresa._id + '.img'))
+                    getBytes(ref(storage, 'fotografias/' + idUser + '.img'))
                         .then(val => {
                             vacante.empresa.foto = base64ArrayBuffer.encode(val)
                         }).finally(() => {
