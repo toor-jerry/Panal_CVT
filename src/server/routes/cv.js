@@ -15,7 +15,7 @@ app.get('/', checkSession, async(req, res) => {
                     .then(val => {
                         foto =  base64ArrayBuffer.encode(val)
                     })
-                    .catch(err => console.log(err))
+                    .catch(err => console.log('No se encuentra la imagen'))
     res.render('mi_cv', {
         page: 'Mi Curriculum',
         nombre_boton_navbar: 'Mi Curriculum',
