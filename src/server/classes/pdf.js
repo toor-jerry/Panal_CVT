@@ -64,7 +64,7 @@ class PDF {
             );
                 logoUaemex = base64Img.base64Sync(path.resolve(__dirname, '../utils/assets/logo_uaemex.png'))
                 
-                    const fotografiasRef = ref(storage, 'fotografias/' + user._id + '.img');
+                    const fotografiasRef = ref(storage, 'fotografias/' + idUser + '.img');
                    await getBytes(fotografiasRef)
                     .then(val => {
                         foto =  base64ArrayBuffer.encode(val)
