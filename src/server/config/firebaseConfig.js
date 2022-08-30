@@ -22,9 +22,21 @@ const firebaseConfig = {
 
 const appFire = initializeApp(firebaseConfig);
 const storage = getStorage(appFire);
-
+const config = {
+    "type": "service_account",
+    "project_id": process.env.projectId,
+    "private_key_id":process.env.private_key_id,
+    "private_key": process.env.keyFirebase,
+    "client_email": "firebase-adminsdk-cclw1@panal-6aa84.iam.gserviceaccount.com",
+    "client_id": "109828602024577342729",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-cclw1%40panal-6aa84.iam.gserviceaccount.com"
+  }
+  
 admin.initializeApp({
-    credential: admin.credential.cert(JSON.parse(process.env.keyFirebase)),
+    credential: admin.credential.cert(config),
 })
 
 function getFile(carpeta, idUsuario, extensionFile) {
