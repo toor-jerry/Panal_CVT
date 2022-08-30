@@ -70,7 +70,7 @@ class PDF {
                     .then(val => {
                         foto =  base64ArrayBuffer.encode(val)
                     })
-                    .catch(err => console.log(err))
+                    .catch(err => console.log('No existe la foto'))
                 }
 
                 if (user.numeroContacto) {
