@@ -1,6 +1,7 @@
 {{>head_Partial }}
 
 <div class="col">
+    {{> verificarCuenta_Partial}}
     <div class="row">
         <div class="col">
             {{>busqueda_Partial }}
@@ -22,9 +23,10 @@
                 <div class="card-body context">
                     <h3 class="form-control-lg">{{ this.puesto }}</h3>
                     <h4 class="card-title">{{ this.empresa.razonSocial }}</h4>
+
                     {{#if this.empresa.foto}}
-                    <img src="/archivos/fotografias/{{ this.empresa.foto }}" class="card-img foto-empresa"
-                        alt="Foto empresa">
+                    <img src="{{this.empresa.foto}}" class="card-img foto-empresa"
+                        alt="Foto empresa" onerror="this.src='/img/no-img.jpg';this.onerror='';">
                     {{/if}}
 
                     <h5 class="card-text text-justify text-truncate mt-2" style="max-width: 500px;">Funciones:

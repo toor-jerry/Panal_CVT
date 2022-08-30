@@ -29,7 +29,7 @@ $(document).ready(function () {
                 $("#nNotificacionesSpan").text('1'); // update nNotificaciones
             }
             $("#notificaciones-container").prepend(createNotificacion(notificacion)); // add notification
-            obtenerToast(titulo = notificacion?.titulo, time = 1000, posicion= 'top-end').fire({})
+            obtenerToast(notificacion?.titulo, 'nil', 2000, 'top-end').fire({})
     });
 
     // Listen status connection
@@ -136,16 +136,16 @@ function obtenerAlertSwal(text = 'Se guardado su información.', title = 'Actual
     } else {
         audioInformacionError.play();
     }
-    return swal.fire({
+    return Swal.fire({
         title: title,
         text: text,
         icon: icon,
         confirmButtonText: 'Aceptar',
         showLoaderOnConfirm: true
-    });
+    })
 }
 
-function obtenerToast(titulo = 'General Title', time = 1000, posicion= 'center') {
+function obtenerToast(titulo = 'General Title', redirectTo = '-', time = 1500, posicion = 'center') {
     audioInformacionSuccess.play();
     return Swal.mixin({ // create toast
         toast: true,
@@ -155,8 +155,18 @@ function obtenerToast(titulo = 'General Title', time = 1000, posicion= 'center')
         position: posicion,
         showConfirmButton: false,
         timer: time,
-        timerProgressBar: true
-    });
+        timerProgressBar: true,
+        willClose: () => {
+            if (redirectTo !== 'nil') {
+            if (redirectTo == '-') {
+          window.location.reload()
+            } else {
+                window.location.href = redirectTo
+            }
+        }
+        }
+      }).fire({})
+    
 }
 
 

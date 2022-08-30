@@ -3,6 +3,8 @@ $(document).ready(function () {
   $("#inputCV").change(function () {
     leerPDF(this);
   });
+
+  
 });
 
 function leerPDF(input) {
@@ -31,7 +33,7 @@ function leerPDF(input) {
           if (xhr.status === 201 || xhr.status === 200) {
             obtenerAlertSwal("Se ha subido su currículo vitae con éxito.","Carga exitosa!")
           } else {
-            obtenerAlertSwal(`A ocurrido un error.\n ${xhr.response}`, 'Error!', 'error')
+            obtenerAlertSwal(`A ocurrido un error.\n ${JSON.parse(xhr.response).msg}`, 'Error!', 'warning').then(() => location.href = "/perfil");
           }
         }
       };
@@ -45,14 +47,15 @@ function leerPDF(input) {
 
 
 function postular(vacanteID, empresaID) {
-    let idVacante = vacanteID;
+  let idVacante = vacanteID;
+  let idEmpresa = empresaID;
       // show alert loading
       getLoading("Loading..", "Postulando a la vacante...");
       // submit data
       const formData = new FormData();
       const xhr = new XMLHttpRequest();
       formData.append('vacante', idVacante);
-      formData.append('empresa', empresaID);
+      formData.append('empresa', idEmpresa);
 
       xhr.onreadystatechange = () => {
         if (xhr.readyState === 4) {
@@ -62,11 +65,7 @@ function postular(vacanteID, empresaID) {
                 location.href = "/perfil"
               })
           } else {
-            swal.fire({
-        title: 'Error!',
-        text: `${JSON.parse(xhr.response).msg}`,
-        icon: 'warning',
-    }).then(() => location.href = "/perfil");
+            obtenerAlertSwal(`A ocurrido un error.\n ${JSON.parse(xhr.response).msg}`, 'Error!', 'warning').then(() => location.href = "/perfil");
           }
         }
       };

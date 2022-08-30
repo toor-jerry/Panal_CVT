@@ -34,13 +34,7 @@ $(document).ready(function () {
       if (xhr.readyState === 4) {
         if (xhr.status === 201 || xhr.status === 200) {
           var response = JSON.parse(xhr.responseText);
-          obtenerToast().fire({
-            animation: true,
-            title: `La cuenta ${response.data.email} ha sido creada con éxito!!`
-          })
-            .then(() =>
-              window.location.href = "/perfil/empresarial/1"
-            )
+          obtenerToast(`La cuenta ${response.data.email} ha sido creada con éxito!!`, "/perfil/empresarial/1")
         } else {
           obtenerAlertSwal(`A ocurrido un error.\n ${xhr.response}`, 'Error!', 'error')
         }

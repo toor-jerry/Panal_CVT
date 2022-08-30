@@ -2,20 +2,22 @@ const express = require('express'); // express module
 const path = require('path');
 const fs = require('fs');
 const app = express(); // aplication
-
+const fileUpload = require('express-fileupload');
 const { Usuario } = require('../classes/usuario'); // Usuario class
 const { Postulacion } = require('../classes/postulacion'); // Vacante class
 const { Vacante } = require('../classes/vacante'); // Vacante class
 const { Notificacion } = require('../classes/notificacion'); // user class
 
 const { checkSession, checkEnterpriseRole, checkEstatusVerificacion } = require('../middlewares/auth');
-
+const base64ArrayBuffer = require('base64-arraybuffer');
+const { storage, ref, getBytes } = require('../config/firebaseConfig')
+const { getFile, existeFile } = require('../config/firebaseConfig')
 const { io } = require('../app');
 
-
+app.use(fileUpload());
 // Creación vacante
 app.get('/form/creacion', [checkSession, checkEnterpriseRole, checkEstatusVerificacion], async (req, res) => {
-
+    
     res.status(200).render('form_creacion_vacante', {
         page: 'Creación',
         nombre_boton_navbar: 'Creación de Vacante',
@@ -140,7 +142,7 @@ app.post('/', [checkSession, checkEnterpriseRole], (req, res) => {
     }
     Vacante.crear(body)
         .then(resp => {
-            res.status(201).json(resp);
+            res.status(201).json({});
             Notificacion.crear({ titulo: 'Nueva vacante!', mensaje: 'Se ha creado una nueva vacante titulada: "' + resp.data.puesto + '"' })
                 .then(respNotif => {
                     io.emit('new-notificacion', { data: respNotif.data })

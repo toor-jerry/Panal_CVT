@@ -72,22 +72,27 @@
                                                 <div class="form-row mt-3 text-center">
                                                     <div class="form-group col">
                                                         <label for="nombre" class="form-control-lg">Ubicación</label>
-                                                        <input type="text" class="form-control text-center form-control-lg" placeholder="Latitud, altitud" id="inputUbicacion" value="{{ empresa.ubicacion }}" required></div>
+                                                        <input type="text" class="form-control text-center form-control-lg" placeholder="Latitud, altitud" id="inputUbicacion" value="{{ empresa.ubicacion }}" required>
+                                                        </div>
                                                         <div class="form-group col">
                                                             <label for="nombre" class="form-control-lg">Correo</label>
-                                                            <input type="email" class="form-control text-center form-control-lg" placeholder="Correo de contacto" id="inputEmail" value="{{ empresa.email }}" required></div>
+                                                            <input type="email" class="form-control text-center form-control-lg" placeholder="Correo de contacto" id="inputEmail" value="{{ empresa.email }}" required>
+                                                            </div>
                                                             <div class="form-group col">
-                                                                {{> terminosYCondiciones_Partial }}
-                                                                    <button type="submit" class="btn btn-success btn-user btn-block">
-                                                                        Continuar
-                                                                    </button>
+                                                                {{> inputFilePartial archivoNombre="Carta Compromiso" fechaModificacion=fechaModificacionCartaCompromiso carpetaFile="CartaCompromiso"}}
                                                                 </div>
                                                             </div>
 
 
                                                             <div class="form-row mt-3 text-center">
                                                                 <div class="form-group col-md-4">
-                                                                    {{> celular_Partial mensajeLabel="Tel. / Celular" numeroContacto= empresa.numeroContacto}}
+                                                                    {{> celular_Partial mensajeLabel="Tel. / Celular" numeroContacto=empresa.numeroContacto}}
+                                                                    </div>
+                                                                    <div class="form-group col-md-4">
+                                                                         {{> terminosYCondiciones_Partial }}
+                                                                    <button type="submit" class="btn btn-success btn-user btn-block">
+                                                                        Continuar
+                                                                    </button>
                                                                     </div>
                                                                     <div class="form-group col text-justify">
                                                                         <div class="alert alert-danger" role="alert">

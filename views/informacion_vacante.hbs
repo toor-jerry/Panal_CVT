@@ -1,11 +1,9 @@
 {{> head_Partial }}
 
 <!-- Foto de la empresa -->
-{{#if vacante.empresa.foto}}
 <div class="col">
-    <img src="/archivos/fotografias/{{ vacante.empresa.foto }}" class="card-img foto-empresa" alt="Foto empresa">
+    <img src="data:image/*;base64,{{ vacante.empresa.foto }}" class="card-img foto-empresa" alt="Foto empresa" onerror="this.src='/img/no-img.jpg';this.onerror='';">
 </div>
-{{/if}}
 <!-- Información de la vacante -->
 <div class="col text-dark font-weight-bold text-right">
     <h3 class="texto-verde">{{ vacante.empresa.nombre }}</h3>

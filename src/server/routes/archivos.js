@@ -8,25 +8,47 @@ const json2csv = require('json2csv').parse;
 const { response400, response404, response500 } = require('../utils/utils');
 const { Subir } = require('../classes/subir'); // user class
 const { Usuario } = require('../classes/usuario'); // user class
+const { PDF } = require('../classes/pdf'); // user class
 
-const { obtenerRutaDeCargaArchivos } = require('../utils/utils');
+const base64ArrayBuffer = require('base64-arraybuffer');
+//const { obtenerRutaDeCargaArchivos } = require('../utils/utils');
+const { storage, ref, deleteObject, uploadString, admin, getFileRef, getBytes } = require('../config/firebaseConfig')
 
 const app = express();
 // default options (req.files <- todo lo que viene)
 app.use(fileUpload());
 
-app.get('/:colection/:file', checkSession, (req, res) => {
+app.get('/:carpeta/:idUsuario/:extensionFile', checkSession, async(req, res) => {
 
-    const colection = req.params.colection;
-    const file = req.params.file;
-
-    const pathArchivo = path.resolve(__dirname, `../../../uploads/${ colection }/${file}`);
-
-    if (fs.existsSync(pathArchivo)) {
-        res.sendFile(pathArchivo);
-    } else {
-        response404(res);
-    }
+    const carpeta = req.params.carpeta;
+    const extensionFile = req.params.extensionFile;
+    const idUsuario = req.params.idUsuario;
+    let pathPdf = '';
+    await getBytes(ref(storage, 'cv/Custom_' + idUsuario + extensionFile)).then((response) => {
+        res.setHeader('Content-Type', 'application/pdf')
+        res.setHeader('Content-Disposition', 'attachment; filename=CV.Pdf')
+        return res.send(Buffer.from(response))
+            
+    }).catch((err) => {
+        console.log(err)
+        res.set({
+            "Content-Type": "application/pdf",
+            'Content-Disposition': 'attachment; filename=CV.Pdf'
+        });
+        PDF.generatePDF(idUsuario).then((nameFile) => {
+            pathPdf = path.resolve(__dirname, `../classes/temp/${nameFile}`);
+            res.sendFile(pathPdf, () => {
+                console.log("Limpieza, eliminado el archivo de temp: " + nameFile)
+            if (fs.existsSync(pathPdf)) {
+                fs.unlinkSync(pathPdf);
+            }
+            })
+        }).catch(err => {
+            console.log(err)
+            return response400(err)
+        })
+        
+    });
 
 });
 
@@ -54,11 +76,11 @@ function descargaCSV(res, data, nombreArchivo) {
 app.put('/archivo/:carpeta', checkSession, (req, res) => {
  
     const carpeta = req.params.carpeta;
-
+    let idUsuario = req.session.usuario._id;
     if (!req.files) return response400(res, 'No data.');
     
     // Types files
-    const carpetasValidas = ['INE', 'RFC', 'comprobantesDomicilio'];
+    const carpetasValidas = ['INE', 'RFC', 'comprobantesDomicilio', 'CartaCompromiso'];
     if (carpetasValidas.indexOf(carpeta) < 0) return response400(res, 'Carpeta no válida! ' + carpetasValidas);
 
     // Name file
@@ -73,16 +95,17 @@ app.put('/archivo/:carpeta', checkSession, (req, res) => {
         return errorExtensiones(res, extentionsValid, fileExtention);
 
     // Custom file name
-    // Move file
-    const path = obtenerRutaDeCargaArchivos(carpeta, `${req.session.usuario._id}.${fileExtention}`);
-    if (fs.existsSync(path)) {
-        fs.unlinkSync(path);
-    }
-    file.mv(path, err => {
-        console.log(err)
-        if (err) return response500(res, err);
-        res.status(201).json({});
-    });
+    const nameFile = `${idUsuario}.pdf`;
+
+                deleteObject(ref(storage, carpeta +'/' + nameFile)).then(() => {
+                    console.log("File deleted successfully")
+                }).catch((error) => {
+                    console.log(error)
+                });
+                getFileRef(carpeta, idUsuario, '.pdf').save(file.data).then(() => {
+                    console.log("Archivo subido con éxito")
+                    res.status(201).json({});
+            }).catch(err => response500(res, err))
 
 });
 
@@ -104,8 +127,7 @@ if (extensionesValidas.indexOf(extensionCV) < 0)
     return errorExtensiones(res, extensionesValidas, extensionCV);
 
 await Subir.subirCV(req.session.usuario._id, cv)
-.then((usuarioDB) => {
-    req.session.usuario = usuarioDB
+.then(() => {
     res.status(201).json({});
 })
 .catch(err => res.status(err.code).json({ msg: err.msg, err: err.err }))

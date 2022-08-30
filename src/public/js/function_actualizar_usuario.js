@@ -20,7 +20,9 @@ $(document).ready(function () {
     const xhr = new XMLHttpRequest();
 
     formData.append('nombre', $('#inputNombre').val());
+    if ($('#inputApellidos').val() !== '' && $('#inputApellidos').val() !== undefined) {
     formData.append('apellidos', $('#inputApellidos').val());
+    }
     if ($('#inputRole').val() !== '' && $('#inputRole').val() !== undefined) {
       formData.append('userRole', $('#inputRole').val());
     }

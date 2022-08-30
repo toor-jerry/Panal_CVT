@@ -3,6 +3,8 @@ const app = express(); // aplication
 
 const { checkSession, checkAdminRole } = require('../middlewares/auth'); // midlewares auth
 const { Usuario } = require('../classes/usuario'); // user class
+const { storage, ref, getBytes} = require('../config/firebaseConfig')
+const base64ArrayBuffer = require('base64-arraybuffer');
 
 // Tipo de registro route
 app.get('/tipo_registro', (req, res) => {
@@ -37,14 +39,24 @@ app.get('/registro_cuenta_empresarial', (req, res) => {
 });
 
 // Personalización de perfil route
-app.get('/personalizacion_de_perfil', checkSession, (req, res) => {
+app.get('/personalizacion_de_perfil', checkSession, async(req, res) => {
     console.log(req.session.usuario);
-    res.render('personalizacion_de_perfil', {
-        page: 'Personalización de perfil',
-        nombre_boton_navbar: 'Personalización de Perfil',
-        usuario: req.session.usuario,
-        archivoJS: 'function_personalizacion_perfil.js',
-    })
+    let foto;
+    const fotografiasRef = ref(storage, 'fotografias/' + req.session.usuario._id + '.img');
+                   await getBytes(fotografiasRef)
+                    .then(val => {
+                        foto =  base64ArrayBuffer.encode(val)
+                    })
+                    .catch(err => console.log(err))
+                    .finally(() => {
+                    res.render('personalizacion_de_perfil', {
+                        page: 'Personalización de perfil',
+                        nombre_boton_navbar: 'Personalización de Perfil',
+                        usuario: req.session.usuario,
+                        foto: foto,
+                        archivoJS: 'function_personalizacion_perfil.js',
+                    })
+                })
 });
 
 // Personalización de perfil route

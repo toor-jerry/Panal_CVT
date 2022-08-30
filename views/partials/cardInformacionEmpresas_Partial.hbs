@@ -4,7 +4,7 @@
         <div class="card-body">
             <h4 class="card-title texto-verde">{{ this.razonSocial }}</h4>
             {{#if this.foto}}
-            <img src="/archivos/fotografias/{{ this.foto }}" class="card-img foto-empresa" alt="Fotografía">
+            <img src="{{ foto }}" class="card-img foto-empresa" alt="Fotografía" onerror="this.src='/img/no-img.jpg';this.onerror='';">
             {{/if}}
 
             <h5>
@@ -25,7 +25,7 @@
             <div class="row">
                 <div class="col">
                     <button type="button"
-                        onclick="validarEstatus('{{this._id}}','{{this.perfilVerificado}}', 'Verificado')"
+                        onclick="validarEstatus('{{this._id}}','{{this.perfilVerificado}}', 'Verificado', '{{this.email}}')"
                         class="btn btn-success">
                         <i class="fa-solid fa-check align-middle"></i>&nbsp; Validar
                     </button>
@@ -38,7 +38,7 @@
 
                 <div class="col">
                     <button type="button"
-                        onclick="validarEstatus('{{this._id}}','{{this.perfilVerificado}}', 'Rechazado')"
+                        onclick="validarEstatus('{{this._id}}','{{this.perfilVerificado}}', 'Rechazado', '{{this.email}}')"
                         class="btn btn-danger">
                         <i class="fa-solid fa-xmark align-middle"></i>&nbsp; Rechazar
                     </button>

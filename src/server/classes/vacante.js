@@ -3,25 +3,38 @@ const VacanteModel = require('../models/vacante');
 const PostulacionModel = require('../models/postulacion');
 
 const { response500, response400, response200, response201 } = require('../utils/utils');
+const base64ArrayBuffer = require('base64-arraybuffer');
+const { storage, ref, getBytes, admin } = require('../config/firebaseConfig')
+
 
 class Vacante {
 
     static buscarPorId(id) {
 
         return new Promise((resolve, reject) => {
-        VacanteModel.findById(id)
-            .populate('empresa')
-            .lean()
-            .exec((err, vacante) => {
+            VacanteModel.findById(id)
+                .populate('empresa')
+                .lean()
+                .exec((err, vacante) => {
 
-                if (err) reject({ code: 500, err });
+                    if (err) reject({ code: 500, err });
                     if (!vacante) reject({ code: 400, err: 'No se encontró la vacante.' });
-                    return resolve({
-                        ok: true,
-                        data: vacante
+                    let idUser;
+                    if (vacante?.empresa) {
+                        idUser = vacante.empresa._id;
+
+                    }
+                    getBytes(ref(storage, 'fotografias/' + vacante.empresa._id + '.img'))
+                        .then(val => {
+                            vacante.empresa.foto = base64ArrayBuffer.encode(val)
+                        }).finally(() => {
+                            return resolve({
+                                ok: true,
+                                data: vacante
+                            });
+                        });
                 });
-                });
-            });
+        });
 
     }
 
@@ -29,27 +42,27 @@ class Vacante {
 
         return new Promise((resolve, reject) => {
             VacanteModel.find({})
-            .or([{ empresa: empresa }, {perfilCreacion: empresa}])
+                .or([{ empresa: empresa }, { perfilCreacion: empresa }])
                 .lean()
                 .sort({ 'fechaCreacion': -1 })
                 .exec((err, vacantes) => {
 
                     if (err) reject({ code: 500, err });
                     if (!vacantes) reject({ code: 400, err: 'No se encontraron vacantes.' });
-                    
+
                     VacanteModel.countDocuments({})
-                    .or([{ empresa: empresa }, {perfilCreacion: empresa}])
-                    .exec((err, count) => {
-                        
-                        if (err) reject({ code: 500, err });
-                        
-                        resolve({
-                            ok: true,
-                            data: vacantes,
-                            total: count
+                        .or([{ empresa: empresa }, { perfilCreacion: empresa }])
+                        .exec((err, count) => {
+
+                            if (err) reject({ code: 500, err });
+
+                            resolve({
+                                ok: true,
+                                data: vacantes,
+                                total: count
+                            });
                         });
-                    });
-            });
+                });
         });
     }
 
@@ -64,23 +77,37 @@ class Vacante {
 
                     if (err) reject({ code: 500, err });
                     if (!vacantes) reject({ code: 400, err: 'No se encontraron vacantes.' });
+
+                    vacantes.forEach((vacante) => {
+                        if (vacante?.empresa) {
+                            const fileRef = admin.storage().bucket('gs://' + process.env.storageBucket).file('fotografias/' + vacante.empresa._id + '.img');
+                            const dateExp = new Date()
+
+                            dateExp.setHours(dateExp.getHours() + 1);
+                            fileRef.getSignedUrl({ action: 'read', expires: dateExp }).then((res) => {
+                                vacante.empresa.foto = res
+                            })
+                        }
+                    });
                     VacanteModel.countDocuments({}, (err, count) => {
-                        
+
                         if (err) reject({ code: 500, err });
-                        
                         resolve({
                             ok: true,
                             data: vacantes,
                             total: count
                         });
                     });
-            });
+                });
         });
     }
 
     static crear(data) {
         return new Promise((resolve, reject) => {
-            let body = _.pick(data, ['puesto', 'empresa', 'salario', 'horarios', 'funciones', 'notas', 'perfilCreacion']);
+            let body = _.pick(data, ['puesto', 'empresa', 'horarios', 'funciones', 'notas', 'perfilCreacion', 'tipoVacante']);
+            if (data?.salario) {
+                body.salario = data.salario;
+            }
             let vacante = new VacanteModel(body);
             vacante.save((err, vacanteCreada) => {
                 if (err) reject({ code: 500, err });
@@ -95,21 +122,21 @@ class Vacante {
     // Eliminar vacante
     static eliminar(idVacante, empresa) {
         return new Promise((resolve, reject) => {
-        VacanteModel.findOneAndRemove({ _id: idVacante, empresa: empresa }, (err, vacanteEliminada) => {
+            VacanteModel.findOneAndRemove({ _id: idVacante, empresa: empresa }, (err, vacanteEliminada) => {
 
-            if (err) reject({ code: 500, err });
-            if (!vacanteEliminada) reject({ code: 400, err: 'No se pudo eliminar la vacante.' });
+                if (err) reject({ code: 500, err });
+                if (!vacanteEliminada) reject({ code: 400, err: 'No se pudo eliminar la vacante.' });
 
-            PostulacionModel.deleteMany({ vacante: idVacante }, (err, result) => {
-            if (err) reject({ code: 500, err: 'No se pudieron borrar las postulaciones ligadas a esta vacante.' });
-            
-                resolve({
-                    ok: true,
-                    data: vacanteEliminada,
-                    totalDeleted: result.deletedCount
+                PostulacionModel.deleteMany({ vacante: idVacante }, (err, result) => {
+                    if (err) reject({ code: 500, err: 'No se pudieron borrar las postulaciones ligadas a esta vacante.' });
+
+                    resolve({
+                        ok: true,
+                        data: vacanteEliminada,
+                        totalDeleted: result.deletedCount
+                    });
                 });
             });
-        });
         });
 
     }
@@ -124,14 +151,25 @@ class Vacante {
             VacanteModel.find({}, 'puesto empresa salario horarios funciones notas fechaCreacion')
                 .lean()
                 .populate('empresa', 'razonSocial foto')
-                .or([{ 'puesto': regex },  { 'horarios': regex }, { 'funciones': regex }, { 'notas': regex }, { 'salario': salario }])
+                .or([{ 'puesto': regex }, { 'horarios': regex }, { 'funciones': regex }, { 'notas': regex }, { 'salario': salario }])
                 //.skip(from)
                 //.limit(limit)
                 .exec((err, vacantes) => {
                     if (err)
                         return reject(`No se pudo buscar '${regex}' en vacantes, ${err}.`);
-                        VacanteModel.countDocuments({})
-                        .or([{ 'puesto': regex },  { 'horarios': regex }, { 'funciones': regex }, { 'notas': regex }, { 'salario': salario }])
+                    vacantes.forEach((vacante) => {
+                        if (vacante?.empresa) {
+                            const fileRef = admin.storage().bucket('gs://' + process.env.storageBucket).file('fotografias/' + vacante.empresa._id + '.img');
+                            const dateExp = new Date()
+
+                            dateExp.setHours(dateExp.getHours() + 1);
+                            fileRef.getSignedUrl({ action: 'read', expires: dateExp }).then((res) => {
+                                vacante.empresa.foto = res
+                            })
+                        }
+                    });
+                    VacanteModel.countDocuments({})
+                        .or([{ 'puesto': regex }, { 'horarios': regex }, { 'funciones': regex }, { 'notas': regex }, { 'salario': salario }])
                         .exec((err, total) => {
                             if (err)
                                 return reject(`No se pudo buscar '${regex}' en vacantes, ${err}.`);

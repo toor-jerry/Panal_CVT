@@ -3,7 +3,7 @@
     <div class="card-body">
         <h4 class="card-title texto-oscuro">{{ this.usuario.nombre }} {{this.usuario.apellidos}}</h4>
         {{#if this.usuario.foto}}
-        <img src="/archivos/fotografias/{{ this.usuario.foto }}" class="card-img foto-empresa" alt="Fotografía">
+        <img src="{{ this.usuario.foto }}" class="card-img foto-empresa" alt="Fotografía" onerror="this.src='/img/no-img.jpg';this.onerror='';">
         {{/if}}
 
         <h5 class="font-weight-bold mt-3">

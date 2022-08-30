@@ -20,6 +20,17 @@
     <!-- Fila -->
     <div class="form-row">
         <div class="form-group col">
+            <label class="form-control-lg">Tipo de vacante:</label>
+                                    <select id="tipoLaboralSelect" class="form-control form-control-lg">
+                                    <option value="Laboral" selected>Laboral</option>
+                                    <option value="Practicas profesionales">Prácticas profesionales</option>
+                                    <option value="Servicio social">Servicio social</option>
+                                </select>
+                                </div>
+                            </div>
+    <div class="form-row">
+        <div class="form-group col">
+            
             <!-- Puesto -->
             <label class="form-control-lg">Puesto</label>
                 <input type="text" id="inputPuesto" class="form-control form-control-user"
@@ -44,11 +55,11 @@
     </div>
     <!-- Fila -->
     <div class="form-row">
-        <div class="form-group  col">
+        <div id="salarioInput" class="form-group  col">
             <!-- Salario -->
             <label class="form-control-lg">Salario $</label>
                 <input type="number" id="inputSalario" class="form-control form-control-user"
-                    placeholder="Monto en pesos" name="salario" required>
+                    placeholder="Monto en pesos" name="salario">
             </div>
         <div class="form-group col">
             <!-- Notas -->

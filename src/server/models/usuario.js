@@ -49,8 +49,7 @@ const usuarioSchema = new Schema({
         required: [true, "El nombre es requerido!"]
     },
     apellidos: {
-        type: String,
-        required: [false, "Los apellidos son requeridos!"]
+        type: String
     },
     email: {
         type: String,

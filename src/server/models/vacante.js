@@ -8,6 +8,11 @@ const rolesValidos = {
     message: '{VALUE} not role valid!!'
 };
 
+const vacantesValidos = {
+    values: ['Servicio social', 'Practicas profesionales', 'Laboral'],
+    message: '{VALUE} not vacante valid!!'
+};
+
 
 const vacanteSchema = new Schema({
     puesto: {
@@ -24,8 +29,7 @@ const vacanteSchema = new Schema({
         ref: 'Usuario'
     },
     salario: {
-        type: Number,
-        required: [true, "Salario es requerido!"]
+        type: Number
     },
     horarios: {
         type: String
@@ -39,6 +43,12 @@ const vacanteSchema = new Schema({
     fechaCreacion: {
         type: Date,
         default: Date.now
+    },
+    tipoVacante: {
+        type: String,
+        required: true,
+        default: "Laboral",
+        enum: vacantesValidos
     }
 });
 

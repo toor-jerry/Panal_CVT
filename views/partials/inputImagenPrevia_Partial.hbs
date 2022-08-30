@@ -1,6 +1,6 @@
 {{#if foto}}
-<img id="img-previo" class="z-depth-2 foto-perfil mx-auto" src="/archivos/fotografias/{{foto }}"
-    data-holder-rendered="true">
+<img id="img-previo" class="z-depth-2 foto-perfil mx-auto" src="data:image/*;base64,{{foto }}"
+    data-holder-rendered="true" onerror="this.src='/img/no-img.jpg';this.onerror='';">
 {{else}}
 <img id="img-previo" class="z-depth-2 foto-perfil mx-auto" src="/img/no-img.jpg" data-holder-rendered="true">
 {{/if}}

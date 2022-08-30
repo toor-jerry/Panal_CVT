@@ -1,43 +1,63 @@
-$(document).ready(function() {
+var tipoVacante = "Laboral"
+$(document).ready(function () {
     $("#buttonCrearVacante").hide();
 
+    $("#tipoLaboralSelect").change(function () {
+        if ($(this).val() == "Laboral") {
+            $("#salarioInput").show()
+        } else {
+            $("#salarioInput").hide()
+        }
+
+        tipoVacante = $(this).val()
+    })
     // onsubmit form
-    $("#form-vacante").submit(function(event) {
+    $("#form-vacante").submit(function (event) {
 
         event.preventDefault();
 
+        const idEmpresa = $('#empresasSelect').val();
+                    let rutaAPI = '/vacante';
+                    if (idEmpresa != null) {
+                        rutaAPI = `/vacante?empresaId=${idEmpresa}`;
+                    }
         showQuestion('¿Está seguro?', 'Está a punto de publicar una nueva vacante.', 'info')
-        .then((result) => {
-            if (result.value) {
-            // show alert loading
-            getLoading("Registrando la vacante...");
+            .then((result) => {
+                if (result.value) {
+                    // show alert loading
+                    getLoading("Registrando la vacante...");
 
-            const idEmpresa = $('#empresasSelect').val();
-            let rutaAPI = '/vacante';
-            if (idEmpresa != null) {
-                rutaAPI = `/vacante?empresaId=${idEmpresa}`;
-            }
-            // submit data
-            $.post(rutaAPI, { 
-                                puesto: $('#inputPuesto').val(),
-                                salario: $('#inputSalario').val(),
-                                horarios: $('#inputHorarios').val(),
-                                funciones: $('#inputFunciones').val(),
-                                notas: $('#inputNotas').val()
-                            }, function() {})
-                .done(function(res) {
+                    // put data (create user)
+                    const formData = new FormData();
+                    const xhr = new XMLHttpRequest();
+                    var puesto = $('#inputPuesto').val()
+                    formData.append('puesto', $('#inputPuesto').val());
+                    formData.append('horarios', $('#inputHorarios').val());
+                    formData.append('funciones', $('#inputFunciones').val());
+                    formData.append('notas', $('#inputNotas').val());
+                    formData.append('tipoVacante', $('#tipoLaboralSelect').val());
 
-                    obtenerToast(2000).fire({
-                            animation: true,
-                            title: `La vacante "${res.data.puesto}" ha sido creada con éxito!!`
-                        })
-                        .then(() => location.reload())
-                })
-                .fail(function(errResp) {
-                    obtenerAlertSwal(`A ocurrido un error.\n ${errResp.responseText}`, 'Error!', 'error')
-                });
-    }});
-});
+                    if (tipoVacante == "Laboral") {
+                        formData.append('salario', $('#inputSalario').val());
+                    }
+                    xhr.onreadystatechange = () => {
+
+                        if (xhr.readyState === 4) {
+                            if (xhr.status === 201 || xhr.status === 200) {
+                                obtenerToast(`La vacante "${puesto}" ha sido creada con éxito!!`, '-')
+                            } else {
+                                obtenerAlertSwal(`A ocurrido un error.\n ${xhr.response}`, 'Error!', 'error')
+                            }
+                        }
+
+                    };
+                    
+                    xhr.open('POST', rutaAPI, true);
+
+                    xhr.send(formData);
+                }
+            });
+    });
 });
 
 // Borrar vacante
@@ -52,17 +72,19 @@ function borrarVacante(vacante, nombreVacante, empresa) {
 
                 // Delete request
                 $.ajax({
-                    url: '/vacante/' + vacante+'/'+empresa,
+                    url: '/vacante/' + vacante + '/' + empresa,
                     type: 'DELETE',
-                    success: function() {
-                        obtenerAlertSwal(`La vacante '${nombreVacante}' eliminada correctamente!`,'Vacante eliminada!')
-                        .then(() => location.reload())
+                    success: function () {
+                        obtenerAlertSwal(`La vacante '${nombreVacante}' eliminada correctamente!`, 'Vacante eliminada!')
+                            .then(() => window.location.reload());
                     },
-                    error: function(errResp) {
+                    error: function (errResp) {
                         obtenerAlertSwal(`A ocurrido un error.\n ${errResp}`, 'Error!', 'error')
                     }
                 });
 
             }
         })
+
+
 }

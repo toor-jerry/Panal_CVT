@@ -1,5 +1,5 @@
-<label for="rfc" class="form-control-lg">Adjuntar {{archivoNombre}}</label>
-{{#if fechaModificacion}}
+<label for="{{carpetaFile}}" class="form-control-lg">Adjuntar {{archivoNombre}}</label>
+{{#if fechaModificacion1}}
     <h6 class="text-primary">Última modificación:
         <b id="fechaModificacion{{carpetaFile}}">{{ fechaModificacion }}</b>
     </h6>
@@ -10,7 +10,7 @@
             <b>
                 <i class="fa fa-plus text-primary" aria-hidden="true" style="font-size: 25px;"></i>
                 {{#if fechaModificacion}}
-                    Actualizar {{archivoNombre}}
+                    <b class="text-primary">Actualizar {{archivoNombre}}</b>
                 {{ else }}
                     Adjuntar {{archivoNombre}}
                 {{/if}}

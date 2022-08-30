@@ -26,6 +26,9 @@ $(document).ready(function() {
     subirArchivo(this, nombreEtiqueta = "labelINE", carpetaAGuardar = "INE");
   });
 
+  $("#inputCartaCompromisoFile").change(function () {
+    subirArchivo(this, nombreEtiqueta = "labelCartaCompromiso", carpetaAGuardar = "CartaCompromiso");
+  });
     // onsubmit modal
     $("#form-verificacion-cuenta").submit(function(event) {
         event.preventDefault();

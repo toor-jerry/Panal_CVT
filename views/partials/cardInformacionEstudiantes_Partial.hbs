@@ -3,10 +3,8 @@
     <div class="card text-center border-info mb-3">
         <div class="card-body">
             <h4 class="card-title">{{ this.nombre }}</h4>
-            {{#if this.foto}}
-            <img src="/archivos/fotografias/{{ this.foto }}" class="card-img foto-empresa" alt="Fotografía">
-            {{/if}}
-
+            <img src="{{ this.foto }}" class="card-img foto-empresa" alt="Fotografía" onerror="this.src='/img/no-img.jpg';this.onerror='';">
+          
             <h5>{{ this.titulo }}</h5>
             <p class="card-text font-weight-bold">{{ this.carrera }}</p>
             <p class="card-text text-justify">{{ this.descripcion }}</p>

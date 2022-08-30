@@ -18,6 +18,8 @@
                     <input class="d-none" type="text" id="informacionUsuarioID"
                         value="{{ informacionUsuario._id }}"></input>
                     <h2 class="font-weight-bold">{{ informacionUsuario.nombre }} {{informacionUsuario.apellidos}}</h2>
+                    <img src="{{informacionUsuario.foto}}" class="card-img foto-empresa"
+                        alt="Foto" onerror="this.src='/img/no-img.jpg';this.onerror='';">
                     <h4 class="card-title">{{ informacionUsuario.razonSocial }} {{> licenciaturas
                         licenciatura=informacionUsuario.licenciatura}}</h4>
 
@@ -43,10 +45,6 @@
                         </div>
                     </div>
 
-                    {{#if foto}}
-                    <img src="data:image/png;base64,{{foto}}" class="card-img foto-empresa"
-                        alt="Foto">
-                    {{/if}}
                     <div class="row">
                     {{#if (ifeq informacionUsuario.titulo "SI")}}
                         <div class="col"><h2><b>Titulado</b></h2></div>
@@ -123,24 +121,30 @@
                     </div>
                     <hr>
                     <div class="row">
-                        {{#if informacionUsuario.comprobantesDomicilio}}
+                        {{#if comprobantesDomicilio_Exist}}
                         <div class="col">
-                            <a target="_blank" href="/archivos/comprobantesDomicilio/{{informacionUsuario.comprobantesDomicilio}}" class="btn btn-warning btn-block texto-verde">
+                            <a target="_blank" href="{{comprobantesDomicilio}}" class="btn btn-warning btn-block texto-verde">
                             <i class="fa-solid fa-cloud-arrow-down fa-2x align-middle"></i>&nbsp; Descargar comprobante de domicilio</a>
                         </div>
                         {{/if}}
 
-                        {{#if informacionUsuario.INE}}
+                        {{#if INE_Exist}}
                         <div class="col">
-                            <a target="_blank" href="/archivos/INE/{{informacionUsuario.INE}}" class="btn btn-info btn-block texto-verde">
+                            <a target="_blank" href="{{INE}}" class="btn btn-info btn-block texto-verde">
                             <i class="fa-solid fa-cloud-arrow-down fa-2x align-middle"></i>&nbsp; Descargar Identificaión Nacional Electoral (INE)</a>
                         </div>
                         {{/if}}
-
-                        {{#if informacionUsuario.RFC}}
+                        {{#if RFC_Exist}}
                         <div class="col">
-                            <a target="_blank" href="/archivos/RFC/{{informacionUsuario.RFC}}" class="btn btn-success btn-block texto-verde">
+                            <a target="_blank" href="{{RFC}}" class="btn btn-success btn-block texto-verde">
                             <i class="fa-solid fa-cloud-arrow-down fa-2x align-middle"></i>&nbsp; Descargar Registro Federal de Contribuyentes (RFC)</a>
+                        </div>
+                        {{/if}}
+
+                        {{#if CartaCompromiso_Exist}}
+                        <div class="col">
+                            <a target="_blank" href="{{CartaCompromiso}}" class="btn btn-primary btn-block texto-verde">
+                            <i class="fa-solid fa-cloud-arrow-down fa-2x align-middle"></i>&nbsp; Descargar Carta Compromiso</a>
                         </div>
                         {{/if}}
                     </div>

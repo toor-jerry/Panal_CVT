@@ -1,5 +1,5 @@
 <select id="conveniosSelect" class="form-control form-control-lg mr-sm-2 border border-warning" id="inlineFormCustomSelect">
-                                <option value="0" {{#unless informacionUsuario }} selected{{/unless}}>Mostrar todos los convenios - {{convenios.total}}</option>
+                                <option value="0" {{#unless informacionUsuario }} selected{{/unless}}>Mostrar todas las empresas registradas - {{convenios.total}}</option>
                                 {{#each convenios.data }}
                                     <option id="{{this._id}}" value="{{this._id}}">{{this.nombre}}</option>
                                 {{/each}}

@@ -7,38 +7,44 @@ const path = require('path');
 const { response404 } = require('../utils/utils');
 const UsuarioModel = require('../models/usuario');
 const app = express();
+const { storage, ref, deleteObject, uploadString, admin, getFileRef, getBytes } = require('../config/firebaseConfig')
 
-app.get('/', checkSession, (req, res) => {
+app.get('/', checkSession, async(req, res) => {
+
     let usuario;
     var pathPdf;
     if (req.query.idUsuario) {
         usuario = req.query.idUsuario;
-        pathPdf = path.resolve(__dirname, `../../../uploads/cv/Custom_${usuario}.pdf`);
-    
-    if (fs.existsSync(pathPdf)) {
-        res.set({
-            "Content-Type": "application/pdf"
-        });
-        return res.sendFile(pathPdf);
+        await getBytes(ref(storage, 'cv/Custom_' + usuario + '.pdf')).then((response) => {
+            res.setHeader('Content-Type', 'application/pdf')
+            res.setHeader('Content-Disposition', 'attachment; filename=CV.Pdf')
+            return res.send(Buffer.from(response))
+    }).catch((error) => {
+        console.error(error);
+        generatePDFServer(res, usuario)
+    })
     }
+        else {
+            usuario =  req.session.usuario._id;
+            generatePDFServer(res, usuario)
+        }
+        
+});
+
+function generatePDFServer(res, usuario) {
+    PDF.generatePDF(usuario).then((nameFile) => {
+        pathPdf = path.resolve(__dirname, `../classes/temp/${nameFile}`);
+        res.sendFile(pathPdf, () => {
+            console.log("Limpieza, eliminado el archivo de temp: " + nameFile)
+        if (fs.existsSync(pathPdf)) {
+            fs.unlinkSync(pathPdf);
+        }
+        })
+    }).catch(err => {
+        console.log(err)
+        return response400(err)
+    })
 }
-        usuario =  req.session.usuario._id;
-        PDF.generatePDF(usuario)
-            .then(fileName => {
-                pathPdf = path.resolve(__dirname, `../../../uploads/cv/${fileName}`);
-
-                if (fs.existsSync(pathPdf)) {
-                    res.set({
-                        "Content-Type": "application/pdf"
-                    });
-                    res.sendFile(pathPdf);
-
-                } else {
-                    response404(res);
-                }
-            })
-            .catch(err => res.status(err.code).json(err.err));
-    });
 
 
 

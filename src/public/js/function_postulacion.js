@@ -35,7 +35,7 @@ function guardarDatos(idVacante) {
                 obtenerAlertSwal('Su información ha sido actualizada con éxito!')
                 .then(() => window.location.href = `/vacante/${vacanteId}`)
             } else {
-                obtenerAlertSwal(`A ocurrido un error.\n ${xhr.response}`, 'Error!', 'error')
+                obtenerAlertSwal(`A ocurrido un error.\n ${JSON.parse(xhr.response).msg}`, 'Error!', 'warning').then(() => location.href = "/perfil");
             }
         }
 

@@ -113,7 +113,7 @@ function actualizarStatusPostulacion(postulacionID, status) {
                     url: `/postulacion/actualizar/reclutar/${postulacionID}/${status}`,
                     type: 'PUT',
                     success: function() {
-                        obtenerAlertSwal('Usuario reclutado!',`Se ha reclutado al postulante con éxito, se ha enviado un correo electrónico al usuario.`)
+                        obtenerAlertSwal('Usuario "' + status + '"!',`Se ha '${status}' al postulante con éxito, se ha enviado un correo electrónico al usuario.`)
                         .then(() => location.reload());
                     },
                     error: function(errResp) {

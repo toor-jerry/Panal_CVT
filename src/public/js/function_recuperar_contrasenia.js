@@ -11,11 +11,7 @@ $(document).ready(function() {
         // submit data
         $.post("/correo/recuperarContrasenia", { email: $('#inputEmail').val() }, function() {})
             .done(function(res) {
-                obtenerToast(5000).fire({
-                        animation: true,
-                        title: `El correo de recuperación ha sido enviado con éxito al correo ${res.data}!!`
-                    })
-                    .then(() => location.href = "/")
+                obtenerToast(`El correo de recuperación ha sido enviado con éxito al correo ${res.data}!!`, "/", 5000)
             })
             .fail(function(errResp) {
                 obtenerAlertSwal(`A ocurrido un error.\n ${errResp.responseText}`, 'Error!', 'error')

@@ -125,6 +125,14 @@ class PDF {
                             break;
                         case 'ICO': licenciatura = 'Ingeniería en Computación';
                             break;
+                        case 'LCN': licenciatura = 'Licenciatura en Contaduría'; 
+                        break;
+                    case 'LPS': licenciatura = 'Licenciatura en Psicología'; 
+                        break;
+                    case 'LTU': licenciatura = 'Licenciatura en Turismo'; 
+                        break;
+                    case 'LDE': licenciatura = 'Licenciatura en Derecho'; 
+                        break;
                     }
                 }
                 const document = {
@@ -178,7 +186,7 @@ class PDF {
     }
 
     static pathResolveCV() {
-        return path.resolve(__dirname, `../../../uploads/cv/`);
+        return path.resolve(__dirname, `./temp`);
     }
 }
 

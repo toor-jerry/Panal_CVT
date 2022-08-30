@@ -9,6 +9,7 @@ const path = require('path');
 const UsuarioModel = require('../models/usuario');
 const { Subir } = require('../classes/subir'); // user class
 const { response500, response400, response200, response201 } = require('../utils/utils');
+const { getFile, admin, deleteObject} = require('../config/firebaseConfig')
 
 class Usuario {
 
@@ -39,24 +40,14 @@ class Usuario {
     // search user by id
     static findById(id) {
         return new Promise((resolve, reject) => {
-
+            if (!id) return reject({ msg: `No id.`, code: 400 });
             UsuarioModel.findById(id)
                 .lean()
                 .exec((err, user) => {
 
-                    if (err) reject({ msg: `No se pudo encontrar el usuario.`, err, code: 500 });
-                    if (!user) reject({ msg: `Usuario no encontrado.`, code: 400 });
-
-                    if (Usuario.existeArchivo(user._id, "comprobantesDomicilio")) {
-                        user = _.extend(user, {comprobantesDomicilio: `${user._id}.pdf`});
-                    }
-                    if (Usuario.existeArchivo(user._id, "INE")) {
-                        user = _.extend(user, {INE: `${user._id}.pdf`});
-                    }
-
-                    if (Usuario.existeArchivo(user._id, "RFC")) {
-                        user = _.extend(user, {RFC: `${user._id}.pdf`});
-                    }
+                    if (err) return reject({ msg: `No se pudo encontrar el usuario.`, err, code: 500 });
+                    if (!user) return reject({ msg: `Usuario no encontrado.`, code: 400 });
+                        getFile('fotografias', id, '.img').then((res) => user.foto = res)
 
                     resolve({ data: user });
 
@@ -74,11 +65,21 @@ class Usuario {
                 .lean()
                 .exec((err, empresas) => {
 
-                    if (err) reject({ msg: `No se pudo buscar las empresas.`, err, code: 500 });
+                    if (err) return reject({ msg: `No se pudo buscar las empresas.`, err, code: 500 });
+
+                    empresas.forEach((empresa) => {
+                        const fileRef = admin.storage().bucket('gs://' + process.env.storageBucket).file('fotografias/' + empresa._id + '.img');
+                        const dateExp = new Date()
+                        
+                            dateExp.setHours(dateExp.getHours() + 1);
+                            fileRef.getSignedUrl({action: 'read', expires: dateExp}).then((res) => {
+                                empresa.foto = res
+                            })
+                    });
 
                     UsuarioModel.countDocuments({ userRole: 'USER_ENTERPRISE' }, (err, count) => {
-
-                        if (err) reject({ msg: `No se pudo contar las empresas.`, err, code: 500 })
+                        
+                        if (err) return reject({ msg: `No se pudo contar las empresas.`, err, code: 500 })
                         resolve({
                             ok: true,
                             data: empresas,
@@ -104,7 +105,15 @@ class Usuario {
                     if (err) reject({ msg: `No se pudo buscar los estudiantes.`, err, code: 500 });
 
                     UsuarioModel.countDocuments({ userRole: 'USER_PERSONAL' }, (err, count) => {
-
+                        estudiantes.forEach((estudiante) => {
+                            const fileRef = admin.storage().bucket('gs://' + process.env.storageBucket).file('fotografias/' + estudiante._id + '.img');
+                            const dateExp = new Date()
+                            
+                                dateExp.setHours(dateExp.getHours() + 1);
+                                fileRef.getSignedUrl({action: 'read', expires: dateExp}).then((res) => {
+                                    estudiante.foto = res
+                                })
+                        });
                         if (err) reject({ msg: `No se pudo contar los estudiantes.`, err, code: 500 })
                         resolve({
                             ok: true,
@@ -123,7 +132,7 @@ class Usuario {
     static buscaTodasLasEmpresas() {
 
         return new Promise((resolve, reject) => {
-            UsuarioModel.find({ userRole: 'USER_ENTERPRISE' })
+            UsuarioModel.find({ userRole: 'USER_ENTERPRISE' }, 'nombre email numeroContacto nombreContacto cargoContacto ubicacion sectorEmpresarial rfc direccion descripcion razonSocial perfilVerificado')
                 .lean()
                 .exec((err, empresas) => {
 
@@ -141,7 +150,7 @@ class Usuario {
     // Busca empresas
     static buscaTodosLosEstudiantes() {
         return new Promise((resolve, reject) => {
-            UsuarioModel.find({ userRole: 'USER_PERSONAL' })
+            UsuarioModel.find({ userRole: 'USER_PERSONAL' }, 'nombre apellidos email numeroContacto direccion descripcion edad genero progreso experienciaLaboral licenciatura fechaNacimientoDia fechaNacimientoMes fechaNacimientoAnio perfilVerificado matricula anio_egreso titulo cedula')
                 .lean()
                 .exec((err, users) => {
 
@@ -171,19 +180,15 @@ class Usuario {
                     // data definiticion
                     let body = {
                         nombre: data?.nombre || "",
-                        apellidos: data?.apellidos || "",
-                        matricula: data?.matricula,
+                        apellidos: data?.apellidos,
                         email: data.email,
                         password: bcrypt.hashSync(data.password, 10), // encrypt password
                         userRole: data.role,
-                        numeroContacto: data?.numeroContacto || "",
-                        rfc: data?.rfc || "",
-                        direccion: data?.direccion || "",
-                        descripcion: data?.descripcion || "",
+                        numeroContacto: data?.numeroContacto,
+                        rfc: data?.rfc,
+                        direccion: data?.direccion,
+                        descripcion: data?.descripcion,
                     };
-                    if (data?.razonSocial) {
-                        body.razonSocial = data.razonSocial;
-                    }
                     console.log(data)
                     // new model of user
                     let usuario = new UsuarioModel(body);
@@ -209,16 +214,9 @@ class Usuario {
                         const extensionImagen = splitName[splitName.length - 1];
                     
                     
-                        const nameFile =  `${usuarioNuevo._id}.${extensionImagen}`;
-                    
-                        // Move file
-                        const path = obtenerRutaDeCargaArchivos("fotografias", nameFile);
-                        // Size file
-                        let redimension = false;
-                        if (file.size > 900000) {
-                            redimension = true;
-                        } 
-                        Subir.subirFotografia(usuarioNuevo._id, file.data, nameFile, redimension)
+                        const nameFile =  `${usuarioNuevo._id}`;
+                        
+                        Subir.subirFotografia(file.data, nameFile, '.img')
                         .catch((err) => console.log(err))
                     }
                         resolve({
@@ -300,7 +298,6 @@ class Usuario {
         return new Promise((resolve, reject) => {
             if (!id) return reject({ msg: 'Petición incorrecta!, falta id de usuario.', code: 400 });
             if (!data) return reject({ msg: 'No data', code: 400 });
-
             // find user
             UsuarioModel.findById(id, (err, userDB) => {
 
@@ -420,18 +417,21 @@ class Usuario {
 
                 // Todos las posibles rutas que tenga el usuario
                 let paths = [];
-                paths.push(obtenerRutaDeCargaArchivos('comprobantesDomicilio', `${userId}.pdf`));
-                paths.push(obtenerRutaDeCargaArchivos('cv', `${userId}.pdf`));
-                paths.push(obtenerRutaDeCargaArchivos('cv', `Custom_${userId}.pdf`));
-                paths.push(obtenerRutaDeCargaArchivos('fotografias', userDB.foto));
-                paths.push(obtenerRutaDeCargaArchivos('INE', `${userId}.pdf`));
-                paths.push(obtenerRutaDeCargaArchivos('RFC', `${userId}.pdf`));
+                paths.push(`comprobantesDomicilio/${userId}.pdf`);
+                paths.push(`cv/${userId}.pdf`);
+                paths.push(`cv/Custom_${userId}.pdf`);
+                paths.push(`fotografias/${userId.pdf}`);
+                paths.push(`INE/${userId}.pdf`);
+                paths.push(`RFC/${userId}.pdf`);
+                paths.push(`CartaCompromiso/${userId}.pdf`);
                 
                 paths.forEach(path => {
                     // Eliminar archivos
-                if (fs.existsSync(path)) {
-                    fs.unlinkSync(path);
-                }
+                    deleteObject(ref(storage, path)).then(() => {
+                        console.log("File deleted successfully")
+                    }).catch((error) => {
+                        console.log(error)
+                    });
             });
 
                 resolve(userDB);

@@ -10,18 +10,11 @@ const { Notificacion } = require('../classes/notificacion'); // Vacante class
 const { checkSession, checkAdminRole, checkSuperRole, checkEnterpriseRole  } = require('../middlewares/auth');
 const base64ArrayBuffer = require('base64-arraybuffer');
 const { storage, ref, getBytes} = require('../config/firebaseConfig')
+const { getFile, existeFile, getFileRef} = require('../config/firebaseConfig')
 // Tipo de registro route
 app.get('/', checkSession, async(req, res) => {
     const idUsuario = req.session.usuario._id;
     const limitNotificaciones = req.query.limitNotificaciones || 10;
-   const fotografiasRef = ref(storage, 'fotografias/' + idUsuario + '.img');
-    let foto;
-    await getBytes(fotografiasRef)
-        .then(val => {
-            foto =  base64ArrayBuffer.encode(val)
-            console.console.log(foto);
-            })
-        .catch(err => console.log(err))
         await Promise.all([
         Usuario.findById(idUsuario),
         Vacante.encontrarTodas(),
@@ -30,7 +23,6 @@ app.get('/', checkSession, async(req, res) => {
         Notificacion.buscarPorUsuario(idUsuario, limitNotificaciones),
     ])
     .then(responses =>{
-        
         res.render('mi_perfil', {
             page: 'Mi Perfil',
             nombre_boton_navbar: 'Mi Perfil',
@@ -42,8 +34,6 @@ app.get('/', checkSession, async(req, res) => {
             convenios:{ data: responses[2].data, total: responses[2].total },
             postulaciones: { data: responses[3].data, total: responses[3].total },
             notificaciones: { data: responses[4].data, total: responses[4].total },
-            foto: foto,
-
             archivoJS: 'function_perfil.js'})
 }).catch(err => res.status(500).json(err))
     
@@ -64,7 +54,7 @@ app.get('/informacion/:idUsuario', checkSession, async(req, res) => {
     } else {
         rutaRegreso = '/perfil';
     }
-
+    
     res.render('informacion_usuario', {
         page: 'Mi Perfil',
         nombre_boton_navbar: 'Información de empresa',
@@ -79,6 +69,14 @@ app.get('/informacion/:idUsuario', checkSession, async(req, res) => {
             informacionUsuario: await Usuario.findById(idUsuario)
             .then(resp => resp.data)
             .catch(err => res.status(err.code).json({ msg: err.msg, err: err.err })),
+            RFC_Exist: await existeFile('RFC', idUsuario, '.pdf').then((res)=> res[0]),
+                 RFC: await getFile('RFC', idUsuario, '.pdf').then(resURL=> { return resURL}),
+                 INE_Exist: await existeFile('INE', idUsuario, '.pdf').then((res)=> res[0]),
+                 INE: await getFile('INE', idUsuario, '.pdf').then(resURL=> { return resURL}),
+                 comprobantesDomicilio_EXIST: await existeFile('comprobantesDomicilio', idUsuario, '.pdf').then((res)=> res[0]),
+                 comprobantesDomicilio: await getFile('comprobantesDomicilio', idUsuario, '.pdf').then(resURL=> { return resURL}),
+                 CartaCompromiso_EXIST: await existeFile('CartaCompromiso', idUsuario, '.pdf').then((res)=> res[0]),
+                 CartaCompromiso: await getFile('CartaCompromiso', idUsuario, '.pdf').then(resURL=> { return resURL}),
 
         convenios: await Usuario.buscaTodasLasEmpresas()
         .then(resp =>{return { data: resp.data, total: resp.total}})
@@ -102,7 +100,8 @@ app.get('/sistemas', [checkSession, checkSuperRole], async(req, res) => {
         usuarios: await Usuario.findAll()
         .then(resp =>resp.data)
             .catch(() => {}),
-
+            notificaciones:  await Notificacion.buscarPorUsuario(req.session.usuario._id, 10)
+            .then(resp =>{return { data: resp.data, total: resp.total}}),
         archivoJS: 'function_perfil_sistemas.js'
     })
 });
@@ -122,7 +121,8 @@ app.get('/empresarial/:indice', [checkSession, checkEnterpriseRole], async(req, 
         solicitantes: await Postulacion.buscarTodasLasPostulacionesPorEmpresa(req.session.usuario._id)
         .then(resp =>{return { data: resp.data, total: resp.total}})
             .catch(() => {}),
-
+            notificaciones:  await Notificacion.buscarPorUsuario(req.session.usuario._id, 10)
+            .then(resp =>{return { data: resp.data, total: resp.total}}),
         archivoJS: 'function_perfil.js'
     })
 });
@@ -148,7 +148,8 @@ app.get('/administrativo/:indice_formularios/:indice_empresas', [checkSession, c
         empresas:  await Usuario.buscaEmpresas(no_pagina_empresas, 10)
             .then(resp =>{return { data: resp.data, total: resp.total, paginas: resp.paginas}})
             .catch(() => {}),
-
+            notificaciones:  await Notificacion.buscarPorUsuario(req.session.usuario._id, 10)
+            .then(resp =>{return { data: resp.data, total: resp.total}}),
         archivoJS: 'function_perfil_administrativo.js'
     })
 });
@@ -164,21 +165,37 @@ function obtenerFechaUltimaModificacionArchivo(carpeta, idUsuario) {
 }
 
 // Verificación de perfil route
-app.get('/verificacion_cuenta', checkSession, async(req, res) => {
+app.get('/verificacion_cuenta', checkSession, async(req, resp) => {
     let usuarioId = req.session.usuario._id;
-    res.render('verificacion_cuenta', {
+    resp.render('verificacion_cuenta', {
         page: 'Verificar cuenta',
         nombre_boton_navbar: 'Verificación de Cuenta',
         mostrar_boton_regreso: true,
         direccion_link_boton_navbar: '/perfil/empresarial/1',
 
-        fechaModificacionRFC: obtenerFechaUltimaModificacionArchivo("RFC", usuarioId),
-        fechaModificacionComprobante: obtenerFechaUltimaModificacionArchivo("comprobantesDomicilio", usuarioId),
-        fechaModificacionINE: obtenerFechaUltimaModificacionArchivo("INE", usuarioId),
-
+        fechaModificacionRFC:  await existeFile('RFC', usuarioId, '.pdf').then(response => {
+                if (response[0]) {
+                    return true
+                }
+        }),
+        fechaModificacionComprobante: await existeFile('comprobantesDomicilio', usuarioId, '.pdf').then(response => {
+            if (response[0]) {
+                return true
+            }
+    }),
+        fechaModificacionINE: await existeFile('INE', usuarioId, '.pdf').then(response => {
+            if (response[0]) {
+                return true
+            }
+    }),
+    fechaModificacionCartaCompromiso: await existeFile('CartaCompromiso', usuarioId, '.pdf').then(response => {
+        if (response[0]) {
+            return true
+        }
+}),
         empresa: await Usuario.findById(usuarioId)
-        .then(resp => resp.data)
-        .catch(err => res.status(err.code).json({ msg: err.msg, err: err.err })),
+        .then(respuesta => respuesta.data)
+        .catch(err => resp.status(err.code).json({ msg: err.msg, err: err.err })),
 
         archivoJS: 'function_verificacion_perfil.js'
     })

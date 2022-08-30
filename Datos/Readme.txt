@@ -18,3 +18,7 @@ https://myaccount.google.com/apppasswords?rapt=AEjHL4PvONfNoM-p0puHq0DSFJ7ukiq1G
 
 Solucion a auth de firebase:
 https://stackoverflow.com/questions/37344066/firebase-this-domain-is-not-authorized
+
+keyFirebase : 
+es el json dado de 
+https://console.firebase.google.com/project/panal-6aa84/settings/serviceaccounts/adminsdk?hl=es
