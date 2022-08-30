@@ -20,7 +20,7 @@ app.get('/', checkSession, async(req, res) => {
             res.setHeader('Content-Disposition', 'attachment; filename=CV.Pdf')
             return res.send(Buffer.from(response))
     }).catch((error) => {
-        console.error(error);
+        console.log("No encontrado");
         usuario = req.query.idUsuario;
         generatePDFServer(res, usuario)
     })
@@ -32,7 +32,7 @@ app.get('/', checkSession, async(req, res) => {
                 res.setHeader('Content-Disposition', 'attachment; filename=CV.Pdf')
                 return res.send(Buffer.from(response))
         }).catch((error) => {
-            
+            console.log("no encontrado")
             generatePDFServer(res, usuario)
         });
         }
