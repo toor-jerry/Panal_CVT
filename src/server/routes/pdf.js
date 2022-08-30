@@ -21,13 +21,20 @@ app.get('/', checkSession, async(req, res) => {
             return res.send(Buffer.from(response))
     }).catch((error) => {
         console.error(error);
-        usuario =  req.session.usuario._id;
+        usuario = req.query.idUsuario;
         generatePDFServer(res, usuario)
     })
     }
         else {
             usuario =  req.session.usuario._id;
+            await getBytes(ref(storage, 'cv/Custom_' + usuario + '.pdf')).then((response) => {
+                res.setHeader('Content-Type', 'application/pdf')
+                res.setHeader('Content-Disposition', 'attachment; filename=CV.Pdf')
+                return res.send(Buffer.from(response))
+        }).catch((error) => {
+            
             generatePDFServer(res, usuario)
+        });
         }
         
 });
