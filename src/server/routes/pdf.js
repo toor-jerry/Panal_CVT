@@ -51,7 +51,7 @@ function generatePDFServer(res, usuario) {
         })
     }).catch(err => {
         console.log("No se pudo generar")
-        return response400(err)
+        return response404(err)
     })
 }
 
