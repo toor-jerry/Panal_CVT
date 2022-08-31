@@ -43,14 +43,14 @@
 {{#if usuario.curriculoPdf}}
 <div class="row mb-3">
     <div class="col col-lg-8 mx-auto">
-        <a target="_blank" href="/archivos/cv/{{usuario._id}}/.pdf" class="btn btn-warning btn-block">Descargar mi
-            CV</a>
+        <button type="button" onclick="obtenerCV('{{usuario._id}}')" class="btn btn-warning btn-block">Descargar mi
+            CV</button>
     </div>
 </div>
 {{/if}}
 
 <div class="row">
     <div class="col col-lg-8 mx-auto">
-        <a target="_blank" href="/pdf" class="btn btn-warning btn-block">Generar mi CV</a>
+        <button type="button" onclick="obtenerCV('{{usuario._id}}')" class="btn btn-warning btn-block">Generar mi CV</button>
     </div>
 </div>

@@ -101,6 +101,31 @@ $(document).ready(function () {
     });
 });
 
+function obtenerCV(usuario) {
+    // show alert loading
+    getLoading("Loading..", "Por favor espere.");
+    // submit data
+    const xhr = new XMLHttpRequest();
+
+
+    xhr.onreadystatechange = () => {
+
+        if (xhr.readyState === 4) {
+            if (xhr.status === 201 || xhr.status === 200) {
+
+                obtenerAlertSwal('Se ha obtenido con éxito su CV')
+                    .then(() => window.open(JSON.parse(xhr.responseText).msg, '_blank'))
+            } else {
+                obtenerAlertSwal(`A ocurrido un error.\n ${xhr.response}`, 'Error!', 'error')
+            }
+        }
+
+    };
+    xhr.open('GET', '/pdf', true);
+
+    xhr.send();
+}
+
 function marcarNotificacionesComoLeidas(notificacionesTotal) {
     // show alert loading
     getLoading("Loading..", "Por favor espere.");

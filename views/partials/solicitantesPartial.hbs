@@ -66,9 +66,8 @@
             </div>
 
             <div class="col">
-                <a href="/pdf?idUsuario={{this.usuario._id}}" target="_blank" class="btn btn-warning btn-lg"><i class="fa fa-file-arrow-down" aria-hidden="true"></i> Descargar CV</a>
+                <button type="button" onclick="obtenerCV('{{this.usuario._id}}')" class="btn btn-warning btn-lg"><i class="fa fa-file-arrow-down" aria-hidden="true"></i> Descargar CV</button>
             </div>
-        </div>
     </div>
 </div>
 {{/each}}

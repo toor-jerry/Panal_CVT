@@ -4,18 +4,33 @@ const { checkSession } = require('../middlewares/auth');
 const { PDF } = require('../classes/pdf');
 const fs = require('fs');
 const path = require('path');
-const { response404 } = require('../utils/utils');
+const { response404, response200 } = require('../utils/utils');
 const UsuarioModel = require('../models/usuario');
 const app = express();
-const { storage, ref, deleteObject, uploadString, admin, getFileRef, getBytes } = require('../config/firebaseConfig')
+const https = require('https');
+const axios = require('axios');
+const download = require('downloadjs');
+const { writeFile } = require('fs/promises');
+const { storage, ref, deleteObject, uploadString, admin, getFileRef, getBytes, existeFile, getFile } = require('../config/firebaseConfig');
+const { response } = require('express');
+const console = require('console');
+const PDFExtract = require('pdf.js-extract').PDFExtract;
 
 app.get('/', checkSession, async(req, res) => {
 
     let usuario;
-    var pathPdf;
+    
     if (req.query.idUsuario) {
         usuario = req.query.idUsuario;
-        await getBytes(ref(storage, 'cv/Custom_' + usuario + '.pdf')).then((response) => {
+        await existeFile('cv', usuario, '.pdf').then((response)=> {
+            if (res[0]) {
+                getFile('cv', usuario, '.pdf').then((resUrl) => {
+                    return res.status(200).json({ url: resUrl });
+                }).catch((err) => console.log('No pdf'))
+            }
+            return res.status(200).json({ url: "https://panalcuvt.000webhostapp.com/" });
+        })
+        /*await getBytes(ref(storage, 'cv/Custom_' + usuario + '.pdf')).then((response) => {
             
             if (response) {
             res.setHeader('Content-Type', 'application/pdf')
@@ -27,11 +42,20 @@ app.get('/', checkSession, async(req, res) => {
     }).catch((error) => {
         console.log("No encontrado");
         generatePDFServer(res, usuario)
-    })
+    })*/
     }
         else {
             usuario =  req.session.usuario._id;
-            await getBytes(ref(storage, 'cv/Custom_' + usuario + '.pdf')).then((response) => {
+                        
+            await existeFile('cv', usuario, '.pdf').then((response)=> {
+                if (res[0]) {
+                    getFile('cv', usuario, '.pdf').then((resUrl) => {
+                        return res.status(200).json({ url: resUrl });
+                    }).catch((err) => console.log('No pdf'))
+                }
+                return res.status(200).json({ msg: "https://panalcuvt.000webhostapp.com/" });
+            })
+            /*await getBytes(ref(storage, 'cv/Custom_' + usuario + '.pdf')).then((response) => {
                 console.log(response)
                 if (response) {
                 res.setHeader('Content-Type', 'application/pdf')
@@ -39,15 +63,23 @@ app.get('/', checkSession, async(req, res) => {
                 return res.send(Buffer.from(response))
                 }
         }).catch((error) => {
-            console.log("no encontrado")
-            generatePDFServer(res, usuario)
-        });
+            axios.get(
+                "https://panalcuvt.000webhostapp.com/"
+              ).then((response) => {
+                //res.setHeader('Content-Type', 'application/pdf')
+                //res.setHeader('Content-Disposition', 'attachment; filename=CV.Pdf')
+                console.log(response.data)
+                res.send(response.data)
+                //res.send(response)
+              })
+            //generatePDFServer(res, usuario)
+        });*/
         }
         
 });
 
 function generatePDFServer(res, usuario) {
-    PDF.generatePDF(usuario).then((nameFile) => {
+    /*PDF.generatePDF(usuario).then((nameFile) => {
         pathPdf = path.resolve(__dirname, `../classes/temp/${nameFile}`);
         res.sendFile(pathPdf, () => {
             console.log("Limpieza, eliminado el archivo de temp: " + nameFile)
@@ -60,7 +92,7 @@ function generatePDFServer(res, usuario) {
     }).catch(err => {
         console.log("No se pudo generar")
         return response404(err)
-    })
+    })*/
 }
 
 
