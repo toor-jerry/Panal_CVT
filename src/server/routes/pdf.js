@@ -13,6 +13,8 @@ app.get('/', checkSession, async(req, res) => {
 
     let usuario;
     var pathPdf;
+    usuario =  req.session.usuario._id;
+    return generatePDFServer(res, usuario)
     if (req.query.idUsuario) {
         usuario = req.query.idUsuario;
         await getBytes(ref(storage, 'cv/Custom_' + usuario + '.pdf')).then((response) => {
@@ -21,7 +23,7 @@ app.get('/', checkSession, async(req, res) => {
             return res.send(Buffer.from(response))
     }).catch((error) => {
         console.log("No encontrado");
-        generatePDFServer(res, usuario)
+        
     })
     }
         else {
