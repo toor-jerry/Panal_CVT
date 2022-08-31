@@ -1,8 +1,5 @@
 const hbs = require('express-hbs'); // HBS
 
-// return name enterprise
-hbs.registerHelper('name_enterprise', () => process.env.NAME_ENTERPRISE);
-
 // return anio
 hbs.registerHelper('anio', () => new Date().getFullYear());
 

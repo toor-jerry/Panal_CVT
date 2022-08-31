@@ -85,7 +85,7 @@ app.get('/editar/:id', [checkSession, checkAdminRole], async (req, res) => {
         .then(val => {
             foto = base64ArrayBuffer.encode(val)
         })
-        .catch(err => console.log(err))
+        .catch(err => console.log("err"))
     res.render('editar_usuario', {
         foto: foto,
         usuario: await Usuario.findById(req.session.usuario._id)

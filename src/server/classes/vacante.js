@@ -86,7 +86,7 @@ class Vacante {
                             dateExp.setHours(dateExp.getHours() + 1);
                             fileRef.getSignedUrl({ action: 'read', expires: dateExp }).then((res) => {
                                 vacante.empresa.foto = res
-                            })
+                            }).catch((err) => { console.log("Error")});
                         }
                     });
                     VacanteModel.countDocuments({}, (err, count) => {
@@ -165,7 +165,7 @@ class Vacante {
                             dateExp.setHours(dateExp.getHours() + 1);
                             fileRef.getSignedUrl({ action: 'read', expires: dateExp }).then((res) => {
                                 vacante.empresa.foto = res
-                            })
+                            }).catch((err) => { console.log("Error")});
                         }
                     });
                     VacanteModel.countDocuments({})

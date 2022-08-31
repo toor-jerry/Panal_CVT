@@ -47,7 +47,7 @@ app.get('/personalizacion_de_perfil', checkSession, async(req, res) => {
                     .then(val => {
                         foto =  base64ArrayBuffer.encode(val)
                     })
-                    .catch(err => console.log(err))
+                    .catch(err => console.log("err"))
                     .finally(() => {
                     res.render('personalizacion_de_perfil', {
                         page: 'Personalización de perfil',

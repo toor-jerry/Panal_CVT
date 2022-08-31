@@ -28,7 +28,7 @@ class Postulacion {
                         dateExp.setHours(dateExp.getHours() + 1);
                         fileRef.getSignedUrl({action: 'read', expires: dateExp}).then((res) => {
                             postulacion.usuario.foto = res
-                        })
+                        }).catch((err) => { console.log("no hay foto")});
                     }
                 });
 
@@ -67,7 +67,7 @@ class Postulacion {
                         dateExp.setHours(dateExp.getHours() + 1);
                         fileRef.getSignedUrl({action: 'read', expires: dateExp}).then((res) => {
                             postulacion.usuario.foto = res
-                        })
+                        }).catch((err) => { console.log("Error")});
                     }
                 });
                 PostulacionModel.countDocuments({})

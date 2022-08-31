@@ -75,7 +75,7 @@ class Usuario {
                             dateExp.setHours(dateExp.getHours() + 1);
                             fileRef.getSignedUrl({action: 'read', expires: dateExp}).then((res) => {
                                 empresa.foto = res
-                            })
+                            }).catch((err) => { console.log("Error")});
                     });
 
                     UsuarioModel.countDocuments({ userRole: 'USER_ENTERPRISE' }, (err, count) => {
@@ -113,7 +113,7 @@ class Usuario {
                                 dateExp.setHours(dateExp.getHours() + 1);
                                 fileRef.getSignedUrl({action: 'read', expires: dateExp}).then((res) => {
                                     estudiante.foto = res
-                                })
+                                }).catch((err) => { console.log("Error")});
                         });
                         if (err) reject({ msg: `No se pudo contar los estudiantes.`, err, code: 500 })
                         resolve({
@@ -431,7 +431,7 @@ class Usuario {
                     deleteObject(ref(storage, path)).then(() => {
                         console.log("File deleted successfully")
                     }).catch((error) => {
-                        console.log(error)
+                        console.log("error")
                     });
             });
 

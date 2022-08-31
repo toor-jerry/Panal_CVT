@@ -64,7 +64,7 @@ class Subir {
                             deleteObject(fotografiasRef).then(() => {
                                 console.log("File deleted successfully")
                             }).catch((error) => {
-                                console.log(error)
+                                console.log("error")
                             });
                             getFileRef('fotografias', idUsuario, extension).save(data).then(() => {
                                 console.log("Foto subida con éxito")
