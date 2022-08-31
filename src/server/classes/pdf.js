@@ -78,7 +78,7 @@ class PDF {
                 const options = {
                     format: "A4",
                     orientation: "portrait",
-                    phantomPath: '../../../node_modules/phantomjs-prebuilt/bin/phantomjs',
+                    phantomPath: path.resolve(__dirname, `../../../node_modules/phantomjs-prebuilt/bin/phantomjs`),
                     border: "10mm",
                     header: {
                         height: "18mm",
