@@ -47,9 +47,10 @@ class Usuario {
 
                     if (err) return reject({ msg: `No se pudo encontrar el usuario.`, err, code: 500 });
                     if (!user) return reject({ msg: `Usuario no encontrado.`, code: 400 });
-                        getFile('fotografias', id, '.img').then((res) => user.foto = res)
-
-                    resolve({ data: user });
+                        getFile('fotografias', id, '.img').then((res) => user.foto = res).catch((err) => console.log('No image'))
+                        .finally(() => {
+                            resolve({ data: user });
+                        });
 
                 });
         });
