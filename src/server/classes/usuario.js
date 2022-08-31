@@ -409,7 +409,7 @@ class Usuario {
                         PostulacionModel.deleteMany({})
                         .or([{ empresa: userId }, { usuario: userId }])
                         .exec((err) => console.log(err));
-                        PostulacionModel.deleteMany({ empresa: userId })
+                        VacanteModel.deleteMany({ empresa: userId })
                         .exec((err) => console.log(err));
 
                 } catch (err) {
