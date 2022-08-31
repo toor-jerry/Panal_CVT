@@ -32,6 +32,7 @@
         "nodemailer": "^6.7.8",
         "pdf-creator-node": "^2.3.5",
         "pdfkit": "^0.13.0",
+        "phantomjs": "^2.1.7",
         "sharp": "^0.30.7",
         "socket.io": "^4.5.1",
         "underscore": "^1.13.4",
