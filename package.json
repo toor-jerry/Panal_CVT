@@ -4,7 +4,7 @@
     "description": "Axapusco Dating Site",
     "main": "index.js",
     "scripts": {
-        "start": "npm i --force && node src/server/app.js",
+        "start": "node src/server/app.js",
         "test": "nodemon src/server/app.js"
     },
     "author": "",
