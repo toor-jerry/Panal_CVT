@@ -78,7 +78,6 @@ class PDF {
                 const options = {
                     format: "A4",
                     orientation: "portrait",
-                    phantomPath: path.resolve(__dirname, `../../../node_modules/phantomjs-prebuilt/bin/phantomjs`),
                     border: "10mm",
                     header: {
                         height: "18mm",
@@ -176,7 +175,7 @@ class PDF {
                 console.log(path.resolve(__dirname, `../../../node_modules/phantomjs-prebuilt/bin/phantomjs`))
                 pdf.create(document, options).then(res => {
                     console.log(res)
-                    resolve(nameFile);
+                    resolve(`${user._id}.pdf`);
                 }).catch(error => {
                     console.error("No se pudo escribir" + error)
                     reject({code: 500, err});

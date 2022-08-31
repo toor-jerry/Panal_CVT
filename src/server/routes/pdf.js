@@ -16,6 +16,7 @@ app.get('/', checkSession, async(req, res) => {
     if (req.query.idUsuario) {
         usuario = req.query.idUsuario;
         await getBytes(ref(storage, 'cv/Custom_' + usuario + '.pdf')).then((response) => {
+            
             if (response) {
             res.setHeader('Content-Type', 'application/pdf')
             res.setHeader('Content-Disposition', 'attachment; filename=CV.Pdf')
@@ -31,6 +32,7 @@ app.get('/', checkSession, async(req, res) => {
         else {
             usuario =  req.session.usuario._id;
             await getBytes(ref(storage, 'cv/Custom_' + usuario + '.pdf')).then((response) => {
+                console.log(response)
                 if (response) {
                 res.setHeader('Content-Type', 'application/pdf')
                 res.setHeader('Content-Disposition', 'attachment; filename=CV.Pdf')
