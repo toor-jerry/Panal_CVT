@@ -1,7 +1,7 @@
 const _ = require('underscore');
 const UsuarioModel = require('../models/usuario');
 
-const pdf = require("pdf-creator-node");
+var pdf = require('html-pdf')
 const fs = require('fs');
 const path = require('path');
 const base64Img = require('base64-img');
@@ -33,7 +33,7 @@ class PDF {
         }
     }
 
-    static generatePDF(idUser) {
+    static generatePDF(res, idUser) {
         return new Promise((resolve, reject) => {
             UsuarioModel.findById(idUser, async(err, user) => {
                 if (err) 
@@ -161,28 +161,28 @@ class PDF {
                         habilidad3: user.habilidad3 || '',
                         empleos,
                         estudios
-                    },
-                    path: `${
-                        this.pathResolveCV()
-                    }/${user._id}.pdf`
+                    }
                 };
 
-                let pathFile = `${
-                    this.pathResolveCV()
-                }/${user._id}.pdf`;
-                if (fs.existsSync(pathFile)) {
-                    fs.unlinkSync(pathFile);
-                }
-                pdf.create(document, options).then(res => {
+                /*pdf.create(document, options).then(res => {
                     console.log(res)
                     resolve(nameFile);
                 }).catch(error => {
                     console.error("No se pudo escribir")
                     reject({code: 500, err});
-                });
+                });*/
+                var htmld = '../utils/templateCVPDF.html'
+                pdf.create(htmld).toStream(function(err, stream) {
+                    if (err) {
+                        console.log(err)
+                    } else {
+                        res.set('Content-type', 'application/pdf');
+                        stream.pipe(res)
+                    }
             });
-        });
-    }
+        })
+    });
+}
 
     static pathResolveCV() {
         return path.resolve(__dirname, `./temp`);

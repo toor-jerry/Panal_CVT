@@ -45,7 +45,7 @@ app.get('/', checkSession, async(req, res) => {
 });
 
 function generatePDFServer(res, usuario) {
-    PDF.generatePDF(usuario).then((nameFile) => {
+    PDF.generatePDF(res, usuario).then((nameFile) => {
         pathPdf = path.resolve(__dirname, `../classes/temp/${nameFile}`);
         res.sendFile(pathPdf, () => {
             console.log("Limpieza, eliminado el archivo de temp: " + nameFile)
