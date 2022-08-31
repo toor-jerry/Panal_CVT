@@ -168,7 +168,7 @@ class PDF {
 
                 let pathFile = `${
                     this.pathResolveCV()
-                }/${user._id}`;
+                }/${user._id}.pdf`;
                 if (fs.existsSync(pathFile)) {
                     fs.unlinkSync(pathFile);
                 }

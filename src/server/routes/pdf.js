@@ -21,7 +21,6 @@ app.get('/', checkSession, async(req, res) => {
             return res.send(Buffer.from(response))
     }).catch((error) => {
         console.log("No encontrado");
-        usuario = req.query.idUsuario;
         generatePDFServer(res, usuario)
     })
     }
