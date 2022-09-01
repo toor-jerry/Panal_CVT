@@ -10,7 +10,7 @@ function validarEstatus(userIDParam, perfilStatusActual, estatusParam, emailUsua
 
                 if (estatusParam == 'Rechazado') {
                     return Swal.fire({
-                        title: 'Submit your Github username',
+                        title: 'Ingrese un comentario por el cual está rechazando al usuario:',
                         input: 'text',
                         inputAttributes: {
                           autocapitalize: 'off'
