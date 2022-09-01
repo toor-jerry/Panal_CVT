@@ -23,7 +23,7 @@ app.get('/', checkSession, async(req, res) => {
         mostrar_boton_guardar: true,
         mostrar_boton_regreso: true,
         foto: foto,
-        notificaciones: await Notificacion.buscarPorUsuario(req.session.usuario._id, 10),
+        notificaciones: await Notificacion.buscarPorUsuario(req.session.usuario, 10),
 
         usuario: await Usuario.findById(req.session.usuario._id)
             .then(resp => resp.data)

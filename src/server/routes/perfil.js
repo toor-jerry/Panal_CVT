@@ -20,7 +20,7 @@ app.get('/', checkSession, async(req, res) => {
         Vacante.encontrarTodas(),
         Usuario.buscaTodasLasEmpresas(),
         Postulacion.buscarTodasLasPostulacionesPorUsuario(idUsuario),
-        Notificacion.buscarPorUsuario(idUsuario, limitNotificaciones),
+        Notificacion.buscarPorUsuario(req.session.usuario, limitNotificaciones),
     ])
     .then(responses =>{
         res.render('mi_perfil', {
@@ -100,7 +100,7 @@ app.get('/sistemas', [checkSession, checkSuperRole], async(req, res) => {
         usuarios: await Usuario.findAll()
         .then(resp =>resp.data)
             .catch(() => {}),
-            notificaciones:  await Notificacion.buscarPorUsuario(req.session.usuario._id, 10)
+            notificaciones:  await Notificacion.buscarPorUsuario(req.session.usuario, 10)
             .then(resp =>{return { data: resp.data, total: resp.total}}),
         archivoJS: 'function_perfil_sistemas.js'
     })
@@ -121,7 +121,7 @@ app.get('/empresarial/:indice', [checkSession, checkEnterpriseRole], async(req, 
         solicitantes: await Postulacion.buscarTodasLasPostulacionesPorEmpresa(req.session.usuario._id)
         .then(resp =>{return { data: resp.data, total: resp.total}})
             .catch(() => {}),
-            notificaciones:  await Notificacion.buscarPorUsuario(req.session.usuario._id, 10)
+            notificaciones:  await Notificacion.buscarPorUsuario(req.session.usuario, 10)
             .then(resp =>{return { data: resp.data, total: resp.total}}),
         archivoJS: 'function_perfil.js'
     })
@@ -148,7 +148,7 @@ app.get('/administrativo/:indice_formularios/:indice_empresas', [checkSession, c
         empresas:  await Usuario.buscaEmpresas(no_pagina_empresas, 10)
             .then(resp =>{return { data: resp.data, total: resp.total, paginas: resp.paginas}})
             .catch(() => {}),
-            notificaciones:  await Notificacion.buscarPorUsuario(req.session.usuario._id, 10)
+            notificaciones:  await Notificacion.buscarPorUsuario(req.session.usuario, 10)
             .then(resp =>{return { data: resp.data, total: resp.total}}),
         archivoJS: 'function_perfil_administrativo.js'
     })

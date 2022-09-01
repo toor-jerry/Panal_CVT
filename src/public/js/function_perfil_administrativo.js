@@ -28,7 +28,7 @@ function validarEstatus(userIDParam, perfilStatusActual, estatusParam, emailUsua
                         }
                       })
                 } else {
-                    cambiarEstatusBD(userIDParam, estatusParam)
+                    cambiarEstatusBD(userIDParam, estatusParam, "Se ha validado su perfil.", emailUsuario)
                 }
 
                 

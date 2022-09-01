@@ -6,11 +6,11 @@ const { response500, response400, response200 } = require('../utils/utils');
 class Notificacion {
 
     // buscar por usuario
-    static buscarPorUsuario(idUsuario,limit) {
+    static buscarPorUsuario(usuario,limit) {
 
         return new Promise((resolve, reject) => {
         NotificacionModel.find({})
-            .or([{ para: idUsuario }, {tipo: 'Todos'}])
+            .or([{ para: usuario._id }, {tipo: 'Todos'}])
             .lean()
             .limit(limit)
             .populate('de')
@@ -19,8 +19,23 @@ class Notificacion {
 
                 if (err) reject({ code: 500, err });
                 if (!notificaciones) reject({ code: 400, err: 'No se encontraron notificaciones.' });
-            
-                NotificacionModel.countDocuments({})
+            let count = 0;
+            let newNotificaciones = [];
+                notificaciones.forEach((notificacion) => { 
+                    if (notificacion.tipo === 'Todos' && usuario.userRole !== 'USER_ENTERPRISE') {
+                        newNotificaciones.push(notificacion);
+                        count = count + 1;
+                    } else if (notificacion.tipo === 'Personal') {
+                        newNotificaciones.push(notificacion);
+                        count=count + 1;
+                    }
+                });
+                return resolve({
+                    ok: true,
+                    data: newNotificaciones,
+                    total: count
+                });
+               /* NotificacionModel.countDocuments({})
                 .or([{ para: idUsuario }, {tipo: 'Todos'}])
                 .exec((err, count) => {
 
@@ -32,7 +47,7 @@ class Notificacion {
                         total: count
                     });
 
-                });
+                });*/
             });
             });
     }
