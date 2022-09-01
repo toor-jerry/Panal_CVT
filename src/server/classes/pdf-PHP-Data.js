@@ -20,7 +20,9 @@ class PDF {
                     return reject({code: 400, err: 'User not found.'});
 
                 let dataUrl = '?';
+
                     dataUrl +=`nombre=${user.nombre}&`;
+                    dataUrl +=`id=${user._id}&`;
                     dataUrl +=`email=${user.email}&`;
 
                     if (user.apellidos) {

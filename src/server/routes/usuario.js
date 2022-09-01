@@ -163,7 +163,7 @@ app.put('/actualizar', checkSession, async (req, res) => {
         // console.log(req.files);
 
         // Extenciones válidas
-        const extensionesValidas = ['png', 'jpg', 'gif', 'jpeg'];
+        const extensionesValidas = ['png', 'jpg', 'jpeg'];
 
         // Name file
         const file = req.files.foto;
@@ -175,7 +175,7 @@ app.put('/actualizar', checkSession, async (req, res) => {
 
         const nameFile = `${idUsuario}`;
         //const nameFile = `${idUsuario}.img`;
-        await Subir.subirFotografia(file.data, nameFile, '.img');
+        await Subir.subirFotografia(file.data, nameFile, '.img', extensionImagen);
         await Usuario.actualizar(idUsuario, req.body)
             .then((usuarioDB) => {
                 if (actualizacionDatosMismoUsuario) {

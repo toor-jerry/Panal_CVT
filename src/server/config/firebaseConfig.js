@@ -1,5 +1,5 @@
 const { initializeApp } = require("firebase/app");
-const { getStorage, ref, getBytes, deleteObject, uploadString, getDownloadURL,uploadBytes, getBlob } = require("firebase/storage");
+const { getStorage, ref, getBytes, deleteObject, uploadString, getDownloadURL,uploadBytes, getBlob, getMetadata, updateMetadata } = require("firebase/storage");
 const admin = require('firebase-admin');
 const { json } = require("body-parser");
 
@@ -60,5 +60,5 @@ function getFileRef(carpeta, idUsuario, extensionFile) {
 
 module.exports = {
     appFire,
-    storage, ref, getBytes, deleteObject, uploadString, getDownloadURL, admin, getFile, existeFile, getFileRef, uploadBytes, getBlob
+    storage, ref, getBytes, deleteObject, uploadString, getDownloadURL, admin, getFile, existeFile, getFileRef, uploadBytes, getBlob, getMetadata, updateMetadata
 }

@@ -10,7 +10,7 @@ const UsuarioModel = require('../models/usuario');
 const { response500, response400, response200, response201 } = require('../utils/utils');
 const { obtenerRutaDeCargaArchivos } = require('../utils/utils');
 
-const { storage, ref, deleteObject, uploadString, admin, getFileRef } = require('../config/firebaseConfig')
+const { storage, ref, deleteObject, uploadString, admin, getFileRef, updateMetadata } = require('../config/firebaseConfig')
 
 
 const TAMANIO_FOTOGRAFIA = 400;
@@ -51,7 +51,7 @@ class Subir {
         });
     }
 
-    static subirFotografia(img, idUsuario, extension) {
+    static subirFotografia(img, idUsuario, extension, type) {
         return new Promise((resolve, reject) => {
                     sharp(img)
                         .resize({
@@ -69,6 +69,12 @@ class Subir {
                             getFileRef('fotografias', idUsuario, extension).save(data).then(() => {
                                 console.log("Foto subida con éxito")
                                 resolve(true);
+                                updateMetadata(fotografiasRef, {
+                                    customMetadata: {
+                                      'type': `${type}`
+                                    }
+                                  }).then(() => console.log("Metada updated successfully"))
+                                .catch((error) => { console.log("error")});
                         }).catch(err => console.log(err))
     });
     });

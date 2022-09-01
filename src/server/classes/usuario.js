@@ -217,7 +217,7 @@ class Usuario {
                     
                         const nameFile =  `${usuarioNuevo._id}`;
                         
-                        Subir.subirFotografia(file.data, nameFile, '.img')
+                        Subir.subirFotografia(file.data, nameFile, '.img', extensionImagen)
                         .catch((err) => console.log(err))
                     }
                         resolve({

@@ -12,18 +12,40 @@ const { PDF } = require('../classes/pdf'); // user class
 
 const base64ArrayBuffer = require('base64-arraybuffer');
 //const { obtenerRutaDeCargaArchivos } = require('../utils/utils');
-const { storage, ref, deleteObject, uploadString, admin, getFileRef, getBytes } = require('../config/firebaseConfig')
+const { storage, ref, deleteObject, uploadString, admin, getFileRef, getBytes, getMetadata } = require('../config/firebaseConfig')
 
 const app = express();
 // default options (req.files <- todo lo que viene)
 app.use(fileUpload());
+
+                        
+
+ 
+app.get('/info/metadata/fotografia/:idUsuario', async(req, res) => {
+    const fotografiasRef = ref(storage, 'fotografias/' + req.params.idUsuario + '.img');
+    getMetadata(fotografiasRef)
+    .then((metadata) => {
+      // Metadata now contains the metadata for 'images/forest.jpg'
+      res.send(metadata.customMetadata.type);
+      console.log(metadata.customMetadata.type)
+    })
+    .catch((error) => {
+      // Uh-oh, an error occurred!
+      console.log("No se pudo consumir la metadata")
+    });
+});
 app.get('/:idUsuario', async(req, res) => {
     const fotografiasRef = ref(storage, 'fotografias/' + req.params.idUsuario + '.img');
+ 
 await getBytes(fotografiasRef)
                     .then(val => {
-                        res.send('data:image/png;base64,' + base64ArrayBuffer.encode(val))
+                        
+                        res.send(base64ArrayBuffer.encode(val))
                     })
-                    .catch(err => console.log('No existe la foto'))
+                    .catch(err => {
+                        res.send(undefined)
+                        console.log('No existe la foto')
+                    })
                 });
 /*app.get('/:carpeta/:idUsuario/:extensionFile', checkSession, async(req, res) => {
 
