@@ -9,7 +9,7 @@ const path = require('path');
 const UsuarioModel = require('../models/usuario');
 const { Subir } = require('../classes/subir'); // user class
 const { response500, response400, response200, response201 } = require('../utils/utils');
-const { getFile, admin, deleteObject, ref} = require('../config/firebaseConfig')
+const { storage, getFile, admin, deleteObject, ref} = require('../config/firebaseConfig')
 
 class Usuario {
 
