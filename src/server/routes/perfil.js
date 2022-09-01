@@ -167,9 +167,13 @@ function obtenerFechaUltimaModificacionArchivo(carpeta, idUsuario) {
 // Verificación de perfil route
 app.get('/verificacion_cuenta', checkSession, async(req, resp) => {
     let usuarioId = req.session.usuario._id;
+    let nombreBoton = 'Verificación de Cuenta';
+    if (req.session.usuario.perfilVerificado == 'Verificado') {
+        nombreBoton = 'Actualización de datos';
+    }
     resp.render('verificacion_cuenta', {
         page: 'Verificar cuenta',
-        nombre_boton_navbar: 'Verificación de Cuenta',
+        nombre_boton_navbar: nombreBoton,
         mostrar_boton_regreso: true,
         direccion_link_boton_navbar: '/perfil/empresarial/1',
 

@@ -14,10 +14,10 @@
     <div class="col col-lg-8 mx-auto">
         {{#if (ifeq usuario.perfilVerificado "Verificado")}}
         <a href="/vacante/form/creacion" id="buttonCrearVacante" class="btn btn-warning btn-block">Crear vacante</a>
-        {{else}}
-        <a href="/perfil/verificacion_cuenta" class="btn btn-primary btn-block">Verificar cuenta</a>
+        {{/if}}
+        <a href="/perfil/verificacion_cuenta" class="btn {{#if (ifeq usuario.perfilVerificado "Verificado")}}btn-success{{else}}btn-primary{{/if}} btn-block">{{#if (ifeq usuario.perfilVerificado "Verificado")}}Actualizar datos{{else}}Verificar cuenta{{/if}}</a>
         <br>
         <a href="/files/CartaCompromiso.docx" class="btn btn-warning btn-block"><i class="fa-solid fa-cloud-arrow-down fa-2x align-middle"></i>&nbsp; Descargar 'Carta compromiso'</a>
-        {{/if}}
+        
     </div>
 </div>

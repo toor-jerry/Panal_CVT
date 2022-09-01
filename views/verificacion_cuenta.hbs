@@ -1,8 +1,12 @@
 {{> head_Partial }}
 
-        <div class="col text-justify">
+        <div class="col {{#if (ifeq usuario.perfilVerificado "Verificado")}}text-ceneter{{else}}text-justify{{/if}}</div>">
+            {{#if (ifeq usuario.perfilVerificado "Verificado")}}
+            <h4 class="texto-verde">Actualización de datos:</h4>
+            {{else}}
             <h5>El verificar esta cuenta es importante para validar que es una empresa existente, y para establecer lazos de convenios. Y así lograr una relación de armonía y responsabilidad.</h5>
             <h5 class="text-dark font-weight-bold">Para este paso el responsable de la empresa debe ingresar los datos correctos para su validación.</h5>
+            {{/if}}
         </div>
         <!-- Fin de la fila -->
     <form class="user animated bounceIn" id="form-verificacion-cuenta">

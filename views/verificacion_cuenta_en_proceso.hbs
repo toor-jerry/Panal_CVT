@@ -1,8 +1,12 @@
 {{> head_Partial }}
     <div class="col text-center">
+        {{#if (ifeq usuario.perfilVerificado "Verificado")}}
+        <h1 class="texto-verde">Se actualizaron sus datos exitosamente!</h1>
+        {{else}}
         <h5>Se registro exitosamente su cuenta.</h5>
         <h5 class="text-dark font-weight-bold mt-5">Estamos en proceso de verificar su cuenta. Espera la confirmación.
         </h5>
+        {{/if}}
         <!-- Fin de la fila -->
 
 

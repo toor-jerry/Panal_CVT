@@ -9,7 +9,7 @@ const rolesValidos = {
 };
 
 const vacantesValidos = {
-    values: ['Servicio social', 'Practicas profesionales', 'Laboral'],
+    values: ['Servicio social', 'Practicas profesionales', 'Laboral', 'Estancias profesionales'],
     message: '{VALUE} not vacante valid!!'
 };
 

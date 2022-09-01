@@ -24,7 +24,10 @@
                                     <select id="tipoLaboralSelect" class="form-control form-control-lg">
                                     <option value="Laboral" selected>Laboral</option>
                                     <option value="Practicas profesionales">Prácticas profesionales</option>
+                                    <option value="Estancias profesionales">Estancias profesionales</option>
+                                     {{#if (ifServicioSocial usuario)}}
                                     <option value="Servicio social">Servicio social</option>
+                                    {{/if}}
                                 </select>
                                 </div>
                             </div>

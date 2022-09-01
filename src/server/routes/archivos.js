@@ -82,14 +82,14 @@ await getBytes(fotografiasRef)
 });*/
 
 // Verificación de perfil en proceso route
-app.get('/registros_entrevistas', checkSession, (req, res) => {
+app.get('/download/registros/registros_entrevistas', checkSession, (req, res) => {
     Usuario.buscaTodosLosEstudiantes()
     .then(resp => descargaCSV(res, resp.data, 'registros_entrevistas.csv'))
     .catch(err => res.status(err.code).json({ msg: err.msg, err: err.err }))
 });
 
 // Verificación de perfil en proceso route
-app.get('/registros_verificacion', checkSession, (req, res) => {
+app.get('/download/registros/registros_verificacion', checkSession, (req, res) => {
     Usuario.buscaTodasLasEmpresas()
     .then(resp => descargaCSV(res, resp.data, 'registros_verificacion.csv'))
     .catch(err => res.status(err.code).json({ msg: err.msg, err: err.err }))

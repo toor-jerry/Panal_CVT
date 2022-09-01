@@ -17,6 +17,16 @@ hbs.registerHelper('ifeq', (a, b) => (a == b) ? true : false );
 // equals
 hbs.registerHelper('ifdiff', (a, b) => (a !== b) ? true : false );
 
+// Validacion servicios
+hbs.registerHelper('ifServicioSocial', (usuario) => {
+    if (usuario.userRole == 'USER_ADMIN' || usuario.userRole == 'SUPER_USER') {
+        return true;
+    } else if (usuario.sectorEmpresarial == 'Privado') {
+        return false;
+    }
+    return true;
+});
+
 // equals
 hbs.registerHelper('mostrarNotificaciones', (notificacionesTotales, notificacionesLeidas) => ((notificacionesTotales - notificacionesLeidas) > 0) ? true : false );
 
