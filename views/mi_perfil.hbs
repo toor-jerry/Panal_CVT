@@ -44,6 +44,19 @@
                             </h5>
                         </div>
                     </div>
+                    
+                    {{#if (ifdiff (ifeq_vacante this._id ../postulaciones.data) '')}}
+                    <hr>
+                    <h4><b>Información de contacto de la empresa:</b></h4>
+                        <div class="row">
+                            {{#if this.empresa.numeroContacto}}
+                            <div class="col"><h5><b>Número de contacto:</b> {{this.empresa.numeroContacto}}</h5></div>
+                            {{/if}}
+                            <div class="col"><h5><b>Email:</b> {{this.empresa.email}}</h5></div>
+                        </div>
+                        <hr>
+                    {{/if}}
+
                     <p>Publicada:
                         <b>{{ fechaCreacion }}</b>
                     </p>

@@ -18,6 +18,14 @@ hbs.registerHelper('ifeq', (a, b) => (a == b) ? true : false );
 hbs.registerHelper('ifdiff', (a, b) => (a !== b) ? true : false );
 
 // Validacion servicios
+hbs.registerHelper('ifNoUserDefault', (usuario) => {
+    if (usuario.userRole == 'USER_ADMIN' || usuario.userRole == 'SUPER_USER') {
+        return true;
+    }
+    return false;
+});
+
+// Validacion servicios
 hbs.registerHelper('ifServicioSocial', (usuario) => {
     if (usuario.userRole == 'USER_ADMIN' || usuario.userRole == 'SUPER_USER') {
         return true;

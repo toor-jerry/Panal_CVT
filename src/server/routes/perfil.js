@@ -11,7 +11,10 @@ const { checkSession, checkAdminRole, checkSuperRole, checkEnterpriseRole  } = r
 const base64ArrayBuffer = require('base64-arraybuffer');
 const { storage, ref, getBytes} = require('../config/firebaseConfig')
 const { getFile, existeFile, getFileRef} = require('../config/firebaseConfig')
+
+const { Email } = require('../classes/mailer'); // user class
 // Tipo de registro route
+
 app.get('/', checkSession, async(req, res) => {
     const idUsuario = req.session.usuario._id;
     const limitNotificaciones = req.query.limitNotificaciones || 10;

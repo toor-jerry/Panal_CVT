@@ -72,7 +72,7 @@ class Vacante {
             VacanteModel.find()
                 .lean()
                 .sort({ 'fechaCreacion': -1 })
-                .populate('empresa', 'razonSocial foto')
+                .populate('empresa', 'razonSocial foto email numeroContacto')
                 .exec((err, vacantes) => {
 
                     if (err) reject({ code: 500, err });

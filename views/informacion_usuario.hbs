@@ -80,6 +80,7 @@
                         {{/if}}
                     </div>
                     <div class="row">
+                         {{#if (ifNoUserDefault usuario)}}
                         {{#if informacionUsuario.rfc}}
                         <div class="col">
                             <h5>RFC: <b>{{informacionUsuario.rfc}}</b></h5>
@@ -90,10 +91,12 @@
                             <h5>Email: <b>{{informacionUsuario.email}}</b></h5>
                         </div>
                         {{/if}}
+                        
                         {{#if informacionUsuario.numeroContacto}}
                         <div class="col">
                             <h5>Número de contacto: <b>{{informacionUsuario.numeroContacto}}</b></h5>
                         </div>
+                        {{/if}}
                         {{/if}}
                     </div>
                     {{#if informacionUsuario.direccion}}

@@ -124,7 +124,23 @@ function actualizarStatusPostulacion(postulacionID, status) {
             });
 }
 
+// aceptar postulante
+function enviarURLVerificacion() {
+                // Show loading
+                getLoading('Enviando email..', 'Por favor espere....');
 
+                $.ajax({
+                    url: `/usuario/verificacion/cuenta`,
+                    type: 'POST',
+                    success: function() {
+                        obtenerToast(`Se ha enviado con éxito a su correo el enlace verificación, por favor revisar.`, '-')
+                    },
+                    error: function(errResp) {
+                        obtenerAlertSwal(`A ocurrido un error.\n ${errResp.responseText}`, 'Error!', 'error')
+                    }
+                });
+
+}
 
 function buscar() {
     var terminoBusqueda = $("input[name='keyword']").val();

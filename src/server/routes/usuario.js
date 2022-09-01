@@ -6,7 +6,7 @@ const { Usuario } = require('../classes/usuario'); // user class
 const { Email } = require('../classes/mailer'); // user class
 const { Subir } = require('../classes/subir'); // user class
 const { Notificacion } = require('../classes/notificacion'); // user class
-
+const nodemailer = require('nodemailer');
 const { checkSession, checkAdminRole, intentCheckSession } = require('../middlewares/auth'); // midlewares auth
 
 // express initialization
@@ -27,6 +27,17 @@ app.get('/recuperar_contrasenia', (req, res) => {
         page: 'Recuperar Contraseña',
         archivoJS: 'function_recuperar_contrasenia.js'
     })
+});
+
+app.post('/verificacion/cuenta', checkSession, async(req, res) => {
+    let usuario = req.session.usuario;
+    await Email.send(email = usuario.email,
+        title = 'Verificación de cuenta',
+        text = `Use el siguiente link ${process.env.URI_SERVER}/usuario/actualizar/verificar_Cuenta/edit/${usuario._id} para verificar su cuenta.`,
+        html = `<p>Use el siguiente link <b><a href="${process.env.URI_SERVER}/usuario/actualizar/verificar_Cuenta/edit/${usuario._id}">Verificar cuenta!</a></b> para verificar su cuenta.</p>`)
+        .then(() => console.log({msg: "Email sent to: " + usuario.email}))
+        .catch(err => console.log({msg: err.message}));
+        res.status(200).json({msg: "Email sent to: " + usuario.email})
 });
 
 // ==========================
