@@ -1,10 +1,11 @@
 const express = require('express');
 const { checkSession } = require('../middlewares/auth');
 
-const { PDF } = require('../classes/pdf');
+//const { PDF } = require('../classes/pdf');
+const { PDF } = require('../classes/pdf-PHP-Data');
 const fs = require('fs');
 const path = require('path');
-const { response404, response200 } = require('../utils/utils');
+const { response404, response200, response403 } = require('../utils/utils');
 const UsuarioModel = require('../models/usuario');
 const app = express();
 const https = require('https');
@@ -16,84 +17,45 @@ const { response } = require('express');
 const console = require('console');
 const PDFExtract = require('pdf.js-extract').PDFExtract;
 
+const base64ArrayBuffer = require('base64-arraybuffer');
 app.get('/', checkSession, async(req, res) => {
 
     let usuario;
-    
+    var foto;
     if (req.query.idUsuario) {
         usuario = req.query.idUsuario;
-        await existeFile('cv', usuario, '.pdf').then((response)=> {
-            if (res[0]) {
+    }else {
+        usuario =  req.session.usuario._id;
+    }
+    console.log(usuario);
+    const fotografiasRef = ref(storage, 'fotografias/' + usuario + '.img');
+    await Promise.all([
+        getBytes(fotografiasRef),
+        existeFile('cv', usuario, '.pdf'),
+        PDF.getData(usuario)
+    ])
+    .then(responses =>{
+       
+            if (responses[1][0]) {
                 getFile('cv', usuario, '.pdf').then((resUrl) => {
                     return res.status(200).json({ url: resUrl });
                 }).catch((err) => console.log('No pdf'))
-            }
-            return res.status(200).json({ url: "https://panalcuvt.000webhostapp.com/" });
-        })
-        /*await getBytes(ref(storage, 'cv/Custom_' + usuario + '.pdf')).then((response) => {
-            
-            if (response) {
-            res.setHeader('Content-Type', 'application/pdf')
-            res.setHeader('Content-Disposition', 'attachment; filename=CV.Pdf')
-            return res.send(Buffer.from(response))
             } else {
-                return response404('file not found')
-            }
-    }).catch((error) => {
-        console.log("No encontrado");
-        generatePDFServer(res, usuario)
-    })*/
-    }
-        else {
-            usuario =  req.session.usuario._id;
+                foto =`foto=${base64ArrayBuffer.encode(responses[0])}` 
+                if (process.env.NODE_ENV == 'dev') {
+                    return res.status(200).json({ url: "http://localhost/Servidor_PHP/" +  responses[2] });
+                } else {
                         
-            await existeFile('cv', usuario, '.pdf').then((response)=> {
-                if (res[0]) {
-                    getFile('cv', usuario, '.pdf').then((resUrl) => {
-                        return res.status(200).json({ url: resUrl });
-                    }).catch((err) => console.log('No pdf'))
+                        return res.status(200).json({ url: "https://panalcuvt.000webhostapp.com/" +  responses[2] });
                 }
-                return res.status(200).json({ msg: "https://panalcuvt.000webhostapp.com/" });
-            })
-            /*await getBytes(ref(storage, 'cv/Custom_' + usuario + '.pdf')).then((response) => {
-                console.log(response)
-                if (response) {
-                res.setHeader('Content-Type', 'application/pdf')
-                res.setHeader('Content-Disposition', 'attachment; filename=CV.Pdf')
-                return res.send(Buffer.from(response))
                 }
-        }).catch((error) => {
-            axios.get(
-                "https://panalcuvt.000webhostapp.com/"
-              ).then((response) => {
-                //res.setHeader('Content-Type', 'application/pdf')
-                //res.setHeader('Content-Disposition', 'attachment; filename=CV.Pdf')
-                console.log(response.data)
-                res.send(response.data)
-                //res.send(response)
-              })
-            //generatePDFServer(res, usuario)
-        });*/
-        }
-        
+        }).catch(err =>
+        response404(err)
+    );     
+           
 });
 
-function generatePDFServer(res, usuario) {
-    /*PDF.generatePDF(usuario).then((nameFile) => {
-        pathPdf = path.resolve(__dirname, `../classes/temp/${nameFile}`);
-        res.sendFile(pathPdf, () => {
-            console.log("Limpieza, eliminado el archivo de temp: " + nameFile)
-        if (fs.existsSync(pathPdf)) {
-            fs.unlinkSync(pathPdf);
-        } else {
-            return response404('File not found');
-        }
-        })
-    }).catch(err => {
-        console.log("No se pudo generar")
-        return response404(err)
-    })*/
-}
+
 
 
 

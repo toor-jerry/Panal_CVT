@@ -112,9 +112,8 @@ function obtenerCV(usuario) {
 
         if (xhr.readyState === 4) {
             if (xhr.status === 201 || xhr.status === 200) {
-
                 obtenerAlertSwal('Se ha obtenido con éxito su CV')
-                    .then(() => window.open(JSON.parse(xhr.responseText).msg, '_blank'))
+                    .then(() => window.open(JSON.parse(xhr.responseText).url, '_blank'))
             } else {
                 obtenerAlertSwal(`A ocurrido un error.\n ${xhr.response}`, 'Error!', 'error')
             }

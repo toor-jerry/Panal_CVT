@@ -17,8 +17,15 @@ const { storage, ref, deleteObject, uploadString, admin, getFileRef, getBytes } 
 const app = express();
 // default options (req.files <- todo lo que viene)
 app.use(fileUpload());
-
-app.get('/:carpeta/:idUsuario/:extensionFile', checkSession, async(req, res) => {
+app.get('/:idUsuario', async(req, res) => {
+    const fotografiasRef = ref(storage, 'fotografias/' + req.params.idUsuario + '.img');
+await getBytes(fotografiasRef)
+                    .then(val => {
+                        res.send('data:image/png;base64,' + base64ArrayBuffer.encode(val))
+                    })
+                    .catch(err => console.log('No existe la foto'))
+                });
+/*app.get('/:carpeta/:idUsuario/:extensionFile', checkSession, async(req, res) => {
 
     const carpeta = req.params.carpeta;
     const extensionFile = req.params.extensionFile;
@@ -50,7 +57,7 @@ app.get('/:carpeta/:idUsuario/:extensionFile', checkSession, async(req, res) => 
         
     });
 
-});
+});*/
 
 // Verificación de perfil en proceso route
 app.get('/registros_entrevistas', checkSession, (req, res) => {
