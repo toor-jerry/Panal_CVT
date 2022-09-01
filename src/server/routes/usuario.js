@@ -48,8 +48,8 @@ app.post('/', intentCheckSession, (req, res) => {
             if (data.userRole === 'USER_PERSONAL') {
                 Email.send(email = data.email,
                     title = 'Verificación de cuenta',
-                    text = `Use el siguiente link ${process.env.URI_SERVER}usuario/actualizar/verificar_Cuenta/${data._id} para verificar su cuenta.`,
-                    html = `<p>Use el siguiente link <b><a href="${process.env.URI_SERVER}usuario/actualizar/verificar_Cuenta/${data._id}">Verificar cuenta!</a></b> para verificar su cuenta.</p>`)
+                    text = `Use el siguiente link ${process.env.URI_SERVER}/usuario/actualizar/verificar_Cuenta/edit/${data._id} para verificar su cuenta.`,
+                    html = `<p>Use el siguiente link <b><a href="${process.env.URI_SERVER}/usuario/actualizar/verificar_Cuenta/edit/${data._id}">Verificar cuenta!</a></b> para verificar su cuenta.</p>`)
                     .then(() => console.log("Email sent to: " + data.email))
                     .catch(err => console.log(err));
 
@@ -61,7 +61,7 @@ app.post('/', intentCheckSession, (req, res) => {
 }
 );
 
-app.get('/actualizar/verificar_Cuenta/:idUsuario', (req, res) => {
+app.get('/actualizar/verificar_Cuenta/edit/:idUsuario', (req, res) => {
     Usuario.actualizar(req.params.idUsuario, { perfilVerificado: 'Verificado' })
         .then((usuarioDB) => {
             req.session.usuario = usuarioDB
