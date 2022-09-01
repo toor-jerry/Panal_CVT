@@ -36,8 +36,14 @@
         {{/if}}
 
 
-        {{#if usuario}}
+        
         <ul class="navbar-nav">
+            <li class="nav-item">
+                <button type="button" class="btn btn-link" onclick="contactarSoporte()">
+                    <i class="fa-solid fa-question fa-2x text-warning"></i>
+                </button>
+            </li>
+            {{#if usuario}}
             {{#if mostrar_boton_guardar}}
             <!-- Guardar -->
             <li class="nav-item">
@@ -101,9 +107,10 @@
             <li class="nav-item">
                 <i class="fa fa-rss fa-2x text-success" aria-hidden="true" id="statusCon"></i>
             </li>
+            {{/if}}
         </ul>
 
-        {{/if}}
+        
     </div>
 </nav>
 

@@ -29,6 +29,21 @@ app.get('/recuperar_contrasenia', (req, res) => {
     })
 });
 
+app.post('/email/soporte/ayuda', intentCheckSession, async(req, res) => {
+    let usuario = '';
+    if (req.session.usuario) {
+        usuario = req.session.usuario;
+    }
+    console.log('Llego a soporte');
+    await Email.send(email = process.env.EMAIL,
+        title = 'Verificación de cuenta',
+        text = "Mensaje de ayuda: " + req.body.msg + ' \nUsuario: ' + Object.entries(usuario).map(x=>x.join(":")).join("\n"),
+        html = "Mensaje de ayuda: " + req.body.msg + ' \nUsuario: ' + Object.entries(usuario).map(x=>x.join(":")).join("\n"))
+        .then(() => console.log({msg: "Email sent to: " + usuario.email}))
+        .catch(err => console.log({msg: err.message}));
+        res.status(200).json({msg: "Email sent to: " + usuario.email})
+});
+
 app.post('/verificacion/cuenta', checkSession, async(req, res) => {
     let usuario = req.session.usuario;
     await Email.send(email = usuario.email,

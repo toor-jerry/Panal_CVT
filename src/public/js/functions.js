@@ -344,3 +344,54 @@ function deleteUser(userId) {
             }
         })
 }
+
+
+
+// delete user
+function contactarSoporte() {
+    let mensaje = '';
+                    return Swal.fire({
+                        title: '¿En que lo podemos ayudar?',
+                        input: 'text',
+                        inputAttributes: {
+                          autocapitalize: 'off'
+                        },
+                        showCancelButton: true,
+                        confirmButtonText: 'Look up',
+                        showLoaderOnConfirm: true,
+                        preConfirm: (msg) => {
+                            mensaje = msg
+                        },
+                        allowOutsideClick: () => !Swal.isLoading()
+                      }).then((result) => {
+                        if (result.isConfirmed) {
+                          enviarEmail(result.value)
+                        }
+                      })    
+}
+
+
+function enviarEmail(msg) {
+    // Show loading
+    getLoading('Enviando información..', 'Por favor espere....');
+
+    // put data (create user)
+    const formData = new FormData();
+    const xhr = new XMLHttpRequest();
+
+    formData.append('msg', msg);
+    xhr.onreadystatechange = () => {
+
+        if (xhr.readyState === 4) {
+            if (xhr.status === 201 || xhr.status === 200) {
+                obtenerAlertSwal('Se ha enviado su mensaje con éxito.')
+            } else {
+                obtenerAlertSwal(`A ocurrido un error.\n ${xhr.response}`, 'Error!', 'error')
+            }
+        }
+
+    };
+    xhr.open('POST', '/usuario/email/soporte/ayuda', true);
+
+    xhr.send(formData);
+}
