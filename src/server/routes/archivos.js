@@ -102,7 +102,7 @@ function descargaCSV(res, data, nombreArchivo) {
 }
 
 // Carga de archivos generica
-app.put('/archivo/:carpeta', checkSession, (req, res) => {
+app.put('/archivo/:carpeta', checkSession, async(req, res) => {
  
     const carpeta = req.params.carpeta;
     let idUsuario = req.session.usuario._id;
@@ -126,15 +126,20 @@ app.put('/archivo/:carpeta', checkSession, (req, res) => {
     // Custom file name
     const nameFile = `${idUsuario}.pdf`;
 
-                deleteObject(ref(storage, carpeta +'/' + nameFile)).then(() => {
+                await deleteObject(ref(storage, carpeta +'/' + nameFile)).then(() => {
                     console.log("File deleted successfully")
+                    getFileRef(carpeta, idUsuario, '.pdf').save(file.data).then(() => {
+                        console.log("Archivo subido con éxito")
+                        res.status(201).json({});
+                }).catch(err => response500(res, err))
                 }).catch((error) => {
                     console.log(error)
+                    getFileRef(carpeta, idUsuario, '.pdf').save(file.data).then(() => {
+                        console.log("Archivo subido con éxito")
+                        res.status(201).json({});
+                }).catch(err => response500(res, err))
                 });
-                getFileRef(carpeta, idUsuario, '.pdf').save(file.data).then(() => {
-                    console.log("Archivo subido con éxito")
-                    res.status(201).json({});
-            }).catch(err => response500(res, err))
+                
 
 });
 
