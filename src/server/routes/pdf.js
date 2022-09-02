@@ -30,27 +30,27 @@ app.get('/', checkSession, async(req, res) => {
     console.log(usuario);
     const fotografiasRef = ref(storage, 'fotografias/' + usuario + '.img');
     await Promise.all([
-        getBytes(fotografiasRef),
+       // getBytes(fotografiasRef),
         existeFile('cv', usuario, '.pdf'),
         PDF.getData(usuario)
     ])
     .then(responses =>{
        
-            if (responses[1][0]) {
+            if (responses[0][0]) {
                 getFile('cv', usuario, '.pdf').then((resUrl) => {
                     return res.status(200).json({ url: resUrl });
                 }).catch((err) => console.log('No pdf'))
             } else {
-                foto =`foto=${base64ArrayBuffer.encode(responses[0])}` 
+                //foto =`foto=${base64ArrayBuffer.encode(responses[0])}` 
                 if (process.env.NODE_ENV == 'dev') {
-                    return res.status(200).json({ url: "http://localhost/Servidor_PHP/" +  responses[2] });
+                    return res.status(200).json({ url: "http://localhost/Servidor_PHP/" +  responses[1] });
                 } else {
                         
-                        return res.status(200).json({ url: "https://panalcuvt.000webhostapp.com/" +  responses[2] });
+                        return res.status(200).json({ url: "https://panalcuvt.000webhostapp.com/" +  responses[1] });
                 }
                 }
         }).catch(err =>
-        response404(err)
+        response404(res, err)
     );     
            
 });
