@@ -11,6 +11,10 @@ $(document).ready(function() {
 
 function actualizar(){
   // show alert loading
+  if (!$('#termCondCheck').is(':checked')){
+    obtenerAlertSwal(`Para continuar por favor acepte lo términos y condiciones.`, 'Advertencia', 'info')
+    return;
+  }
   getLoading("Actualizando la información...");
 
   // submit data
