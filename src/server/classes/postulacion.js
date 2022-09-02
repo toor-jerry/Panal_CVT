@@ -50,8 +50,7 @@ class Postulacion {
     static buscarTodasLasPostulacionesPorEmpresa(idEmpresa) {
 
         return new Promise((resolve, reject) => {
-        PostulacionModel.find({})
-        .or([{ empresa: idEmpresa }, {perfilCreacion: idEmpresa}])
+        PostulacionModel.find({ empresa: idEmpresa })
             .lean()
             .populate('usuario')
             .exec((err, postulaciones) => {
@@ -70,8 +69,7 @@ class Postulacion {
                         }).catch((err) => { console.log("Error")});
                     }
                 });
-                PostulacionModel.countDocuments({})
-                .or([{ empresa: idEmpresa }, { perfilCreacion: idEmpresa }])
+                PostulacionModel.countDocuments({ empresa: idEmpresa })
                 .exec((err, count) => {
 
                     if (err) return reject({ code: 500, err });
