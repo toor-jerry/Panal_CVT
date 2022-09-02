@@ -44,7 +44,8 @@ $(document).ready(function () {
 
                         if (xhr.readyState === 4) {
                             if (xhr.status === 201 || xhr.status === 200) {
-                                obtenerToast(`La vacante "${puesto}" ha sido creada con éxito!!`, '-')
+                                obtenerAlertSwal(`La vacante "${puesto}" ha sido creada con éxito!!`)
+                                .then(() => window.location.reload());
                             } else {
                                 obtenerAlertSwal(`A ocurrido un error.\n ${xhr.response}`, 'Error!', 'error')
                             }

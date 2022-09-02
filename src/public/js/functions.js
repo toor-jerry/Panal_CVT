@@ -29,7 +29,9 @@ $(document).ready(function () {
                 $("#nNotificacionesSpan").text('1'); // update nNotificaciones
             }
             $("#notificaciones-container").prepend(createNotificacion(notificacion)); // add notification
+            if (notificacion?.titulo != 'Nueva vacante!') {
             obtenerToast(notificacion?.titulo, 'nil', 2000, 'top-end').fire({})
+            }
     });
 
     // Listen status connection
