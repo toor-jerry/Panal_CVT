@@ -100,6 +100,14 @@
                     rows="3">{{ usuario.experienciaLaboral }}</textarea>
             </div>
 
+            <!-- Dirección -->
+            <div class="form-group">
+                <label class="font-weight-bold text-dark" for="inputExpLaboral">Dirección:</label>
+                <textarea class="form-control form-control-lg texto-oscuro" id="inputDireccion"
+                    placeholder="Dirección"
+                    rows="2">{{ usuario.direccion }}</textarea>
+            </div>
+
             <!-- Empresas -->
             <label class="font-weight-bold text-dark">Empresas</label>
             {{> seccionExperienciaEmpleo_Partial }}
