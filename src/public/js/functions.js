@@ -122,7 +122,7 @@ function obtenerCV(usuario) {
         }
 
     };
-    xhr.open('GET', '/pdf', true);
+    xhr.open('GET', '/pdf?idUsuario=' + usuario, true);
 
     xhr.send();
 }
