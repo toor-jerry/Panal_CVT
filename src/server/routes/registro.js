@@ -31,7 +31,7 @@ app.get('/registro_cuenta_personal', (req, res) => {
 app.get('/registro_cuenta_empresarial', (req, res) => {
     res.render('registro_cuenta_empresarial', {
         page: 'Registro de Cuenta',
-        nombre_boton_navbar: 'Registro de Cuenta (Perfil Empresarial)',
+        nombre_boton_navbar: 'Registro de Cuenta (Perfil Empleador)',
         mostrar_boton_regreso: true,
         direccion_link_boton_navbar: 'tipo_registro',
         archivoJS: 'function_form_creacion_cuenta_empresarial.js'
