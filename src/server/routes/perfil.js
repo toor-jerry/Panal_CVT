@@ -118,8 +118,8 @@ app.get('/empresarial/:indice', [checkSession, checkEnterpriseRole], async(req, 
             .then(resp => resp.data)
             .catch(() => {}),
 
-        page: 'Mi Perfil Empresarial',
-        nombre_boton_navbar: 'Mi Perfil Empresarial',
+        page: 'Mi Perfil Empleador',
+        nombre_boton_navbar: 'Mi Perfil Empleador',
         
         solicitantes: await Postulacion.buscarTodasLasPostulacionesPorEmpresa(req.session.usuario._id)
         .then(resp =>{return { data: resp.data, total: resp.total}})
