@@ -25,9 +25,9 @@ class Subir {
                 if (!usuarioDB) return reject({ msg: 'Usuario no encontrado.', code: 400 });
 
                 // Delete old images
-                const nameFile = (`Custom_${idUsuario}`);
+                const nameFile = (`${idUsuario}`);
 
-                deleteObject(ref(storage, 'cv/Custom_' + idUsuario + '.pdf')).then(() => {
+                deleteObject(ref(storage, 'cv/' + idUsuario + '.pdf')).then(() => {
                     console.log("File deleted successfully")
                 }).catch((error) => {
                     console.log(error)

@@ -89,6 +89,7 @@ function actualizarCV() {
   formData.append('apellidos',$('#inputApellidos').val()  );
   formData.append('experienciaLaboral',$('#inputExpLaboral').val()  );
   formData.append('direccion',$('#inputDireccion').val()  );
+  formData.append('edad',$('#inputEdad').val()  );
 
   formData.append('habilidad1', $('#inputHabilidad1').val());
   formData.append('habilidad2', $('#inputHabilidad2').val());

@@ -102,10 +102,18 @@
 
             <!-- Dirección -->
             <div class="form-group">
-                <label class="font-weight-bold text-dark" for="inputExpLaboral">Dirección:</label>
+                <div class="form-row">
+                    <div class="form-group col-md-8">
+                        <label class="font-weight-bold text-dark" for="inputExpLaboral">Dirección:</label>
                 <textarea class="form-control form-control-lg texto-oscuro" id="inputDireccion"
                     placeholder="Dirección"
                     rows="2">{{ usuario.direccion }}</textarea>
+                    </div>
+                    <div class="form-group col">
+                        <label class="font-weight-bold text-dark" for="inputEdad">Edad:</label>
+                            <input type="number" class="form-control form-control-user text-center" placeholder="edad" id="inputEdad" min="18" max="60" value="{{ usuario.edad }}">
+                    </div>
+                </div>
             </div>
 
             <!-- Empresas -->
