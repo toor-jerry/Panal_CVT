@@ -78,7 +78,7 @@ class PDF {
 
                 if (user.licenciatura && user.licenciatura !== '') {
                     switch (user.licenciatura) {
-                        case 'LIA': dataUrl +=`licenciatura='Licenciatura en Informática'&`;
+                        case 'LIA': dataUrl +=`licenciatura='Licenciatura en Informática Administrativa'&`;
                             break;
                         case 'ICO': dataUrl +=`licenciatura='Ingeniería en Computación'&`;
                             break;
