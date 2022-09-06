@@ -37,7 +37,7 @@ class PDF {
                 if (user.numeroContacto) {
                     dataUrl +=`numeroContacto=${user.numeroContacto}&`;
                 }
-                if (user.fechaNacimiento && fechaNacimiento !== '') {
+                if (user.fechaNacimientoDia && user.fechaNacimientoDia !== '') {
                     dataUrl += `fechaNacimiento=${user.fechaNacimientoDia}/${user.fechaNacimientoMes}/${user.fechaNacimientoAnio}&`;
                 }
 
