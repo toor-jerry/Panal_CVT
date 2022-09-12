@@ -43,6 +43,7 @@ formData.append('fechaNacimientoAnio',anio );
 formData.append('progreso',$('#progreso').val() );
 formData.append('descripcion',$('#descripcion').val() );
 formData.append('foto',imagen );
+formData.append('direccion', $('#inputDomicilio').val());
 
 xhr.onreadystatechange = () => {
 

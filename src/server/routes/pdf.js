@@ -43,7 +43,7 @@ app.get('/', checkSession, async(req, res) => {
             } else {
                 //foto =`foto=${base64ArrayBuffer.encode(responses[0])}` 
                 if (process.env.NODE_ENV == 'dev') {
-                    return res.status(200).json({ url: "http://localhost/Servidor_PHP/" +  responses[1] });
+                    return res.status(200).json({ url: "https://panalcuvt.000webhostapp.com/"+  responses[1] });
                 } else {
                         
                         return res.status(200).json({ url: "https://panalcuvt.000webhostapp.com/" +  responses[1] });
